@@ -1,0 +1,54 @@
+package Persistencia;
+
+import Models.User;
+import Models.Rol;
+import org.w3c.dom.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class UserXMLDao {
+    private String rutaArchivo = "data/usuarios.xml";
+    public List<User> listarTodos() {
+        List<User> usuarios = new ArrayList<>();
+
+        try {
+            File archivo = new File(rutaArchivo);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(archivo);
+            doc.getDocumentElement().normalize();
+
+            NodeList listaNodos = doc.getElementsByTagName("usuario");
+
+            for (int i = 0; i < listaNodos.getLength(); i++) {
+                Element elemento = (Element) listaNodos.item(i);
+
+                String id = elemento.getElementsByTagName("id").item(0).getTextContent();
+                String clave = elemento.getElementsByTagName("clave").item(0).getTextContent();
+                String rolTexto = elemento.getElementsByTagName("rol").item(0).getTextContent();
+                Rol rol = Rol.valueOf(rolTexto);
+
+                usuarios.add(new User(id, clave, rol));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return usuarios;
+    }
+
+    public User buscarPorId(String id) {
+        List<User> usuarios = listarTodos();
+        for (User u : usuarios) {
+            if (u.getVarId().equals(id)) {
+                return u;
+            }
+        }
+        return null;
+    }
+}
