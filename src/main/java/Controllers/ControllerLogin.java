@@ -1,5 +1,6 @@
 package Controllers;
 
+import Views.MainView;
 import Models.User;
 import Persistencia.UserXMLDao;
 
@@ -15,4 +16,11 @@ public class ControllerLogin {
         }
         return null;
     }
+    public void invocarPrincipal(User usuarioLogueado){
+        MainView main = new MainView(usuarioLogueado);
+        main.setVisible(true);
+    }
+
+
+
 }

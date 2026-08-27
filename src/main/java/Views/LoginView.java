@@ -3,6 +3,7 @@ package Views;
 import Controllers.ControllerLogin;
 import Models.User;
 
+import javax.sound.sampled.Control;
 import javax.swing.*;
 
 public class LoginView extends JFrame {
@@ -28,9 +29,17 @@ public class LoginView extends JFrame {
             if (usuario != null) {
                 JOptionPane.showMessageDialog(this, "Bienvenido! Rol: " + usuario.getVarRol());
                 this.dispose();
+                controller.invocarPrincipal(usuario);
             } else {
                 JOptionPane.showMessageDialog(this, "Usuario o clave incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                UserTextField.setText("");
+                passwordField1.setText("");
+
+                UserTextField.requestFocus();
             }
+
+
+
         });
     }
 }
