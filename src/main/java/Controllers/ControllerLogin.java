@@ -1,6 +1,7 @@
 package Controllers;
 
 import Views.MainView;
+import Views.ChangePassView;
 import Models.User;
 import Persistencia.UserXMLDao;
 
@@ -16,11 +17,31 @@ public class ControllerLogin {
         }
         return null;
     }
+
     public void invocarPrincipal(User usuarioLogueado){
         MainView main = new MainView(usuarioLogueado);
         main.setVisible(true);
     }
 
+
+    public void changePass(String id) {
+        ChangePassView cpv = new ChangePassView(id);
+        cpv.setVisible(true);
+    }
+
+
+    public boolean cambiarClave(String id,String claveActual, String claveNueva){
+        User usuario = dao.buscarPorId(id);
+
+        if(usuario==null){
+            return false;
+        }
+        if (!usuario.getVarClave().equals(claveActual)) {
+            return false;
+        }
+
+        return dao.actualizarClave(id, claveNueva);
+    }
 
 
 }

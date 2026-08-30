@@ -3,14 +3,17 @@ package Views;
 import Controllers.ControllerLogin;
 import Models.User;
 
-import javax.sound.sampled.Control;
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class LoginView extends JFrame {
     private JPanel mainPanel;
     private JTextField UserTextField;
-    private JPasswordField passwordField1;
+    private JPasswordField passwordField;
     private JButton btnIngresar;
+    private JButton btnRechazar;
+    private JButton restaurarPass;
 
     private ControllerLogin controller = new ControllerLogin();
 
@@ -22,7 +25,7 @@ public class LoginView extends JFrame {
 
         btnIngresar.addActionListener(e -> {
             String id = UserTextField.getText();
-            String clave = new String(passwordField1.getPassword());
+            String clave = new String(passwordField.getPassword());
 
             User usuario = controller.autenticar(id, clave);
 
@@ -33,13 +36,25 @@ public class LoginView extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "Usuario o clave incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                 UserTextField.setText("");
-                passwordField1.setText("");
+                passwordField.setText("");
 
                 UserTextField.requestFocus();
             }
 
 
 
+        });
+        btnRechazar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                UserTextField.setText("");
+                passwordField.setText("");
+            }
+        });
+
+        restaurarPass.addActionListener(e -> {
+            String id = UserTextField.getText();
+            controller.changePass(id);
         });
     }
 }
