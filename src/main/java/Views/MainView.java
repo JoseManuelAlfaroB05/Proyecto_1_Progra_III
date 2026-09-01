@@ -34,7 +34,7 @@ public class MainView extends JFrame{
     public MainView(User usuarioLogueado) {
         setContentPane(principalPanel);
         setTitle("Sistema de Reserva de Recursos");
-        setSize(1000, 400);
+        setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
