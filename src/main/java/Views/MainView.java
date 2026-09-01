@@ -24,9 +24,9 @@ public class MainView extends JFrame{
     private TimePicker HoraInicio;
     private DatePicker datePicker;
     private JRadioButton radioButtonLab;
-    private JRadioButton radioButton1;
+    private JRadioButton computadorasRadioButton;
     private JTextField textField1;
-    private JRadioButton radioButton2;
+    private JRadioButton proyectorRadioButton;
     private JTextField textField2;
     private JButton historialDeReservasButton;
 
@@ -34,7 +34,7 @@ public class MainView extends JFrame{
     public MainView(User usuarioLogueado) {
         setContentPane(principalPanel);
         setTitle("Sistema de Reserva de Recursos");
-        setSize(720, 480);
+        setSize(1000, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
