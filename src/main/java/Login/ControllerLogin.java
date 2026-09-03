@@ -1,9 +1,11 @@
-package Controllers;
+package Login;
 
-import Views.MainView;
-import Views.ChangePassView;
-import Models.User;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import Persistencia.UserXMLDao;
+import Login.LoginView;
+import Reserva.MainView;
 
 public class ControllerLogin {
 

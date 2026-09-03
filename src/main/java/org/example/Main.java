@@ -1,9 +1,7 @@
 package org.example;
 
-import Controllers.ControllerLogin;
-import Models.User;
+import Login.LoginView;
 
-import Views.LoginView;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,9 +1,9 @@
-package Views;
+package Login;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Controllers.ControllerLogin;
+
 
 public class ChangePassView extends JDialog {
 

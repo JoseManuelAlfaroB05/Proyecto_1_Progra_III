@@ -1,4 +1,4 @@
-package Models;
+package Login;
 
 public class User {
     private String varId;
