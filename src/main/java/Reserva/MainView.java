@@ -3,10 +3,14 @@ package Reserva;
 import Login.User;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
-
+import Reserva.ControllerReserva;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+
 
 public class MainView extends JFrame {
     private JPanel principalPanel;
@@ -45,9 +49,12 @@ public class MainView extends JFrame {
     private DatePicker datePicker;
     private TimePicker timePickerInicio;
     private TimePicker timePickerFin;
+    private ControllerReserva controller = new ControllerReserva();
+    private User usuarioLogueado;
 
 
     public MainView(User usuarioLogueado) {
+        this.usuarioLogueado = usuarioLogueado;
         setContentPane(principalPanel);
         setTitle("Sistema de Reserva de Recursos - Usuario logueado: "+usuarioLogueado.getVarId());
         setSize(1000, 600);
@@ -68,6 +75,52 @@ public class MainView extends JFrame {
                 computadorasCheckBox.setSelected(false);
                 proyectoresCheckBox.setSelected(false);
 
+            }
+        });
+
+        buttonAceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String varActividad = textFieldActividad.getText();
+
+                LocalDate fecha = datePicker.getDate();
+                LocalTime horaInicio = timePickerInicio.getTime();
+                LocalTime horaFin = timePickerFin.getTime();
+
+                boolean necesitaLab = laboratorioCheckBox.isSelected();
+                boolean necesitaPC = computadorasCheckBox.isSelected();
+                boolean necesitaProy = proyectoresCheckBox.isSelected();
+
+                int cantidadLab = 0;
+                int cantidadPC = 0;
+                int cantidadProy = 0;
+
+                if (necesitaLab) {
+                    cantidadLab = Integer.parseInt(textFieldLabCant.getText());
+                }
+
+                if (necesitaPC) {
+                    cantidadPC = Integer.parseInt(textFieldCompCant.getText());
+                }
+
+                if (necesitaProy) {
+                    cantidadProy = Integer.parseInt(textFieldProyCant.getText());
+                }
+
+                controller.crearReserva(
+                        usuarioLogueado,
+                        varActividad,
+                        fecha,
+                        horaInicio,
+                        horaFin,
+                        necesitaLab,
+                        cantidadLab,
+                        necesitaPC,
+                        cantidadPC,
+                        necesitaProy,
+                        cantidadProy
+                );
             }
         });
     }

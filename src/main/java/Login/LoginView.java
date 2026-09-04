@@ -37,9 +37,6 @@ public class LoginView extends JFrame {
 
                 UserTextField.requestFocus();
             }
-
-
-
         });
         btnRechazar.addActionListener(new ActionListener() {
             @Override
