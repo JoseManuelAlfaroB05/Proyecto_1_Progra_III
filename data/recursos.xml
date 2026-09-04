@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<recursos>
+
+    <!-- Laboratorios -->
+    <recurso>
+        <id>LAB001</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 1</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB002</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 2</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB003</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 3</descripcion>
+    </recurso>
+
+
+    <!-- Computadoras -->
+    <recurso>
+        <id>PC001</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 01</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC002</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 02</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC003</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 03</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC004</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 04</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC005</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 05</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC006</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 06</descripcion>
+    </recurso>
+
+
+    <!-- Proyectores -->
+    <recurso>
+        <id>PRO001</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 01</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO002</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 02</descripcion>
+    </recurso>
+
+</recursos>

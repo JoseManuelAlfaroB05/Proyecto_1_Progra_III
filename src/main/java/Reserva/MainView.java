@@ -1,8 +1,12 @@
 package Reserva;
 
 import Login.User;
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.TimePicker;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainView extends JFrame {
     private JPanel principalPanel;
@@ -38,6 +42,9 @@ public class MainView extends JFrame {
     private JCheckBox computadorasCheckBox;
     private JCheckBox proyectoresCheckBox;
     private JScrollBar scrollBar1;
+    private DatePicker datePicker;
+    private TimePicker timePickerInicio;
+    private TimePicker timePickerFin;
 
 
     public MainView(User usuarioLogueado) {
@@ -46,5 +53,22 @@ public class MainView extends JFrame {
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        buttonRechazar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textFieldReservaAutomatica.setText("");
+                textFieldActividad.setText("");
+                textFieldLabCant.setText("");
+                textFieldProyCant.setText("");
+                textFieldCompCant.setText("");
+                datePicker.setDate(null);
+                timePickerInicio.setTime(null);
+                timePickerFin.setTime(null);
+                laboratorioCheckBox.setSelected(false);
+                computadorasCheckBox.setSelected(false);
+                proyectoresCheckBox.setSelected(false);
+
+            }
+        });
     }
 }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<categorias>
+
+    <categoria>
+        <id>LAB</id>
+        <descripcion>Laboratorio</descripcion>
+    </categoria>
+
+    <categoria>
+        <id>PC</id>
+        <descripcion>Computadora</descripcion>
+    </categoria>
+
+    <categoria>
+        <id>PRO</id>
+        <descripcion>Proyector</descripcion>
+    </categoria>
+
+</categorias>
