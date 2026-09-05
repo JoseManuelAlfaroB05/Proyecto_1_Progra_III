@@ -13,6 +13,7 @@ public class CategoriaRecurso {
     public String getVarId() {
         return this.varId;
     }
+
     public String getDescripcion() {
         return varDescripcion;
     }

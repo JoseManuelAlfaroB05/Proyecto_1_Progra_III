@@ -3,6 +3,7 @@ package Login;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import Persistencia.UserXMLDao;
 import Login.LoginView;
 import Reserva.MainView;
@@ -20,7 +21,7 @@ public class ControllerLogin {
         return null;
     }
 
-    public void invocarPrincipal(User usuarioLogueado){
+    public void invocarPrincipal(User usuarioLogueado) {
         MainView main = new MainView(usuarioLogueado);
         main.setVisible(true);
     }
@@ -32,10 +33,10 @@ public class ControllerLogin {
     }
 
 
-    public boolean cambiarClave(String id,String claveActual, String claveNueva){
+    public boolean cambiarClave(String id, String claveActual, String claveNueva) {
         User usuario = dao.buscarPorId(id);
 
-        if(usuario==null){
+        if (usuario == null) {
             return false;
         }
         if (!usuario.getVarClave().equals(claveActual)) {

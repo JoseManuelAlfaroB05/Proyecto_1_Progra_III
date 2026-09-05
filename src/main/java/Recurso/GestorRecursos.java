@@ -7,13 +7,16 @@ import java.util.ArrayList;
 public class GestorRecursos {
 
     private ArrayList<Recurso> recursos;
+
     public GestorRecursos() {
         RecursoXMLDao dao = new RecursoXMLDao();
         recursos = new ArrayList<>(dao.listarTodos());
     }
+
     public ArrayList<Recurso> getRecursos() {
         return recursos;
     }
+
     public Recurso buscarPorId(String id) {
         for (Recurso recurso : recursos) {
             if (recurso.getId().equals(id)) {

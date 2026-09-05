@@ -5,21 +5,21 @@ public class User {
     private String varClave;
     private Rol varRol;
 
-    public User(String id, String clave, Rol rol){
+    public User(String id, String clave, Rol rol) {
         this.varId = id;
         this.varClave = clave;
         this.varRol = rol;
     }
 
-    public String getVarId(){
+    public String getVarId() {
         return this.varId;
     }
 
-    public String getVarClave(){
+    public String getVarClave() {
         return this.varClave;
     }
 
-    public Rol getVarRol(){
+    public Rol getVarRol() {
         return this.varRol;
     }
 }

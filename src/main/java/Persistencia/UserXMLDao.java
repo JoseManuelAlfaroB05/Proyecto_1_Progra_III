@@ -4,9 +4,11 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import Login.User;
 import Login.Rol;
 import org.w3c.dom.*;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -16,6 +18,7 @@ import java.util.List;
 
 public class UserXMLDao {
     private String rutaArchivo = "data/usuarios.xml";
+
     public List<User> listarTodos() {
         List<User> usuarios = new ArrayList<>();
 
@@ -47,7 +50,7 @@ public class UserXMLDao {
     }
 
     public boolean actualizarClave(String id, String claveNueva) {
-        try{
+        try {
             File archivo = new File(rutaArchivo);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -69,7 +72,7 @@ public class UserXMLDao {
                     return true;
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

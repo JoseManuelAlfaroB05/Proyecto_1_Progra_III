@@ -4,12 +4,12 @@ import Login.User;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 import Reserva.ControllerReserva;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 
 
 public class MainView extends JFrame {
@@ -56,7 +56,7 @@ public class MainView extends JFrame {
     public MainView(User usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
         setContentPane(principalPanel);
-        setTitle("Sistema de Reserva de Recursos - Usuario logueado: "+usuarioLogueado.getVarId());
+        setTitle("Sistema de Reserva de Recursos - Usuario logueado: " + usuarioLogueado.getVarId());
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

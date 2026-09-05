@@ -14,13 +14,24 @@ public class Recurso {
         this.varDescripciom = pDescripcion;
     }
 
-    public String getId() { return varId; }
+    public String getId() {
+        return varId;
+    }
 
-    public CategoriaRecurso getRecurso(){   return varRecurso;}
+    public CategoriaRecurso getRecurso() {
+        return varRecurso;
+    }
 
-    public String getDescripcion() {    return varDescripciom;}
+    public String getDescripcion() {
+        return varDescripciom;
+    }
 
-    public void setRecurso(CategoriaRecurso pRecurso) {   this.varRecurso = pRecurso;}
-    public void setDescripcion(String pDescripcion){    this.varDescripciom = pDescripcion;}
+    public void setRecurso(CategoriaRecurso pRecurso) {
+        this.varRecurso = pRecurso;
+    }
+
+    public void setDescripcion(String pDescripcion) {
+        this.varDescripciom = pDescripcion;
+    }
 
 }
