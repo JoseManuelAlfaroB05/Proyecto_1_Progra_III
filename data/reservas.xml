@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<reservas>
+    
+    <reserva>
+        <id>RES-001</id>
+        <usuario>admin</usuario>
+        <actividad>Fiesta</actividad>
+        <fecha>2026-09-19</fecha>
+        <horaInicio>02:00</horaInicio>
+        <horaFin>03:30</horaFin>
+        <recursos/>
+    </reserva>
+</reservas>

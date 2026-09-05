@@ -3,14 +3,17 @@ package Models;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import Persistencia.ReservaXMLDao;
 
 public class GestorReservas {
 
     private ArrayList<Reserva> reservas;
     private GestorRecursos gestorRecursos;
+    private ReservaXMLDao reservaXMLDao;
 
     public GestorReservas() {
-        reservas = new ArrayList<>();
+        reservaXMLDao = new ReservaXMLDao();
+        reservas = reservaXMLDao.cargar();
         gestorRecursos = new GestorRecursos();
     }
 
@@ -73,6 +76,7 @@ public class GestorReservas {
         );
 
         reservas.add(nuevaReserva);
+        reservaXMLDao.guardar(nuevaReserva);
 
         // AQUÍ
         System.out.println("Reserva creada correctamente");
