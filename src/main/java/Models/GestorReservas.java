@@ -1,8 +1,4 @@
-package Reserva;
-
-import Login.User;
-import Recurso.GestorRecursos;
-import Recurso.Recurso;
+package Models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

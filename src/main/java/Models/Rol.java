@@ -1,4 +1,4 @@
-package Login;
+package Models;
 
 public enum Rol {
     ADMINISTRADOR, FUNCIONARIO

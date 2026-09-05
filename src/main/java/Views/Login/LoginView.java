@@ -1,4 +1,7 @@
-package Login;
+package Views.Login;
+
+import Controllers.ControllerLogin;
+import Models.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

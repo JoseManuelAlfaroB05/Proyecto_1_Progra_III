@@ -5,8 +5,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import Login.User;
-import Login.Rol;
+import Models.User;
+import Models.Rol;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;

@@ -1,4 +1,4 @@
-package Recurso;
+package Models;
 
 import Persistencia.RecursoXMLDao;
 

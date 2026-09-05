@@ -1,4 +1,4 @@
-package Recurso;
+package Models;
 
 public class CategoriaRecurso {
     private String varId;

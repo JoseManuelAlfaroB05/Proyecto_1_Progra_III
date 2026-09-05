@@ -1,6 +1,4 @@
-package Recurso;
-
-import Recurso.CategoriaRecurso;
+package Models;
 
 public class Recurso {
 

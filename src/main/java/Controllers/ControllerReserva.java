@@ -1,7 +1,8 @@
-package Reserva;
+package Controllers;
 
-import Login.User;
-import Recurso.GestorRecursos;
+import Models.GestorRecursos;
+import Models.GestorReservas;
+import Models.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

@@ -1,7 +1,7 @@
 package Persistencia;
 
-import Recurso.CategoriaRecurso;
-import Recurso.Recurso;
+import Models.CategoriaRecurso;
+import Models.Recurso;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
