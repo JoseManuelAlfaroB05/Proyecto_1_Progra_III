@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <reservas>
+            
+    
     
     <reserva>
+                        
+        
         <id>RES-001</id>
+                        
+        
         <usuario>admin</usuario>
-        <actividad>Fiesta</actividad>
-        <fecha>2026-09-19</fecha>
-        <horaInicio>02:00</horaInicio>
-        <horaFin>03:30</horaFin>
+                        
+        
+        <actividad>Conferencia</actividad>
+                        
+        
+        <fecha>2026-09-10</fecha>
+                        
+        
+        <horaInicio>13:00</horaInicio>
+                        
+        
+        <horaFin>14:00</horaFin>
+                        
+        
         <recursos/>
+                    
+    
+    </reserva>
+        
+    
+    <reserva>
+                
+        <id>RES-002</id>
+                
+        <usuario>admin</usuario>
+                
+        <actividad>Charla</actividad>
+                
+        <fecha>2026-09-11</fecha>
+                
+        <horaInicio>03:30</horaInicio>
+                
+        <horaFin>04:00</horaFin>
+                
+        <recursos>
+                        
+            <recurso>LAB001</recurso>
+                        
+            <recurso>PC001</recurso>
+                        
+            <recurso>PRO001</recurso>
+                    
+        </recursos>
+            
+    </reserva>
+    
+    <reserva>
+        <id>RES-003</id>
+        <usuario>admin</usuario>
+        <actividad>Prestamo de computadora</actividad>
+        <fecha>2026-09-11</fecha>
+        <horaInicio>04:00</horaInicio>
+        <horaFin>04:30</horaFin>
+        <recursos>
+            <recurso>PC001</recurso>
+        </recursos>
     </reserva>
 </reservas>

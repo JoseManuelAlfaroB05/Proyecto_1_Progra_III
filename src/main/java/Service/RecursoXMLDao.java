@@ -1,4 +1,4 @@
-package Persistencia;
+package Service;
 
 import Models.CategoriaRecurso;
 import Models.Recurso;
