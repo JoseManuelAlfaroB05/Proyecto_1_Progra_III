@@ -2,13 +2,12 @@ package Views;
 
 import Models.User;
 import Views.Reservas.ReservaView;
-<<<<<<< HEAD
 import Views.Funcionarios.FuncionariosView;
 import Models.Rol;
-=======
+
 import Views.Calendarizacion.CalendarizacionView;
 import Views.Categoria.CategoriaView;
->>>>>>> master
+
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -17,7 +16,7 @@ public class MainView extends JFrame {
 
     private JPanel principalPanel;
     private JPanel contetPanel;
-    private JTabbedPane TabbedPanel;
+    private JTabbedPane tabbedPane;
     private JPanel reservaPanel;
     private JPanel calendarizacion;
     private JPanel TabbedPanelUsuariosPanel;
@@ -40,14 +39,12 @@ public class MainView extends JFrame {
         reservaPanel.setLayout(new BorderLayout());
         reservaPanel.add(reservaView, BorderLayout.CENTER);
 
-<<<<<<< HEAD
-        while (tabbedPane.getTabCount() > 1) {
-            tabbedPane.removeTabAt(1);
-        }
+
+        // No eliminar las pestañas definidas en el diseñador, para que "Categoria" y "Calendarizacion" sigan visibles.
         if (usuarioLogueado.getVarRol() == Rol.ADMINISTRADOR) {
             tabbedPane.insertTab("Funcionarios", null, new FuncionariosView(), null, 0);
         }
-=======
+
         CalendarizacionView calendarizacionView = new CalendarizacionView();
 
         calendarizacion.setLayout(new BorderLayout());
@@ -57,6 +54,6 @@ public class MainView extends JFrame {
 
         CategoriaView.setLayout(new BorderLayout());
         CategoriaView.add(categoria, BorderLayout.CENTER);
->>>>>>> master
+
     }
 }
