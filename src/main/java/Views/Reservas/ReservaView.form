@@ -63,7 +63,9 @@
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <foreground color="-12303026"/>
+                </properties>
                 <border type="bevel-lowered"/>
                 <children>
                   <grid id="f86dd" binding="panelActividad" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -313,14 +315,6 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="a1eec" class="javax.swing.JButton" binding="buttonAceptar">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="✅ "/>
-                    </properties>
-                  </component>
                   <hspacer id="36eef">
                     <constraints>
                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -332,6 +326,14 @@
                     </constraints>
                     <properties>
                       <text value="❌"/>
+                    </properties>
+                  </component>
+                  <component id="a1eec" class="javax.swing.JButton" binding="buttonAceptar">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="✅ "/>
                     </properties>
                   </component>
                 </children>

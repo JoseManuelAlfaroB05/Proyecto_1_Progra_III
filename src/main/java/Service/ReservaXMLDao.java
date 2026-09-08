@@ -1,14 +1,18 @@
-package Persistencia;
+package Service;
 
 import Models.Recurso;
 import Models.Reserva;
+import Models.User;
+import Models.Rol;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import org.w3c.dom.NodeList;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -16,6 +20,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import java.io.File;
 
 public class ReservaXMLDao {
@@ -81,17 +86,29 @@ public class ReservaXMLDao {
 
             for (Recurso recurso : reserva.getRecursos()) {
 
-                Element elementoRecurso = documento.createElement("recurso");
+                Element elementoRecurso =
+                        documento.createElement("recurso");
+
                 elementoRecurso.setTextContent(recurso.getId());
 
                 recursos.appendChild(elementoRecurso);
             }
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
+            TransformerFactory transformerFactory =
+                    TransformerFactory.newInstance();
 
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            Transformer transformer =
+                    transformerFactory.newTransformer();
+
+            transformer.setOutputProperty(
+                    OutputKeys.INDENT,
+                    "yes"
+            );
+
+            transformer.setOutputProperty(
+                    OutputKeys.ENCODING,
+                    "UTF-8"
+            );
 
             DOMSource source = new DOMSource(documento);
             StreamResult result = new StreamResult(archivo);
@@ -115,56 +132,101 @@ public class ReservaXMLDao {
                 return reservas;
             }
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
+            DocumentBuilderFactory factory =
+                    DocumentBuilderFactory.newInstance();
+
+            DocumentBuilder builder =
+                    factory.newDocumentBuilder();
 
             Document documento = builder.parse(archivo);
+
             documento.getDocumentElement().normalize();
 
-            NodeList listaReservas = documento.getElementsByTagName("reserva");
+            NodeList listaReservas =
+                    documento.getElementsByTagName("reserva");
+
+            GestorRecursos gestorRecursos =
+                    new GestorRecursos();
 
             for (int i = 0; i < listaReservas.getLength(); i++) {
 
-                Element elemento = (Element) listaReservas.item(i);
+                Element elemento =
+                        (Element) listaReservas.item(i);
 
-                String id = elemento
-                        .getElementsByTagName("id")
-                        .item(0)
-                        .getTextContent();
-
-                String usuario = elemento
-                        .getElementsByTagName("usuario")
-                        .item(0)
-                        .getTextContent();
-
-                String actividad = elemento
-                        .getElementsByTagName("actividad")
-                        .item(0)
-                        .getTextContent();
-
-                LocalDate fecha = LocalDate.parse(
-                        elemento.getElementsByTagName("fecha")
+                String id =
+                        elemento
+                                .getElementsByTagName("id")
                                 .item(0)
-                                .getTextContent()
-                );
+                                .getTextContent();
 
-                LocalTime horaInicio = LocalTime.parse(
-                        elemento.getElementsByTagName("horaInicio")
+                String usuarioId =
+                        elemento
+                                .getElementsByTagName("usuario")
                                 .item(0)
-                                .getTextContent()
-                );
+                                .getTextContent();
 
-                LocalTime horaFin = LocalTime.parse(
-                        elemento.getElementsByTagName("horaFin")
+                User usuario =
+                        new User(
+                                usuarioId,
+                                "",
+                                Rol.FUNCIONARIO
+                        );
+
+                String actividad =
+                        elemento
+                                .getElementsByTagName("actividad")
                                 .item(0)
-                                .getTextContent()
-                );
+                                .getTextContent();
 
-                ArrayList<Recurso> recursos = new ArrayList<>();
+                LocalDate fecha =
+                        LocalDate.parse(
+                                elemento
+                                        .getElementsByTagName("fecha")
+                                        .item(0)
+                                        .getTextContent()
+                        );
+
+                LocalTime horaInicio =
+                        LocalTime.parse(
+                                elemento
+                                        .getElementsByTagName("horaInicio")
+                                        .item(0)
+                                        .getTextContent()
+                        );
+
+                LocalTime horaFin =
+                        LocalTime.parse(
+                                elemento
+                                        .getElementsByTagName("horaFin")
+                                        .item(0)
+                                        .getTextContent()
+                        );
+
+                ArrayList<Recurso> recursos =
+                        new ArrayList<>();
+
+                NodeList listaRecursos =
+                        elemento
+                                .getElementsByTagName("recurso");
+
+                for (int j = 0; j < listaRecursos.getLength(); j++) {
+
+                    String idRecurso =
+                            listaRecursos
+                                    .item(j)
+                                    .getTextContent();
+
+                    Recurso recurso =
+                            gestorRecursos.buscarPorId(idRecurso);
+
+                    if (recurso != null) {
+                        recursos.add(recurso);
+                    }
+                }
 
                 Reserva reserva = new Reserva(
                         id,
-                        null,
+                        usuario,
                         actividad,
                         fecha,
                         horaInicio,

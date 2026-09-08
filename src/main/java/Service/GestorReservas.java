@@ -1,9 +1,14 @@
-package Models;
+package Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import Persistencia.ReservaXMLDao;
+
+
+import Models.CategoriaRecurso;
+import Models.Recurso;
+import Models.Reserva;
+import Models.User;
 
 public class GestorReservas {
 
@@ -65,6 +70,42 @@ public class GestorReservas {
 
         ArrayList<Recurso> recursosAsignados = new ArrayList<>();
 
+        if (necesitaLab) {
+            CategoriaRecurso categoriaLab =
+                    new CategoriaRecurso("LAB", "Laboratorio");
+
+            ArrayList<Recurso> laboratorios =
+                    gestorRecursos.obtenerPorCategoria(categoriaLab);
+
+            for (int i = 0; i < cantidadLab && i < laboratorios.size(); i++) {
+                recursosAsignados.add(laboratorios.get(i));
+            }
+        }
+
+        if (necesitaPC) {
+            CategoriaRecurso categoriaPC =
+                    new CategoriaRecurso("PC", "Computadora");
+
+            ArrayList<Recurso> computadoras =
+                    gestorRecursos.obtenerPorCategoria(categoriaPC);
+
+            for (int i = 0; i < cantidadPC && i < computadoras.size(); i++) {
+                recursosAsignados.add(computadoras.get(i));
+            }
+        }
+
+        if (necesitaProy) {
+            CategoriaRecurso categoriaProy =
+                    new CategoriaRecurso("PRO", "Proyector");
+
+            ArrayList<Recurso> proyectores =
+                    gestorRecursos.obtenerPorCategoria(categoriaProy);
+
+            for (int i = 0; i < cantidadProy && i < proyectores.size(); i++) {
+                recursosAsignados.add(proyectores.get(i));
+            }
+        }
+
         Reserva nuevaReserva = new Reserva(
                 id,
                 usuario,
@@ -78,7 +119,6 @@ public class GestorReservas {
         reservas.add(nuevaReserva);
         reservaXMLDao.guardar(nuevaReserva);
 
-        // AQUÍ
         System.out.println("Reserva creada correctamente");
         System.out.println("ID: " + nuevaReserva.getId());
         System.out.println("Usuario: " + nuevaReserva.getUsuario().getVarId());
@@ -90,4 +130,29 @@ public class GestorReservas {
 
         return true;
     }
+
+    public ArrayList<Reserva> buscarReservasPorFechaYCategoria(
+            LocalDate fecha,
+            CategoriaRecurso categoria) {
+
+        ArrayList<Reserva> resultado = new ArrayList<>();
+
+        for (Reserva reserva : reservas) {
+
+            if (!reserva.getFecha().equals(fecha)) {
+                continue;
+            }
+
+            for (Recurso recurso : reserva.getRecursos()) {
+
+                if (recurso.getRecurso().getVarId().equals(categoria.getVarId())) {
+                    resultado.add(reserva);
+                    break;
+                }
+            }
+        }
+
+        return resultado;
+    }
+
 }

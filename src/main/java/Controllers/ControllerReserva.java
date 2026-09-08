@@ -1,7 +1,7 @@
 package Controllers;
 
-import Models.GestorRecursos;
-import Models.GestorReservas;
+import Service.GestorRecursos;
+import Service.GestorReservas;
 import Models.User;
 
 import java.time.LocalDate;

@@ -1,6 +1,7 @@
-package Models;
+package Service;
 
-import Persistencia.RecursoXMLDao;
+import Models.CategoriaRecurso;
+import Models.Recurso;
 
 import java.util.ArrayList;
 
