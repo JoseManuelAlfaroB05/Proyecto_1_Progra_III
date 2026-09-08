@@ -8,7 +8,7 @@ import com.github.lgooddatepicker.components.TimePicker;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -55,7 +55,6 @@ public class ReservaView extends JPanel {
     private ControllerReserva controller;
 
     public ReservaView(User usuarioLogueado) {
-
         this.usuarioLogueado = usuarioLogueado;
         this.controller = new ControllerReserva();
 
@@ -69,7 +68,6 @@ public class ReservaView extends JPanel {
         });
 
         buttonAceptar.addActionListener(e -> {
-
             String varActividad = textFieldActividad.getText();
 
             LocalDate fecha = datePicker.getDate();
@@ -85,11 +83,7 @@ public class ReservaView extends JPanel {
             int cantidadProy = 0;
 
             if (necesitaLab) {
-
-                cantidadLab = obtenerCantidad(
-                        textFieldLabCant,
-                        "laboratorios"
-                );
+                cantidadLab = obtenerCantidad(textFieldLabCant, "laboratorios");
 
                 if (cantidadLab == -1) {
                     return;
@@ -97,11 +91,7 @@ public class ReservaView extends JPanel {
             }
 
             if (necesitaPC) {
-
-                cantidadPC = obtenerCantidad(
-                        textFieldCompCant,
-                        "computadoras"
-                );
+                cantidadPC = obtenerCantidad(textFieldCompCant, "computadoras");
 
                 if (cantidadPC == -1) {
                     return;
@@ -109,11 +99,7 @@ public class ReservaView extends JPanel {
             }
 
             if (necesitaProy) {
-
-                cantidadProy = obtenerCantidad(
-                        textFieldProyCant,
-                        "proyectores"
-                );
+                cantidadProy = obtenerCantidad(textFieldProyCant, "proyectores");
 
                 if (cantidadProy == -1) {
                     return;
@@ -141,15 +127,10 @@ public class ReservaView extends JPanel {
         });
     }
 
-    private int obtenerCantidad(
-            JTextField campo,
-            String nombreRecurso
-    ) {
-
+    private int obtenerCantidad(JTextField campo, String nombreRecurso) {
         String texto = campo.getText().trim();
 
         if (texto.isEmpty()) {
-
             JOptionPane.showMessageDialog(
                     this,
                     "Ingrese la cantidad de " + nombreRecurso + ".",
@@ -161,40 +142,31 @@ public class ReservaView extends JPanel {
         }
 
         try {
-
             int cantidad = Integer.parseInt(texto);
 
             if (cantidad <= 0) {
-
                 JOptionPane.showMessageDialog(
                         this,
-                        "La cantidad de " + nombreRecurso
-                                + " debe ser mayor que 0.",
+                        "La cantidad de " + nombreRecurso + " debe ser mayor que 0.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                 );
 
                 return -1;
             }
-
             return cantidad;
 
         } catch (NumberFormatException e) {
-
             JOptionPane.showMessageDialog(
                     this,
-                    "La cantidad de " + nombreRecurso
-                            + " debe ser un número entero.",
+                    "La cantidad de " + nombreRecurso + " debe ser un número entero.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
-
             return -1;
         }
     }
-
     private void limpiarCampos() {
-
         textFieldReservaAutomatica.setText("");
         textFieldActividad.setText("");
         textFieldLabCant.setText("");
@@ -211,7 +183,6 @@ public class ReservaView extends JPanel {
     }
 
     private void cargarTabla() {
-
         String[] columnas = {
                 "ID",
                 "Actividad",
@@ -220,12 +191,9 @@ public class ReservaView extends JPanel {
                 "Hora Fin"
         };
 
-        DefaultTableModel modelo =
-                new DefaultTableModel(columnas, 0);
+        DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-        for (Reserva reserva :
-                controller.getGestorReservas().getReservas()) {
-
+        for (Reserva reserva : controller.getGestorReservas().getReservas()) {
             Object[] fila = {
                     reserva.getId(),
                     reserva.getActividad(),
@@ -233,10 +201,8 @@ public class ReservaView extends JPanel {
                     reserva.getHoraInicio(),
                     reserva.getHoraFin()
             };
-
             modelo.addRow(fila);
         }
-
         tableReseravas.setModel(modelo);
     }
 }
