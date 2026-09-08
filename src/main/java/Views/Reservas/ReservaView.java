@@ -11,6 +11,8 @@ import com.github.lgooddatepicker.components.TimePicker;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -77,7 +79,6 @@ public class ReservaView extends JPanel {
     private DefaultListModel<String> modeloRecursos;
 
     public ReservaView(User usuarioLogueado) {
-
         this.usuarioLogueado = usuarioLogueado;
         this.controller = new ControllerReserva();
 
@@ -85,200 +86,155 @@ public class ReservaView extends JPanel {
         this.modeloRecursos = new DefaultListModel<>();
 
         setLayout(new BorderLayout());
+        add(PrincipalPanel, BorderLayout.CENTER);
 
-        add(
-                PrincipalPanel,
-                BorderLayout.CENTER
-        );
-
-        contetPanel.setBackground(
-                new Color(217, 217, 227)
-        );
+        contetPanel.setBackground(new Color(217, 217, 227));
 
         inicializarCategorias();
-
         configurarCantidad();
-
         cargarTabla();
 
-        buttonAgregarRecurso.addActionListener(
-                e -> agregarRecurso()
-        );
-
-        buttonEliminarRecurso.addActionListener(
-                e -> eliminarRecurso()
-        );
-
-        buttonRechazar.addActionListener(
-                e -> limpiarCampos()
-        );
-
-        buttonAceptar.addActionListener(e -> {
-
-            String actividad =
-                    textFieldActividad
-                            .getText()
-                            .trim();
-
-            LocalDate fecha =
-                    datePicker.getDate();
-
-            LocalTime horaInicio =
-                    timePickerInicio.getTime();
-
-            LocalTime horaFin =
-                    timePickerFin.getTime();
-
-            if (actividad.isEmpty()) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Ingrese la actividad.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                return;
+        buttonAgregarRecurso.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                agregarRecurso();
             }
+        });
 
-            if (fecha == null) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Seleccione una fecha.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                return;
+        buttonEliminarRecurso.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eliminarRecurso();
             }
+        });
 
-            if (horaInicio == null ||
-                    horaFin == null) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Seleccione la hora de inicio y la hora final.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                return;
-            }
-
-            if (!horaInicio.isBefore(horaFin)) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "La hora final debe ser posterior a la hora inicial.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                return;
-            }
-
-            if (solicitudes.isEmpty()) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Seleccione al menos una categoría de recurso.",
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
-
-                return;
-            }
-
-            boolean resultado =
-                    controller.crearReserva(
-                            usuarioLogueado,
-                            actividad,
-                            fecha,
-                            horaInicio,
-                            horaFin,
-                            new ArrayList<>(solicitudes)
-                    );
-
-            if (resultado) {
-
-                cargarTabla();
-
+        buttonRechazar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 limpiarCampos();
+            }
+        });
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Reserva creada correctamente.",
-                        "Reserva",
-                        JOptionPane.INFORMATION_MESSAGE
+        buttonAceptar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String actividad = textFieldActividad.getText().trim();
+                LocalDate fecha = datePicker.getDate();
+                LocalTime horaInicio = timePickerInicio.getTime();
+                LocalTime horaFin = timePickerFin.getTime();
+
+                if (actividad.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            "Ingrese la actividad.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+                if (fecha == null) {
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            "Seleccione una fecha.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+                if (horaInicio == null || horaFin == null) {
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            "Seleccione la hora de inicio y la hora final.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+                if (!horaInicio.isBefore(horaFin)) {
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            "La hora final debe ser posterior a la hora inicial.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+                if (solicitudes.isEmpty()) {
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            "Seleccione al menos una categoría de recurso.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
+
+                boolean resultado = controller.crearReserva(
+                        usuarioLogueado,
+                        actividad,
+                        fecha,
+                        horaInicio,
+                        horaFin,
+                        new ArrayList<>(solicitudes)
                 );
+
+                if (resultado) {
+                    cargarTabla();
+                    limpiarCampos();
+
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            "Reserva creada correctamente.",
+                            "Reserva",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
             }
         });
     }
 
     private void inicializarCategorias() {
-
         comboBoxCategoria.removeAllItems();
 
         for (CategoriaRecurso categoria :
-                controller
-                        .getGestorCategorias()
-                        .getCategorias()) {
+                controller.getGestorCategorias().getCategorias()) {
 
-            comboBoxCategoria.addItem(
-                    categoria
-            );
+            comboBoxCategoria.addItem(categoria);
         }
     }
 
     private void configurarCantidad() {
-
         SpinnerNumberModel modelo =
-                new SpinnerNumberModel(
-                        1,
-                        1,
-                        100,
-                        1
-                );
+                new SpinnerNumberModel(1, 1, 100, 1);
 
-        spinnerCantidad.setModel(
-                modelo
-        );
+        spinnerCantidad.setModel(modelo);
     }
 
     private void agregarRecurso() {
-
         CategoriaRecurso categoria =
-                (CategoriaRecurso)
-                        comboBoxCategoria
-                                .getSelectedItem();
+                (CategoriaRecurso) comboBoxCategoria.getSelectedItem();
 
         if (categoria == null) {
-
             JOptionPane.showMessageDialog(
                     this,
                     "Seleccione una categoría.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
-
             return;
         }
 
-        int cantidad =
-                (Integer)
-                        spinnerCantidad
-                                .getValue();
+        int cantidad = (Integer) spinnerCantidad.getValue();
 
-        for (SolicitudRecurso solicitud :
-                solicitudes) {
+        for (SolicitudRecurso solicitud : solicitudes) {
 
-            if (solicitud
-                    .getCategoria()
-                    .getVarId()
-                    .equals(
-                            categoria.getVarId()
-                    )) {
+            if (solicitud.getCategoria().getVarId()
+                    .equals(categoria.getVarId())) {
 
                 JOptionPane.showMessageDialog(
                         this,
@@ -286,91 +242,60 @@ public class ReservaView extends JPanel {
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                 );
-
                 return;
             }
         }
 
         SolicitudRecurso solicitud =
-                new SolicitudRecurso(
-                        categoria,
-                        cantidad
-                );
+                new SolicitudRecurso(categoria, cantidad);
 
-        solicitudes.add(
-                solicitud
-        );
+        solicitudes.add(solicitud);
 
         modeloRecursos.addElement(
-                categoria.getDescripcion()
-                        + " x"
-                        + cantidad
+                categoria.getDescripcion() + " x" + cantidad
         );
 
-        listRecursos.setModel(
-                modeloRecursos
-        );
-
+        listRecursos.setModel(modeloRecursos);
         spinnerCantidad.setValue(1);
     }
 
     private void eliminarRecurso() {
-
-        int indice =
-                listRecursos
-                        .getSelectedIndex();
+        int indice = listRecursos.getSelectedIndex();
 
         if (indice == -1) {
-
             JOptionPane.showMessageDialog(
                     this,
                     "Seleccione un recurso de la lista.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
-
             return;
         }
 
-        solicitudes.remove(
-                indice
-        );
-
-        modeloRecursos.remove(
-                indice
-        );
+        solicitudes.remove(indice);
+        modeloRecursos.remove(indice);
     }
 
     private void limpiarCampos() {
-
         textFieldReservaAutomatica.setText("");
-
         textFieldActividad.setText("");
 
         datePicker.setDate(null);
-
         timePickerInicio.setTime(null);
-
         timePickerFin.setTime(null);
 
         solicitudes.clear();
-
         modeloRecursos.clear();
 
-        listRecursos.setModel(
-                modeloRecursos
-        );
-
+        listRecursos.setModel(modeloRecursos);
         spinnerCantidad.setValue(1);
 
         if (comboBoxCategoria.getItemCount() > 0) {
-
             comboBoxCategoria.setSelectedIndex(0);
         }
     }
 
     private void cargarTabla() {
-
         String[] columnas = {
                 "ID",
                 "Actividad",
@@ -380,15 +305,10 @@ public class ReservaView extends JPanel {
         };
 
         DefaultTableModel modelo =
-                new DefaultTableModel(
-                        columnas,
-                        0
-                );
+                new DefaultTableModel(columnas, 0);
 
         for (Reserva reserva :
-                controller
-                        .getGestorReservas()
-                        .getReservas()) {
+                controller.getGestorReservas().getReservas()) {
 
             Object[] fila = {
                     reserva.getId(),
@@ -398,13 +318,9 @@ public class ReservaView extends JPanel {
                     reserva.getHoraFin()
             };
 
-            modelo.addRow(
-                    fila
-            );
+            modelo.addRow(fila);
         }
 
-        tableReseravas.setModel(
-                modelo
-        );
+        tableReseravas.setModel(modelo);
     }
 }

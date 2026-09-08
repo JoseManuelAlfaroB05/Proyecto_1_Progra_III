@@ -1,20 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <categorias>
-
+            
+    
     <categoria>
+                        
+        
         <id>LAB</id>
+                        
+        
         <descripcion>Laboratorio</descripcion>
+                    
+    
     </categoria>
-
+            
+    
     <categoria>
+                        
+        
         <id>PC</id>
+                        
+        
         <descripcion>Computadora</descripcion>
+                    
+    
     </categoria>
-
+            
+    
     <categoria>
+                        
+        
         <id>PRO</id>
+                        
+        
         <descripcion>Proyector</descripcion>
+                    
+    
     </categoria>
-
+        
+    
+    <categoria>
+                
+        <id>MIC</id>
+                
+        <descripcion>Microfono</descripcion>
+            
+    </categoria>
+    
+    <categoria>
+        <id>MESS</id>
+        <descripcion>Mesa</descripcion>
+    </categoria>
 </categorias>

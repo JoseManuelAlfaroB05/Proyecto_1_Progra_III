@@ -3,6 +3,7 @@ package Views;
 import Models.User;
 import Views.Reservas.ReservaView;
 import Views.Calendarizacion.CalendarizacionView;
+import Views.Categoria.CategoriaView;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -15,7 +16,7 @@ public class MainView extends JFrame {
     private JPanel reservaPanel;
     private JPanel calendarizacion;
     private JPanel TabbedPanelUsuariosPanel;
-    private JPanel usuarioView;
+    private JPanel CategoriaView;
 
     private User usuarioLogueado;
 
@@ -34,11 +35,14 @@ public class MainView extends JFrame {
         reservaPanel.setLayout(new BorderLayout());
         reservaPanel.add(reservaView, BorderLayout.CENTER);
 
-        //tab de calendarizacion
         CalendarizacionView calendarizacionView = new CalendarizacionView();
 
         calendarizacion.setLayout(new BorderLayout());
         calendarizacion.add(calendarizacionView, BorderLayout.CENTER);
 
+        CategoriaView categoria = new CategoriaView();
+
+        CategoriaView.setLayout(new BorderLayout());
+        CategoriaView.add(categoria, BorderLayout.CENTER);
     }
 }
