@@ -21,6 +21,48 @@
         <descripcion>Laboratorio de Computación 3</descripcion>
     </recurso>
 
+    <recurso>
+        <id>LAB004</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 4</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB005</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 5</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB006</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 6</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB007</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 7</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB008</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 8</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB009</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 9</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>LAB010</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de Computación 10</descripcion>
+    </recurso>
+
 
     <!-- Computadoras -->
     <recurso>
@@ -59,6 +101,90 @@
         <descripcion>Computadora Dell OptiPlex 06</descripcion>
     </recurso>
 
+    <recurso>
+        <id>PC007</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 07</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC008</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 08</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC009</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 09</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC010</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 10</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC011</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 11</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC012</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 12</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC013</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 13</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC014</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 14</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC015</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 15</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC016</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 16</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC017</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 17</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC018</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 18</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC019</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 19</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PC020</id>
+        <categoria>PC</categoria>
+        <descripcion>Computadora Dell OptiPlex 20</descripcion>
+    </recurso>
+
 
     <!-- Proyectores -->
     <recurso>
@@ -71,6 +197,114 @@
         <id>PRO002</id>
         <categoria>PRO</categoria>
         <descripcion>Proyector Epson 02</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO003</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 03</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO004</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 04</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO005</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 05</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO006</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 06</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO007</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 07</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO008</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 08</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO009</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 09</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO010</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 10</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO011</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 11</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO012</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 12</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO013</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 13</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO014</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 14</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO015</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 15</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO016</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 16</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO017</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 17</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO018</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 18</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO019</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 19</descripcion>
+    </recurso>
+
+    <recurso>
+        <id>PRO020</id>
+        <categoria>PRO</categoria>
+        <descripcion>Proyector Epson 20</descripcion>
     </recurso>
 
 </recursos>
