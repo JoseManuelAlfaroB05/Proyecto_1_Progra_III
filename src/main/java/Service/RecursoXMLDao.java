@@ -12,7 +12,13 @@ import java.util.List;
 
 public class RecursoXMLDao {
 
-    private String rutaArchivo = "data/recursos.xml";
+    private final String rutaArchivo = "data/recursos.xml";
+
+    private final CategoriaXMLDao categoriaXMLDao;
+
+    public RecursoXMLDao() {
+        categoriaXMLDao = new CategoriaXMLDao();
+    }
 
     public List<Recurso> listarTodos() {
 
@@ -22,39 +28,66 @@ public class RecursoXMLDao {
 
             File archivo = new File(rutaArchivo);
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
+            if (!archivo.exists()) {
+                return recursos;
+            }
 
-            Document doc = builder.parse(archivo);
+            DocumentBuilderFactory factory =
+                    DocumentBuilderFactory.newInstance();
+
+            DocumentBuilder builder =
+                    factory.newDocumentBuilder();
+
+            Document doc =
+                    builder.parse(archivo);
+
             doc.getDocumentElement().normalize();
 
-            NodeList listaNodos = doc.getElementsByTagName("recurso");
+            ArrayList<CategoriaRecurso> categorias =
+                    categoriaXMLDao.listarTodas();
+
+            NodeList listaNodos =
+                    doc.getElementsByTagName("recurso");
 
             for (int i = 0; i < listaNodos.getLength(); i++) {
 
-                Element elemento = (Element) listaNodos.item(i);
+                Element elemento =
+                        (Element) listaNodos.item(i);
 
-                String id = elemento
-                        .getElementsByTagName("id")
-                        .item(0)
-                        .getTextContent();
+                String id =
+                        elemento
+                                .getElementsByTagName("id")
+                                .item(0)
+                                .getTextContent();
 
-                String categoriaId = elemento
-                        .getElementsByTagName("categoria")
-                        .item(0)
-                        .getTextContent();
+                String categoriaId =
+                        elemento
+                                .getElementsByTagName("categoria")
+                                .item(0)
+                                .getTextContent();
 
-                String descripcion = elemento
-                        .getElementsByTagName("descripcion")
-                        .item(0)
-                        .getTextContent();
+                String descripcion =
+                        elemento
+                                .getElementsByTagName("descripcion")
+                                .item(0)
+                                .getTextContent();
 
                 CategoriaRecurso categoria =
-                        obtenerCategoria(categoriaId);
+                        buscarCategoria(
+                                categorias,
+                                categoriaId
+                        );
 
-                recursos.add(
-                        new Recurso(id, categoria, descripcion)
-                );
+                if (categoria != null) {
+
+                    recursos.add(
+                            new Recurso(
+                                    id,
+                                    categoria,
+                                    descripcion
+                            )
+                    );
+                }
             }
 
         } catch (Exception e) {
@@ -64,30 +97,17 @@ public class RecursoXMLDao {
         return recursos;
     }
 
-    private CategoriaRecurso obtenerCategoria(String categoriaId) {
+    private CategoriaRecurso buscarCategoria(
+            ArrayList<CategoriaRecurso> categorias,
+            String id) {
 
-        switch (categoriaId) {
+        for (CategoriaRecurso categoria : categorias) {
 
-            case "LAB":
-                return new CategoriaRecurso(
-                        "LAB",
-                        "Laboratorio"
-                );
-
-            case "PC":
-                return new CategoriaRecurso(
-                        "PC",
-                        "Computadora"
-                );
-
-            case "PRO":
-                return new CategoriaRecurso(
-                        "PRO",
-                        "Proyector"
-                );
-
-            default:
-                return null;
+            if (categoria.getVarId().equals(id)) {
+                return categoria;
+            }
         }
+
+        return null;
     }
 }

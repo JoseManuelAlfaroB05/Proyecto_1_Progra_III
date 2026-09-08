@@ -4,22 +4,31 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-
 import Models.CategoriaRecurso;
 import Models.Recurso;
 import Models.Reserva;
+import Models.SolicitudRecurso;
 import Models.User;
 
 public class GestorReservas {
 
     private ArrayList<Reserva> reservas;
     private GestorRecursos gestorRecursos;
+    private GestorCategorias gestorCategorias;
     private ReservaXMLDao reservaXMLDao;
 
     public GestorReservas() {
+
         reservaXMLDao = new ReservaXMLDao();
-        reservas = reservaXMLDao.cargar();
-        gestorRecursos = new GestorRecursos();
+
+        gestorCategorias =
+                new GestorCategorias();
+
+        gestorRecursos =
+                new GestorRecursos();
+
+        reservas =
+                reservaXMLDao.cargar();
     }
 
     public ArrayList<Reserva> getReservas() {
@@ -30,26 +39,43 @@ public class GestorReservas {
         return gestorRecursos;
     }
 
+    public GestorCategorias getGestorCategorias() {
+        return gestorCategorias;
+    }
+
     public void agregarReserva(Reserva reserva) {
+
         reservas.add(reserva);
+
+        reservaXMLDao.guardar(reserva);
     }
 
     public boolean eliminarReserva(String idReserva) {
+
         for (int i = 0; i < reservas.size(); i++) {
-            if (reservas.get(i).getId().equals(idReserva)) {
+
+            if (reservas.get(i)
+                    .getId()
+                    .equals(idReserva)) {
+
                 reservas.remove(i);
+
                 return true;
             }
         }
+
         return false;
     }
 
     public Reserva buscarPorId(String idReserva) {
+
         for (Reserva reserva : reservas) {
+
             if (reserva.getId().equals(idReserva)) {
                 return reserva;
             }
         }
+
         return null;
     }
 
@@ -60,73 +86,140 @@ public class GestorReservas {
             LocalDate fecha,
             LocalTime horaInicio,
             LocalTime horaFin,
-            boolean necesitaLab,
-            int cantidadLab,
-            boolean necesitaPC,
-            int cantidadPC,
-            boolean necesitaProy,
-            int cantidadProy
-    ) {
+            ArrayList<SolicitudRecurso> solicitudes) {
 
-        ArrayList<Recurso> recursosAsignados = new ArrayList<>();
-
-        if (necesitaLab) {
-            CategoriaRecurso categoriaLab =
-                    new CategoriaRecurso("LAB", "Laboratorio");
-
-            ArrayList<Recurso> laboratorios =
-                    gestorRecursos.obtenerPorCategoria(categoriaLab);
-
-            for (int i = 0; i < cantidadLab && i < laboratorios.size(); i++) {
-                recursosAsignados.add(laboratorios.get(i));
-            }
-        }
-
-        if (necesitaPC) {
-            CategoriaRecurso categoriaPC =
-                    new CategoriaRecurso("PC", "Computadora");
-
-            ArrayList<Recurso> computadoras =
-                    gestorRecursos.obtenerPorCategoria(categoriaPC);
-
-            for (int i = 0; i < cantidadPC && i < computadoras.size(); i++) {
-                recursosAsignados.add(computadoras.get(i));
-            }
-        }
-
-        if (necesitaProy) {
-            CategoriaRecurso categoriaProy =
-                    new CategoriaRecurso("PRO", "Proyector");
-
-            ArrayList<Recurso> proyectores =
-                    gestorRecursos.obtenerPorCategoria(categoriaProy);
-
-            for (int i = 0; i < cantidadProy && i < proyectores.size(); i++) {
-                recursosAsignados.add(proyectores.get(i));
-            }
-        }
-
-        Reserva nuevaReserva = new Reserva(
-                id,
-                usuario,
+        if (!validarReserva(
                 actividad,
                 fecha,
                 horaInicio,
                 horaFin,
-                recursosAsignados
-        );
+                solicitudes)) {
+
+            return false;
+        }
+
+        ArrayList<Recurso> recursosAsignados =
+                new ArrayList<>();
+
+        for (SolicitudRecurso solicitud : solicitudes) {
+
+            CategoriaRecurso categoria =
+                    solicitud.getCategoria();
+
+            int cantidad =
+                    solicitud.getCantidad();
+
+            ArrayList<Recurso> disponibles =
+                    gestorRecursos.obtenerPorCategoria(
+                            categoria
+                    );
+
+            if (cantidad > disponibles.size()) {
+
+                System.out.println(
+                        "No hay suficientes recursos de la categoría: "
+                                + categoria.getDescripcion()
+                );
+
+                return false;
+            }
+
+            for (int i = 0; i < cantidad; i++) {
+
+                recursosAsignados.add(
+                        disponibles.get(i)
+                );
+            }
+        }
+
+        Reserva nuevaReserva =
+                new Reserva(
+                        id,
+                        usuario,
+                        actividad,
+                        fecha,
+                        horaInicio,
+                        horaFin,
+                        recursosAsignados
+                );
 
         reservas.add(nuevaReserva);
+
         reservaXMLDao.guardar(nuevaReserva);
 
-        System.out.println("Reserva creada correctamente");
-        System.out.println("ID: " + nuevaReserva.getId());
-        System.out.println("Usuario: " + nuevaReserva.getUsuario().getVarId());
-        System.out.println("Actividad: " + nuevaReserva.getActividad());
-        System.out.println("Fecha: " + nuevaReserva.getFecha());
-        System.out.println("Hora inicio: " + nuevaReserva.getHoraInicio());
-        System.out.println("Hora fin: " + nuevaReserva.getHoraFin());
-        System.out.println("Cantidad de recursos: " + nuevaReserva.getRecursos().size());
+        return true;
+    }
+
+    private boolean validarReserva(
+            String actividad,
+            LocalDate fecha,
+            LocalTime horaInicio,
+            LocalTime horaFin,
+            ArrayList<SolicitudRecurso> solicitudes) {
+
+        if (actividad == null ||
+                actividad.trim().isEmpty()) {
+
+            System.out.println(
+                    "La actividad es obligatoria."
+            );
+
+            return false;
+        }
+
+        if (fecha == null) {
+
+            System.out.println(
+                    "La fecha es obligatoria."
+            );
+
+            return false;
+        }
+
+        if (horaInicio == null ||
+                horaFin == null) {
+
+            System.out.println(
+                    "Las horas son obligatorias."
+            );
+
+            return false;
+        }
+
+        if (!horaInicio.isBefore(horaFin)) {
+
+            System.out.println(
+                    "La hora final debe ser posterior a la hora inicial."
+            );
+
+            return false;
+        }
+
+        if (solicitudes == null ||
+                solicitudes.isEmpty()) {
+
+            System.out.println(
+                    "Debe seleccionar al menos un recurso."
+            );
+
+            return false;
+        }
+
+        for (SolicitudRecurso solicitud : solicitudes) {
+
+            if (solicitud.getCategoria() == null) {
+                return false;
+            }
+
+            if (solicitud.getCantidad() <= 0) {
+
+                System.out.println(
+                        "La cantidad debe ser mayor que 0."
+                );
+
+                return false;
+            }
+        }
 
         return true;
     }
@@ -135,7 +228,8 @@ public class GestorReservas {
             LocalDate fecha,
             CategoriaRecurso categoria) {
 
-        ArrayList<Reserva> resultado = new ArrayList<>();
+        ArrayList<Reserva> resultado =
+                new ArrayList<>();
 
         for (Reserva reserva : reservas) {
 
@@ -143,10 +237,15 @@ public class GestorReservas {
                 continue;
             }
 
-            for (Recurso recurso : reserva.getRecursos()) {
+            for (Recurso recurso :
+                    reserva.getRecursos()) {
 
-                if (recurso.getRecurso().getVarId().equals(categoria.getVarId())) {
+                if (recurso.getRecurso()
+                        .getVarId()
+                        .equals(categoria.getVarId())) {
+
                     resultado.add(reserva);
+
                     break;
                 }
             }
@@ -154,5 +253,4 @@ public class GestorReservas {
 
         return resultado;
     }
-
 }

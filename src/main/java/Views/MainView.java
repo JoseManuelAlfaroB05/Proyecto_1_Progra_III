@@ -1,7 +1,6 @@
 package Views;
 
 import Models.User;
-import Views.Usuarios.UsuarioView;
 import Views.Reservas.ReservaView;
 import Views.Calendarizacion.CalendarizacionView;
 
@@ -41,10 +40,5 @@ public class MainView extends JFrame {
         calendarizacion.setLayout(new BorderLayout());
         calendarizacion.add(calendarizacionView, BorderLayout.CENTER);
 
-        //tab de usuarios
-        UsuarioView vistaUsuarios = new UsuarioView();
-
-        usuarioView.setLayout(new BorderLayout());
-        usuarioView.add(vistaUsuarios, BorderLayout.CENTER);
     }
 }
