@@ -2,6 +2,8 @@ package Views;
 
 import Models.User;
 import Views.Reservas.ReservaView;
+import Views.Funcionarios.FuncionariosView;
+import Models.Rol;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -29,5 +31,12 @@ public class MainView extends JFrame {
 
         reservaPanel.setLayout(new BorderLayout());
         reservaPanel.add(reservaView, BorderLayout.CENTER);
+
+        while (tabbedPane.getTabCount() > 1) {
+            tabbedPane.removeTabAt(1);
+        }
+        if (usuarioLogueado.getVarRol() == Rol.ADMINISTRADOR) {
+            tabbedPane.insertTab("Funcionarios", null, new FuncionariosView(), null, 0);
+        }
     }
 }
