@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Controllers.ControllerCategoria;
+import javax.swing.table.DefaultTableModel;
+import Models.CategoriaRecurso;
 
 public class CategoriaView extends JPanel {
 
@@ -32,13 +34,14 @@ public class CategoriaView extends JPanel {
 
     private ControllerCategoria controller;
 
-
     public CategoriaView() {
 
         this.controller = new ControllerCategoria();
 
         setLayout(new BorderLayout());
         add(PrincipalPanel, BorderLayout.CENTER);
+
+        cargarTabla();
 
         buttonLimpiar.addActionListener(new ActionListener() {
             @Override
@@ -50,17 +53,33 @@ public class CategoriaView extends JPanel {
         buttonAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String id = textFieldId.getText().trim();
                 String descripcion = textFieldDescripcion.getText();
 
                 Boolean resultado = controller.agregarCategoria(id, descripcion);
+
                 if (resultado) {
+
                     JOptionPane.showMessageDialog(
-                    CategoriaView.this, "Categoría creada correctamente.","Categoría", JOptionPane.INFORMATION_MESSAGE);
+                            CategoriaView.this,
+                            "Categoría creada correctamente.",
+                            "Categoría",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+
+                    cargarTabla();
                     limpiarCampos();
-                }else{
-                    JOptionPane.showMessageDialog(CategoriaView.this, "Error al agregar categoria.","Error", JOptionPane.ERROR_MESSAGE);
-                };
+
+                } else {
+
+                    JOptionPane.showMessageDialog(
+                            CategoriaView.this,
+                            "Error al agregar categoria.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
             }
         });
     }
@@ -70,5 +89,26 @@ public class CategoriaView extends JPanel {
         textFieldId.setText("");
         textFieldDescripcion.setText("");
         tableCategorias.clearSelection();
+    }
+
+    private void cargarTabla() {
+
+        String[] columnas = {"ID", "Descripción"};
+
+        DefaultTableModel modelo =
+                new DefaultTableModel(columnas, 0);
+
+        for (CategoriaRecurso categoria :
+                controller.getGestorCategorias().getCategorias()) {
+
+            Object[] fila = {
+                    categoria.getVarId(),
+                    categoria.getDescripcion()
+            };
+
+            modelo.addRow(fila);
+        }
+
+        tableCategorias.setModel(modelo);
     }
 }
