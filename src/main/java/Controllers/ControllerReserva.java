@@ -1,20 +1,23 @@
 package Controllers;
 
-import Models.GestorRecursos;
-import Models.GestorReservas;
+import Models.SolicitudRecurso;
 import Models.User;
+import Service.GestorCategorias;
+import Service.GestorRecursos;
+import Service.GestorReservas;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class ControllerReserva {
 
-    private GestorRecursos gestorRecursos;
     private GestorReservas gestorReservas;
 
     public ControllerReserva() {
-        gestorReservas = new GestorReservas();
-        gestorRecursos = new GestorRecursos();
+
+        gestorReservas =
+                new GestorReservas();
     }
 
     public GestorReservas getGestorReservas() {
@@ -22,7 +25,15 @@ public class ControllerReserva {
     }
 
     public GestorRecursos getGestorRecursos() {
-        return gestorRecursos;
+
+        return gestorReservas
+                .getGestorRecursos();
+    }
+
+    public GestorCategorias getGestorCategorias() {
+
+        return gestorReservas
+                .getGestorCategorias();
     }
 
     public boolean crearReserva(
@@ -31,18 +42,16 @@ public class ControllerReserva {
             LocalDate fecha,
             LocalTime horaInicio,
             LocalTime horaFin,
-            boolean necesitaLab,
-            int cantidadLab,
-            boolean necesitaPC,
-            int cantidadPC,
-            boolean necesitaProy,
-            int cantidadProy
-    ) {
+            ArrayList<SolicitudRecurso> solicitudes) {
 
-        String id = "RES-" + String.format(
-                "%03d",
-                gestorReservas.getReservas().size() + 1
-        );
+        String id =
+                "RES-" +
+                        String.format(
+                                "%03d",
+                                gestorReservas
+                                        .getReservas()
+                                        .size() + 1
+                        );
 
         return gestorReservas.crearReserva(
                 id,
@@ -51,12 +60,7 @@ public class ControllerReserva {
                 fecha,
                 horaInicio,
                 horaFin,
-                necesitaLab,
-                cantidadLab,
-                necesitaPC,
-                cantidadPC,
-                necesitaProy,
-                cantidadProy
+                solicitudes
         );
     }
 }

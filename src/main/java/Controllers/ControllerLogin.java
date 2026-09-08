@@ -1,7 +1,7 @@
 package Controllers;
 
 import Models.User;
-import Persistencia.UserXMLDao;
+import Service.UserXMLDao;
 import Views.MainView;
 import Views.Login.ChangePassView;
 

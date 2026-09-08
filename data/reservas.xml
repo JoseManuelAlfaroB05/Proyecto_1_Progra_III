@@ -1,13 +1,89 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <reservas>
-    
+
     <reserva>
         <id>RES-001</id>
         <usuario>admin</usuario>
-        <actividad>Fiesta</actividad>
-        <fecha>2026-09-19</fecha>
-        <horaInicio>02:00</horaInicio>
-        <horaFin>03:30</horaFin>
-        <recursos/>
+        <actividad>Clase de Programación</actividad>
+        <fecha>2026-09-10</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>10:00</horaFin>
+        <recursos>
+            <recurso>LAB001</recurso>
+            <recurso>PC001</recurso>
+            <recurso>PC002</recurso>
+            <recurso>PC003</recurso>
+            <recurso>PRO001</recurso>
+        </recursos>
     </reserva>
+
+    <reserva>
+        <id>RES-002</id>
+        <usuario>admin</usuario>
+        <actividad>Introducción a Bases de Datos</actividad>
+        <fecha>2026-09-10</fecha>
+        <horaInicio>10:00</horaInicio>
+        <horaFin>12:00</horaFin>
+        <recursos>
+            <recurso>LAB002</recurso>
+            <recurso>PC004</recurso>
+            <recurso>PC005</recurso>
+            <recurso>PC006</recurso>
+            <recurso>PC007</recurso>
+            <recurso>PRO002</recurso>
+        </recursos>
+    </reserva>
+
+    <reserva>
+        <id>RES-003</id>
+        <usuario>admin</usuario>
+        <actividad>Taller de Redes</actividad>
+        <fecha>2026-09-12</fecha>
+        <horaInicio>13:00</horaInicio>
+        <horaFin>15:00</horaFin>
+        <recursos>
+            <recurso>LAB003</recurso>
+            <recurso>PC008</recurso>
+            <recurso>PC009</recurso>
+            <recurso>PC010</recurso>
+            <recurso>PC011</recurso>
+            <recurso>PRO003</recurso>
+        </recursos>
+    </reserva>
+
+    <reserva>
+        <id>RES-004</id>
+        <usuario>admin</usuario>
+        <actividad>Desarrollo de Software</actividad>
+        <fecha>2026-09-13</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>11:00</horaFin>
+        <recursos>
+            <recurso>LAB004</recurso>
+            <recurso>PC012</recurso>
+            <recurso>PC013</recurso>
+            <recurso>PC014</recurso>
+            <recurso>PC015</recurso>
+            <recurso>PRO004</recurso>
+        </recursos>
+    </reserva>
+
+    <reserva>
+        <id>RES-005</id>
+        <usuario>admin</usuario>
+        <actividad>Inteligencia Artificial</actividad>
+        <fecha>2026-09-14</fecha>
+        <horaInicio>14:00</horaInicio>
+        <horaFin>16:00</horaFin>
+        <recursos>
+            <recurso>LAB005</recurso>
+            <recurso>PC016</recurso>
+            <recurso>PC017</recurso>
+            <recurso>PC018</recurso>
+            <recurso>PC019</recurso>
+            <recurso>PC020</recurso>
+            <recurso>PRO005</recurso>
+        </recursos>
+    </reserva>
+
 </reservas>

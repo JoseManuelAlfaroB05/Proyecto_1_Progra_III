@@ -1,6 +1,7 @@
 package Models;
 
 public class CategoriaRecurso {
+
     private String varId;
     private String varDescripcion;
 
@@ -9,7 +10,6 @@ public class CategoriaRecurso {
         this.varDescripcion = varDescripcion;
     }
 
-    //getters
     public String getVarId() {
         return this.varId;
     }
@@ -18,8 +18,12 @@ public class CategoriaRecurso {
         return varDescripcion;
     }
 
-    //setter
     public void setDescripcion(String varDescripcion) {
         this.varDescripcion = varDescripcion;
+    }
+
+    @Override
+    public String toString() {
+        return varDescripcion;
     }
 }

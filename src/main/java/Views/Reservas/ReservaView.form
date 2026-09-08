@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="PrincipalPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="969" height="437"/>
+      <xy x="20" y="20" width="969" height="936"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -63,7 +63,9 @@
                 <constraints>
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <foreground color="-12303026"/>
+                </properties>
                 <border type="bevel-lowered"/>
                 <children>
                   <grid id="f86dd" binding="panelActividad" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -92,11 +94,6 @@
                       </component>
                     </children>
                   </grid>
-                  <vspacer id="60681">
-                    <constraints>
-                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                  </vspacer>
                   <grid id="45c7d" binding="jpanelTiempo" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="10" left="5" bottom="0" right="0"/>
                     <constraints>
@@ -179,99 +176,106 @@
                       </grid>
                     </children>
                   </grid>
-                  <grid id="c977b" binding="panelRecursos" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="c977b" binding="panelRecursos" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="10" vgap="-1">
                     <margin top="10" left="5" bottom="0" right="0"/>
                     <constraints>
                       <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none">
-                      <title-color color="-3025959"/>
-                    </border>
+                    <border type="none"/>
                     <children>
-                      <grid id="4f1c3" binding="panelLabs" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
+                      <grid id="a1123" binding="panelSeleccionCategoria" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="8" vgap="5">
+                        <margin top="5" left="5" bottom="5" right="5"/>
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
-                        <border type="none"/>
+                        <border type="etched"/>
                         <children>
-                          <component id="4fd1f" class="javax.swing.JTextField" binding="textFieldLabCant">
+                          <component id="a1124" class="javax.swing.JLabel" binding="labelCategoria">
                             <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Categoría"/>
+                            </properties>
+                          </component>
+                          <component id="a1125" class="javax.swing.JComboBox" binding="comboBoxCategoria">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="4" anchor="8" fill="1" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="-1"/>
                               </grid>
                             </constraints>
-                            <properties>
-                              <text value=""/>
-                            </properties>
+                            <properties/>
                           </component>
-                          <component id="f6963" class="javax.swing.JCheckBox" binding="laboratorioCheckBox" default-binding="true">
+                          <component id="a1126" class="javax.swing.JLabel" binding="labelCantidad">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <text value="Laboratorio"/>
+                              <text value="Cantidad"/>
+                            </properties>
+                          </component>
+                          <component id="a1127" class="javax.swing.JSpinner" binding="spinnerCantidad">
+                            <constraints>
+                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="4" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <component id="a1128" class="javax.swing.JButton" binding="buttonAgregarRecurso">
+                            <constraints>
+                              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Agregar recurso"/>
                             </properties>
                           </component>
                         </children>
                       </grid>
-                      <grid id="2342d" binding="PanelPC" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
+                      <grid id="b2233" binding="panelRecursosSeleccionados" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="8" vgap="5">
+                        <margin top="5" left="5" bottom="5" right="5"/>
                         <constraints>
                           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
-                        <border type="none"/>
+                        <border type="etched"/>
                         <children>
-                          <component id="2b4d8" class="javax.swing.JTextField" binding="textFieldCompCant">
+                          <component id="b2234" class="javax.swing.JLabel" binding="labelRecursosSeleccionados">
                             <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
-                            </constraints>
-                            <properties/>
-                          </component>
-                          <component id="29daf" class="javax.swing.JCheckBox" binding="computadorasCheckBox" default-binding="true">
-                            <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <text value="Computadoras"/>
+                              <text value="Recursos seleccionados"/>
                             </properties>
                           </component>
-                        </children>
-                      </grid>
-                      <grid id="f50f" binding="panelProyector" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                        <margin top="0" left="0" bottom="0" right="0"/>
-                        <constraints>
-                          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                        <border type="none"/>
-                        <children>
-                          <component id="46d9b" class="javax.swing.JTextField" binding="textFieldProyCant">
+                          <scrollpane id="b2235" binding="scrollRecursos">
                             <constraints>
-                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                                <preferred-size width="150" height="-1"/>
-                              </grid>
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties/>
-                          </component>
-                          <component id="a5e05" class="javax.swing.JCheckBox" binding="proyectoresCheckBox" default-binding="true">
+                            <border type="none"/>
+                            <children>
+                              <component id="b2236" class="javax.swing.JList" binding="listRecursos">
+                                <constraints/>
+                                <properties/>
+                              </component>
+                            </children>
+                          </scrollpane>
+                          <component id="b2237" class="javax.swing.JButton" binding="buttonEliminarRecurso">
                             <constraints>
-                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <text value="Proyectores"/>
+                              <text value="Eliminar"/>
                             </properties>
                           </component>
                         </children>
                       </grid>
                     </children>
                   </grid>
-                  <grid id="91fc5" binding="panelTable" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="91fc5" binding="panelTable" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="20" left="20" bottom="0" right="20"/>
                     <constraints>
                       <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -279,23 +283,22 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="3304a" class="javax.swing.JTable" binding="tableReseravas">
+                      <scrollpane id="d0c70" binding="scrollTabla">
                         <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                            <preferred-size width="150" height="50"/>
-                          </grid>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
-                      </component>
-                      <component id="d0c70" class="javax.swing.JScrollBar" binding="scrollBar1" default-binding="true">
-                        <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="0" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties/>
-                      </component>
+                        <border type="none"/>
+                        <children>
+                          <component id="3304a" class="javax.swing.JTable" binding="tableReseravas">
+                            <constraints/>
+                            <properties/>
+                          </component>
+                        </children>
+                      </scrollpane>
                     </children>
                   </grid>
-                  <component id="3fa16" class="javax.swing.JLabel">
+                  <component id="3fa16" class="javax.swing.JLabel" binding="labelHistorial">
                     <constraints>
                       <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
@@ -303,6 +306,11 @@
                       <text value="Historial de reservas"/>
                     </properties>
                   </component>
+                  <vspacer id="60681">
+                    <constraints>
+                      <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </vspacer>
                 </children>
               </grid>
               <grid id="b9e1e" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -313,14 +321,6 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="a1eec" class="javax.swing.JButton" binding="buttonAceptar">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="✅ "/>
-                    </properties>
-                  </component>
                   <hspacer id="36eef">
                     <constraints>
                       <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -332,6 +332,14 @@
                     </constraints>
                     <properties>
                       <text value="❌"/>
+                    </properties>
+                  </component>
+                  <component id="a1eec" class="javax.swing.JButton" binding="buttonAceptar">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <text value="✅ "/>
                     </properties>
                   </component>
                 </children>
