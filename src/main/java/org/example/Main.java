@@ -1,9 +1,6 @@
 package org.example;
 
-import Views.Login.LoginView;
-import javax.swing.*;
-import java.awt.BorderLayout;
-import Service.GestorCategorias;
+import Login.LoginView.LoginView;
 
 public class Main {
     public static void main(String[] args) {

@@ -5,8 +5,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import Models.User;
-import Models.Rol;
+import Recursos.User;
+import Recursos.Rol;
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -105,8 +105,8 @@ public class UserXMLDao {
                     && usuario.getVarId().toLowerCase(Locale.ROOT).startsWith(idFiltro);
             boolean coincideNombre = !nombreFiltro.isEmpty()
                     && usuario.getVarNombre().toLowerCase(Locale.ROOT).startsWith(nombreFiltro);
-            if ((idFiltro.isEmpty() && nombreFiltro.isEmpty())
-                    || coincideId || coincideNombre) {
+            if ((idFiltro.isEmpty() || coincideId)
+                    && (nombreFiltro.isEmpty() || coincideNombre)) {
                 resultado.add(usuario);
             }
         }

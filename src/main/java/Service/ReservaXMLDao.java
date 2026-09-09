@@ -1,9 +1,9 @@
 package Service;
 
-import Models.Recurso;
-import Models.Reserva;
-import Models.User;
-import Models.Rol;
+import Recursos.Recurso;
+import Recursos.Reserva;
+import Recursos.User;
+import Recursos.Rol;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

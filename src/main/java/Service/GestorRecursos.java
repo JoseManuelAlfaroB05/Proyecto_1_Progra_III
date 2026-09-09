@@ -1,7 +1,7 @@
 package Service;
 
-import Models.CategoriaRecurso;
-import Models.Recurso;
+import Recursos.CategoriaRecurso;
+import Recursos.Recurso;
 
 import java.util.ArrayList;
 

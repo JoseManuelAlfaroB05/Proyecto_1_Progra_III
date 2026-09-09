@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import Models.CategoriaRecurso;
-import Models.Recurso;
-import Models.Reserva;
-import Models.SolicitudRecurso;
-import Models.User;
+import Recursos.CategoriaRecurso;
+import Recursos.Recurso;
+import Recursos.Reserva;
+import Recursos.SolicitudRecurso;
+import Recursos.User;
 
 public class GestorReservas {
 
