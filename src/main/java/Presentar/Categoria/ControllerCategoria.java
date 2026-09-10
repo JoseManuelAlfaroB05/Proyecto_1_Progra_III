@@ -1,7 +1,7 @@
 package Presentar.Categoria;
 
 import Service.GestorCategorias;
-
+import Recursos.CategoriaRecurso;
 public class ControllerCategoria {
     private GestorCategorias gestorCategorias;
     private ModelCategoria model;
@@ -28,4 +28,13 @@ public class ControllerCategoria {
                 model.getDescripcion()
         );
     }
+    public CategoriaRecurso buscarCategoria(String descripcion) {
+        return gestorCategorias.buscarPorDescripcion(descripcion);
+    }
+
+    public boolean eliminarCategoria(String id) {
+        return gestorCategorias.eliminarCategoria(id);
+    }
+
+
 }

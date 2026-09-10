@@ -32,6 +32,18 @@ public class GestorCategorias {
         return null;
     }
 
+    public CategoriaRecurso buscarPorDescripcion(String descripcion) {
+
+        for (CategoriaRecurso categoria : categorias) {
+
+            if (categoria.getDescripcion().equalsIgnoreCase(descripcion)) {
+                return categoria;
+            }
+        }
+
+        return null;
+    }
+
     public boolean existeId(String id) {
 
         return buscarPorId(id) != null;
@@ -69,5 +81,21 @@ public class GestorCategorias {
         categorias.add(categoria);
 
         return true;
+    }
+
+    public boolean eliminarCategoria(String id) {
+
+        boolean eliminado =
+                categoriaXMLDao.eliminarCategoria(id);
+
+        if (eliminado) {
+
+            categorias =
+                    categoriaXMLDao.listarTodas();
+
+            return true;
+        }
+
+        return false;
     }
 }
