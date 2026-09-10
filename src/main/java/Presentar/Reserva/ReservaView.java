@@ -1,4 +1,4 @@
-package Reserva;
+package Presentar.Reserva;
 
 import Recursos.CategoriaRecurso;
 import Recursos.Reserva;
@@ -188,7 +188,7 @@ public class ReservaView extends JPanel {
 
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
-                            "Reserva creada correctamente.",
+                            "Presentar.Reserva creada correctamente.",
                             "Reserva",
                             JOptionPane.INFORMATION_MESSAGE
                     );

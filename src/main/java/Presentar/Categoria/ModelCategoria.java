@@ -1,4 +1,4 @@
-package Categoria;
+package Presentar.Categoria;
 
 public class ModelCategoria {
     private String id;

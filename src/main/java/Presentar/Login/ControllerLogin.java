@@ -1,9 +1,9 @@
-package Login;
+package Presentar.Login;
 
 import Recursos.User;
 import Service.UserXMLDao;
-import Login.LoginView.ChangePassView;
-import MainViews.MainView;
+import Presentar.Login.LoginView.ChangePassView;
+import Presentar.MainViews.MainView;
 
 public class ControllerLogin {
 

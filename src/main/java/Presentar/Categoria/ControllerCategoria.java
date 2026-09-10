@@ -1,4 +1,4 @@
-package Categoria;
+package Presentar.Categoria;
 
 import Service.GestorCategorias;
 

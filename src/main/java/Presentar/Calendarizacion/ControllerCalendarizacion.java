@@ -1,4 +1,4 @@
-package Calendarizacion;
+package Presentar.Calendarizacion;
 
 import Recursos.CategoriaRecurso;
 import Recursos.Reserva;

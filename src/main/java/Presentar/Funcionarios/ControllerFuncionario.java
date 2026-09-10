@@ -1,6 +1,5 @@
-package Funcionarios;
+package Presentar.Funcionarios;
 
-import Funcionarios.ModelFuncionario;
 import Recursos.Rol;
 import Recursos.User;
 import Service.UserXMLDao;

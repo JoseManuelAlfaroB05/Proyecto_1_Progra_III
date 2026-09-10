@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <usuarios>
-                                                            
+                                                                
+    
     
     
     
@@ -15,7 +16,8 @@
     
     
     <usuario>
-                                                                                                                        
+                                                                                                                                
+        
         
         
         
@@ -30,7 +32,8 @@
         
         
         <id>admin</id>
-                                                                                                                        
+                                                                                                                                
+        
         
         
         
@@ -45,7 +48,8 @@
         
         
         <clave>1234</clave>
-                                                                                                                        
+                                                                                                                                
+        
         
         
         
@@ -60,7 +64,8 @@
         
         
         <rol>ADMINISTRADOR</rol>
-                                                                                                                    
+                                                                                                                            
+    
     
     
     
@@ -75,7 +80,7 @@
     
     
     </usuario>
-                                                        
+                                                            
     
 
 
@@ -108,4 +113,12 @@
     
 
 
+
+    <usuario>
+        <id>fun-000</id>
+        <clave>fun-000</clave>
+        <rol>FUNCIONARIO</rol>
+        <nombre>Andres</nombre>
+        <telefono>77777777</telefono>
+    </usuario>
 </usuarios>

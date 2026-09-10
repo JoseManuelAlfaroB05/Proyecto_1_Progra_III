@@ -1,10 +1,10 @@
-package MainViews;
+package Presentar.MainViews;
 
 import Recursos.User;
-import Calendarizacion.CalendarizacionView;
-import Funcionarios.FuncionariosView;
-import Reserva.ReservaView;
-import Categoria.CategoriaView;
+import Presentar.Calendarizacion.CalendarizacionView;
+import Presentar.Funcionarios.FuncionariosView;
+import Presentar.Reserva.ReservaView;
+import Presentar.Categoria.CategoriaView;
 import javax.swing.*;
 import java.awt.*;
 
@@ -25,7 +25,7 @@ public class MainView extends JFrame {
 
         this.usuarioLogueado = usuarioLogueado;
 
-        setTitle("Sistema de Reserva de Recursos - Usuario logueado: "
+        setTitle("Sistema de Presentar.Reserva de Recursos - Usuario logueado: "
                 + usuarioLogueado.getVarId());
 
         setContentPane(principalPanel);
