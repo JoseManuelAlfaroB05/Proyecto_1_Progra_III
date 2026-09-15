@@ -1,21 +1,20 @@
 package Presentar.Categoria;
 
+import Recursos.CategoriaRecurso;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.table.DefaultTableModel;
-import Recursos.CategoriaRecurso;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class CategoriaView extends JPanel {
-
+public class CategoriaView extends JPanel implements PropertyChangeListener {
     private JPanel PrincipalPanel;
     private JPanel panelBusqueda;
     private JLabel labelBusqueda;
     private JTextField textFieldBusqueda;
     private JButton buttonBuscar;
     private JButton buttonPDF;
-
     private JPanel panelDatosCategoria;
     private JPanel panelBotonesCategoria;
     private JPanel panelCategoria;
@@ -27,91 +26,66 @@ public class CategoriaView extends JPanel {
     private JButton buttonAceptar;
     private JButton buttonBorrar;
     private JButton buttonLimpiar;
-
     private JPanel panelTabla;
     private JLabel labelTabla;
     private JTable tableCategorias;
     private JScrollPane scrollTabla;
-
     private ControllerCategoria controller;
+    private ModelCategoria model;
 
     public CategoriaView() {
-
         controller = new ControllerCategoria();
+        model = controller.getModel();
+        model.addPropertyChangeListener(this);
 
         setLayout(new BorderLayout());
         add(PrincipalPanel, BorderLayout.CENTER);
 
-        cargarTabla();
-
-        // Botón limpiar
         buttonLimpiar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarCampos();
+                controller.limpiar();
+                textFieldBusqueda.setText("");
+                tableCategorias.clearSelection();
             }
         });
 
-        // Botón buscar
         buttonBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String descripcion = textFieldBusqueda.getText().trim();
 
-                // Si el campo está vacío, mostrar todas las categorías
                 if (descripcion.isEmpty()) {
+                    controller.limpiar();
+                    return;
+                }
 
-                    cargarTabla();
+                CategoriaRecurso categoria = controller.buscarCategoria(descripcion);
 
-                    textFieldId.setText("");
-                    textFieldDescripcion.setText("");
-
-                } else {
-
-                    CategoriaRecurso categoria =
-                            controller.buscarCategoria(descripcion);
-
-                    // Si encontró la categoría
-                    if (categoria != null) {
-
-                        textFieldId.setText(categoria.getVarId());
-                        textFieldDescripcion.setText(categoria.getDescripcion());
-
-                        mostrarCategoria(categoria);
-
-                    } else {
-
-                        mostrarTablaVacia();
-
-                        textFieldId.setText("");
-                        textFieldDescripcion.setText("");
-
-                        JOptionPane.showMessageDialog(
-                                CategoriaView.this,
-                                "No se encontró ninguna categoría con esa descripción.",
-                                "Búsqueda",
-                                JOptionPane.INFORMATION_MESSAGE
-                        );
-                    }
+                if (categoria == null) {
+                    controller.limpiar();
+                    JOptionPane.showMessageDialog(
+                            CategoriaView.this,
+                            "No se encontró ninguna categoría con esa descripción.",
+                            "Búsqueda",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                 }
             }
         });
+
         buttonBorrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String id = textFieldId.getText().trim();
 
                 if (id.isEmpty()) {
-
                     JOptionPane.showMessageDialog(
                             CategoriaView.this,
                             "Debe seleccionar una categoría para eliminar.",
                             "Eliminar categoría",
                             JOptionPane.WARNING_MESSAGE
                     );
-
                     return;
                 }
 
@@ -123,22 +97,18 @@ public class CategoriaView extends JPanel {
                 );
 
                 if (respuesta == JOptionPane.YES_OPTION) {
-
                     boolean eliminado = controller.eliminarCategoria(id);
 
                     if (eliminado) {
-
                         JOptionPane.showMessageDialog(
                                 CategoriaView.this,
                                 "Categoría eliminada correctamente.",
                                 "Eliminar categoría",
                                 JOptionPane.INFORMATION_MESSAGE
                         );
-
-                        limpiarCampos();
-
+                        controller.limpiar();
+                        textFieldBusqueda.setText("");
                     } else {
-
                         JOptionPane.showMessageDialog(
                                 CategoriaView.this,
                                 "No se pudo eliminar la categoría.",
@@ -149,6 +119,7 @@ public class CategoriaView extends JPanel {
                 }
             }
         });
+
         buttonAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -156,103 +127,54 @@ public class CategoriaView extends JPanel {
                 String descripcion = textFieldDescripcion.getText().trim();
 
                 if (id.isEmpty() || descripcion.isEmpty()) {
-
                     JOptionPane.showMessageDialog(
                             CategoriaView.this,
                             "Debe completar todos los campos.",
                             "Agregar categoría",
                             JOptionPane.WARNING_MESSAGE
                     );
-
                     return;
                 }
 
-                boolean agregada =
-                        controller.agregarCategoria(id, descripcion);
+                boolean agregada = controller.agregarCategoria(id, descripcion);
 
                 if (agregada) {
-
                     JOptionPane.showMessageDialog(
                             CategoriaView.this,
                             "Categoría agregada correctamente.",
                             "Agregar categoría",
                             JOptionPane.INFORMATION_MESSAGE
                     );
-
-                    limpiarCampos();
-
+                    controller.limpiar();
+                    textFieldBusqueda.setText("");
                 } else {
-
                     JOptionPane.showMessageDialog(
                             CategoriaView.this,
-                            "No se pudo agregar la categoría.\n" +
-                                    "Verifique que el ID no esté repetido.",
+                            "No se pudo agregar la categoría.\nVerifique que el ID no esté repetido.",
                             "Error",
                             JOptionPane.ERROR_MESSAGE
                     );
                 }
-
             }
         });
     }
 
-    private void limpiarCampos() {
-
-        textFieldBusqueda.setText("");
-        textFieldId.setText("");
-        textFieldDescripcion.setText("");
-
-        tableCategorias.clearSelection();
-
-        // Mostrar nuevamente todas las categorías
-        cargarTabla();
-    }
-
-    private void cargarTabla() {
-
-        String[] columnas = {"ID", "Descripción"};
-
-        DefaultTableModel modelo =
-                new DefaultTableModel(columnas, 0);
-
-        for (CategoriaRecurso categoria :
-                controller.getGestorCategorias().getCategorias()) {
-
-            Object[] fila = {
-                    categoria.getVarId(),
-                    categoria.getDescripcion()
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(ModelCategoria.LIST)) {
+            int[] cols = {
+                    TableModelCategoria.ID,
+                    TableModelCategoria.DESCRIPCION
             };
-
-            modelo.addRow(fila);
+            tableCategorias.setModel(
+                    new TableModelCategoria(cols, model.getList())
+            );
         }
 
-        tableCategorias.setModel(modelo);
-    }
-
-    private void mostrarCategoria(CategoriaRecurso categoria) {
-
-        String[] columnas = {"ID", "Descripción"};
-
-        DefaultTableModel modelo =
-                new DefaultTableModel(columnas, 0);
-
-        Object[] fila = {
-                categoria.getVarId(),
-                categoria.getDescripcion()
-        };
-
-        modelo.addRow(fila);
-
-        tableCategorias.setModel(modelo);
-    }
-
-    private void mostrarTablaVacia() {
-
-        String[] columnas = {"ID", "Descripción"};
-
-        DefaultTableModel modelo =
-                new DefaultTableModel(columnas, 0);
-
-        tableCategorias.setModel(modelo);
+        if (evt.getPropertyName().equals(ModelCategoria.CURRENT)) {
+            CategoriaRecurso categoria = model.getCurrent();
+            textFieldId.setText(categoria.getVarId());
+            textFieldDescripcion.setText(categoria.getDescripcion());
+        }
     }
 }

@@ -2,6 +2,8 @@ package Presentar.Categoria;
 
 import Service.GestorCategorias;
 import Recursos.CategoriaRecurso;
+import java.util.List;
+
 public class ControllerCategoria {
     private GestorCategorias gestorCategorias;
     private ModelCategoria model;
@@ -9,6 +11,7 @@ public class ControllerCategoria {
     public ControllerCategoria() {
         gestorCategorias = new GestorCategorias();
         model = new ModelCategoria();
+        cargarCategorias();
     }
 
     public GestorCategorias getGestorCategorias() {
@@ -19,22 +22,38 @@ public class ControllerCategoria {
         return model;
     }
 
-    public boolean agregarCategoria(String id, String descripcion) {
-        model.setId(id);
-        model.setDescripcion(descripcion);
-
-        return gestorCategorias.agregarCategoria(
-                model.getId(),
-                model.getDescripcion()
-        );
+    private void cargarCategorias() {
+        List<CategoriaRecurso> categorias = gestorCategorias.getCategorias();
+        model.setList(categorias);
     }
+
+    public boolean agregarCategoria(String id, String descripcion) {
+        boolean resultado = gestorCategorias.agregarCategoria(id, descripcion);
+        if (resultado) {
+            model.setCurrent(new CategoriaRecurso(id, descripcion));
+            cargarCategorias();
+        }
+        return resultado;
+    }
+
     public CategoriaRecurso buscarCategoria(String descripcion) {
-        return gestorCategorias.buscarPorDescripcion(descripcion);
+        CategoriaRecurso categoria = gestorCategorias.buscarPorDescripcion(descripcion);
+        if (categoria != null) {
+            model.setCurrent(categoria);
+        }
+        return categoria;
     }
 
     public boolean eliminarCategoria(String id) {
-        return gestorCategorias.eliminarCategoria(id);
+        boolean resultado = gestorCategorias.eliminarCategoria(id);
+        if (resultado) {
+            model.setCurrent(new CategoriaRecurso("", ""));
+            cargarCategorias();
+        }
+        return resultado;
     }
 
-
+    public void limpiar() {
+        model.setCurrent(new CategoriaRecurso("", ""));
+    }
 }

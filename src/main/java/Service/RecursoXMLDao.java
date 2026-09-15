@@ -1,113 +1,108 @@
 package Service;
 
-import Recursos.CategoriaRecurso;
 import Recursos.Recurso;
-import org.w3c.dom.*;
+import Recursos.Recursos;
+import Recursos.CategoriaRecurso;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
+
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecursoXMLDao {
 
-    private final String rutaArchivo = "data/recursos.xml";
-
-    private final CategoriaXMLDao categoriaXMLDao;
+    private final String ruta = "data/recursos.xml";
+    private final GestorCategorias gestorCategorias;
 
     public RecursoXMLDao() {
-        categoriaXMLDao = new CategoriaXMLDao();
+        gestorCategorias = new GestorCategorias();
     }
 
-    public List<Recurso> listarTodos() {
-
-        List<Recurso> recursos = new ArrayList<>();
-
+    public ArrayList<Recurso> listarTodos() {
         try {
-
-            File archivo = new File(rutaArchivo);
+            File archivo = new File(ruta);
 
             if (!archivo.exists()) {
-                return recursos;
+                return new ArrayList<>();
             }
 
-            DocumentBuilderFactory factory =
-                    DocumentBuilderFactory.newInstance();
+            JAXBContext context = JAXBContext.newInstance(Recursos.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            DocumentBuilder builder =
-                    factory.newDocumentBuilder();
+            Recursos recursos = (Recursos) unmarshaller.unmarshal(archivo);
 
-            Document doc =
-                    builder.parse(archivo);
+            ArrayList<Recurso> resultado = recursos.getRecursos();
 
-            doc.getDocumentElement().normalize();
-
-            ArrayList<CategoriaRecurso> categorias =
-                    categoriaXMLDao.listarTodas();
-
-            NodeList listaNodos =
-                    doc.getElementsByTagName("recurso");
-
-            for (int i = 0; i < listaNodos.getLength(); i++) {
-
-                Element elemento =
-                        (Element) listaNodos.item(i);
-
-                String id =
-                        elemento
-                                .getElementsByTagName("id")
-                                .item(0)
-                                .getTextContent();
-
-                String categoriaId =
-                        elemento
-                                .getElementsByTagName("categoria")
-                                .item(0)
-                                .getTextContent();
-
-                String descripcion =
-                        elemento
-                                .getElementsByTagName("descripcion")
-                                .item(0)
-                                .getTextContent();
-
+            for (Recurso recurso : resultado) {
                 CategoriaRecurso categoria =
-                        buscarCategoria(
-                                categorias,
-                                categoriaId
-                        );
+                        gestorCategorias.buscarPorId(recurso.getCategoriaId());
 
-                if (categoria != null) {
-
-                    recursos.add(
-                            new Recurso(
-                                    id,
-                                    categoria,
-                                    descripcion
-                            )
-                    );
-                }
+                recurso.setRecurso(categoria);
             }
+
+            return resultado;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al cargar recursos: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public boolean guardar(Recurso recurso) {
+        try {
+            Recursos recursos = cargarRecursos();
+
+            recursos.agregar(recurso);
+
+            guardarRecursos(recursos);
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error al guardar recurso: " + e.getMessage());
+            return false;
+        }
+    }
+
+    private Recursos cargarRecursos() throws Exception {
+        File archivo = new File(ruta);
+
+        if (!archivo.exists()) {
+            return new Recursos();
+        }
+
+        JAXBContext context = JAXBContext.newInstance(Recursos.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        Recursos recursos = (Recursos) unmarshaller.unmarshal(archivo);
+
+        for (Recurso recurso : recursos.getRecursos()) {
+            CategoriaRecurso categoria =
+                    gestorCategorias.buscarPorId(recurso.getCategoriaId());
+
+            recurso.setRecurso(categoria);
         }
 
         return recursos;
     }
 
-    private CategoriaRecurso buscarCategoria(
-            ArrayList<CategoriaRecurso> categorias,
-            String id) {
+    private void guardarRecursos(Recursos recursos) throws Exception {
+        File archivo = new File(ruta);
 
-        for (CategoriaRecurso categoria : categorias) {
+        File carpeta = archivo.getParentFile();
 
-            if (categoria.getVarId().equals(id)) {
-                return categoria;
-            }
+        if (carpeta != null && !carpeta.exists()) {
+            carpeta.mkdirs();
         }
 
-        return null;
+        JAXBContext context = JAXBContext.newInstance(Recursos.class);
+        Marshaller marshaller = context.createMarshaller();
+
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
+
+        marshaller.marshal(recursos, archivo);
     }
 }

@@ -1,263 +1,118 @@
 package Service;
 
 import Recursos.CategoriaRecurso;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import Recursos.Categorias;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.ArrayList;
 
 public class CategoriaXMLDao {
 
     private final String ruta = "data/categorias.xml";
 
-    public ArrayList<CategoriaRecurso> listarTodas() {
+    public CategoriaXMLDao() {
+        crearCarpeta();
+    }
 
-        ArrayList<CategoriaRecurso> categorias = new ArrayList<>();
-
+    public java.util.ArrayList<CategoriaRecurso> listarTodas() {
         try {
-
             File archivo = new File(ruta);
 
             if (!archivo.exists()) {
-                return categorias;
+                return new java.util.ArrayList<>();
             }
 
-            DocumentBuilderFactory factory =
-                    DocumentBuilderFactory.newInstance();
+            JAXBContext context = JAXBContext.newInstance(Categorias.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            DocumentBuilder builder =
-                    factory.newDocumentBuilder();
+            Categorias categorias = (Categorias) unmarshaller.unmarshal(archivo);
 
-            Document documento =
-                    builder.parse(archivo);
-
-            documento.getDocumentElement().normalize();
-
-            NodeList lista =
-                    documento.getElementsByTagName("categoria");
-
-            for (int i = 0; i < lista.getLength(); i++) {
-
-                Element elemento =
-                        (Element) lista.item(i);
-
-                String id =
-                        elemento
-                                .getElementsByTagName("id")
-                                .item(0)
-                                .getTextContent();
-
-                String descripcion =
-                        elemento
-                                .getElementsByTagName("descripcion")
-                                .item(0)
-                                .getTextContent();
-
-                categorias.add(
-                        new CategoriaRecurso(id, descripcion)
-                );
-            }
+            return categorias.getCategorias();
 
         } catch (Exception e) {
-
-            e.printStackTrace();
+            System.out.println("Error al cargar categorías: " + e.getMessage());
+            return new java.util.ArrayList<>();
         }
-
-        return categorias;
     }
 
     public boolean guardar(CategoriaRecurso categoria) {
-
         try {
+            Categorias categorias = cargarCategorias();
 
-            File archivo = new File(ruta);
-            File carpeta = archivo.getParentFile();
+            categorias.agregar(categoria);
 
-            if (!carpeta.exists()) {
-                carpeta.mkdirs();
-            }
-
-            DocumentBuilderFactory factory =
-                    DocumentBuilderFactory.newInstance();
-
-            DocumentBuilder builder =
-                    factory.newDocumentBuilder();
-
-            Document documento;
-
-            if (archivo.exists() && archivo.length() > 0) {
-
-                documento =
-                        builder.parse(archivo);
-
-            } else {
-
-                documento =
-                        builder.newDocument();
-
-                Element raiz =
-                        documento.createElement("categorias");
-
-                documento.appendChild(raiz);
-            }
-
-            Element raiz =
-                    documento.getDocumentElement();
-
-            Element elementoCategoria =
-                    documento.createElement("categoria");
-
-            Element id =
-                    documento.createElement("id");
-
-            id.setTextContent(
-                    categoria.getVarId()
-            );
-
-            Element descripcion =
-                    documento.createElement("descripcion");
-
-            descripcion.setTextContent(
-                    categoria.getDescripcion()
-            );
-
-            elementoCategoria.appendChild(id);
-            elementoCategoria.appendChild(descripcion);
-
-            raiz.appendChild(elementoCategoria);
-
-            limpiarEspacios(documento);
-
-            guardarDocumento(documento, archivo);
+            guardarCategorias(categorias);
 
             return true;
 
         } catch (Exception e) {
-
-            e.printStackTrace();
-
+            System.out.println("Error al guardar categoría: " + e.getMessage());
             return false;
         }
     }
 
     public boolean eliminarCategoria(String id) {
-
         try {
+            Categorias categorias = cargarCategorias();
 
-            File archivo = new File(ruta);
+            CategoriaRecurso categoriaEliminar = null;
 
-            if (!archivo.exists()) {
-                return false;
-            }
-
-            DocumentBuilderFactory factory =
-                    DocumentBuilderFactory.newInstance();
-
-            DocumentBuilder builder =
-                    factory.newDocumentBuilder();
-
-            Document documento =
-                    builder.parse(archivo);
-
-            documento.getDocumentElement().normalize();
-
-            NodeList lista =
-                    documento.getElementsByTagName("categoria");
-
-            for (int i = 0; i < lista.getLength(); i++) {
-
-                Element elementoCategoria =
-                        (Element) lista.item(i);
-
-                String idCategoria =
-                        elementoCategoria
-                                .getElementsByTagName("id")
-                                .item(0)
-                                .getTextContent();
-
-                if (idCategoria.equals(id)) {
-
-                    elementoCategoria
-                            .getParentNode()
-                            .removeChild(elementoCategoria);
-
-                    limpiarEspacios(documento);
-
-                    guardarDocumento(documento, archivo);
-
-                    return true;
+            for (CategoriaRecurso categoria : categorias.getCategorias()) {
+                if (categoria.getVarId().equals(id)) {
+                    categoriaEliminar = categoria;
+                    break;
                 }
             }
 
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    private void limpiarEspacios(Node nodo) {
-
-        NodeList hijos = nodo.getChildNodes();
-
-        for (int i = hijos.getLength() - 1; i >= 0; i--) {
-
-            Node hijo = hijos.item(i);
-
-            if (hijo.getNodeType() == Node.TEXT_NODE &&
-                    hijo.getTextContent().trim().isEmpty()) {
-
-                nodo.removeChild(hijo);
-
-            } else {
-
-                limpiarEspacios(hijo);
+            if (categoriaEliminar == null) {
+                return false;
             }
+
+            categorias.getCategorias().remove(categoriaEliminar);
+
+            guardarCategorias(categorias);
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println("Error al eliminar categoría: " + e.getMessage());
+            return false;
         }
     }
 
-    private void guardarDocumento(
-            Document documento,
-            File archivo) throws Exception {
+    private Categorias cargarCategorias() throws Exception {
+        File archivo = new File(ruta);
 
-        TransformerFactory transformerFactory =
-                TransformerFactory.newInstance();
+        if (!archivo.exists()) {
+            return new Categorias();
+        }
 
-        Transformer transformer =
-                transformerFactory.newTransformer();
+        JAXBContext context = JAXBContext.newInstance(Categorias.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        transformer.setOutputProperty(
-                OutputKeys.INDENT,
-                "yes"
-        );
+        return (Categorias) unmarshaller.unmarshal(archivo);
+    }
 
-        transformer.setOutputProperty(
-                OutputKeys.ENCODING,
-                "UTF-8"
-        );
+    private void guardarCategorias(Categorias categorias) throws Exception {
+        File archivo = new File(ruta);
 
-        transformer.setOutputProperty(
-                "{http://xml.apache.org/xslt}indent-amount",
-                "2"
-        );
+        JAXBContext context = JAXBContext.newInstance(Categorias.class);
+        Marshaller marshaller = context.createMarshaller();
 
-        DOMSource source =
-                new DOMSource(documento);
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
 
-        StreamResult result =
-                new StreamResult(archivo);
+        marshaller.marshal(categorias, archivo);
+    }
 
-        transformer.transform(source, result);
+    private void crearCarpeta() {
+        File archivo = new File(ruta);
+        File carpeta = archivo.getParentFile();
+
+        if (carpeta != null && !carpeta.exists()) {
+            carpeta.mkdirs();
+        }
     }
 }

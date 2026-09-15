@@ -1,37 +1,45 @@
 package Presentar.Funcionarios;
 
-public class ModelFuncionario {
-    private String id;
-    private String nombre;
-    private String telefono;
+import Presentar.AbstractModel;
+import Recursos.Rol;
+import Recursos.User;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ModelFuncionario extends AbstractModel {
+    private User current;
+    private List<User> list;
+    public static final String CURRENT = "current";
+    public static final String LIST = "list";
 
     public ModelFuncionario() {
-        id = "";
-        nombre = "";
-        telefono = "";
+        current = new User("", "", Rol.FUNCIONARIO, "", "");
+        list = new ArrayList<>();
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        super.addPropertyChangeListener(listener);
+        firePropertyChange(CURRENT);
+        firePropertyChange(LIST);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public User getCurrent() {
+        return current;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void setCurrent(User current) {
+        this.current = current;
+        firePropertyChange(CURRENT);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public List<User> getList() {
+        return list;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setList(List<User> list) {
+        this.list = list;
+        firePropertyChange(LIST);
     }
 }

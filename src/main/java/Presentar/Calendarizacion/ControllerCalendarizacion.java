@@ -9,13 +9,19 @@ import java.util.ArrayList;
 
 public class ControllerCalendarizacion {
     private GestorReservas gestorReservas;
-    private CalendarizacionView view;
     private ModelCalendarizacion model;
 
-    public ControllerCalendarizacion(CalendarizacionView view) {
-        this.view = view;
+    public ControllerCalendarizacion() {
         gestorReservas = new GestorReservas();
         model = new ModelCalendarizacion();
+    }
+
+    public GestorReservas getGestorReservas() {
+        return gestorReservas;
+    }
+
+    public ModelCalendarizacion getModel() {
+        return model;
     }
 
     public void buscarFechaYCategoria(
@@ -32,7 +38,5 @@ public class ControllerCalendarizacion {
                 );
 
         model.setReservas(reservas);
-
-        view.mostrarReservas(model.getReservas());
     }
 }

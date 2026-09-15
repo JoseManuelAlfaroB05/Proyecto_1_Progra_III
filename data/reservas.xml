@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <reservas>
-
     <reserva>
         <id>RES-001</id>
         <usuario>admin</usuario>
@@ -16,7 +15,6 @@
             <recurso>PRO001</recurso>
         </recursos>
     </reserva>
-
     <reserva>
         <id>RES-002</id>
         <usuario>admin</usuario>
@@ -33,7 +31,6 @@
             <recurso>PRO002</recurso>
         </recursos>
     </reserva>
-
     <reserva>
         <id>RES-003</id>
         <usuario>admin</usuario>
@@ -50,7 +47,6 @@
             <recurso>PRO003</recurso>
         </recursos>
     </reserva>
-
     <reserva>
         <id>RES-004</id>
         <usuario>admin</usuario>
@@ -67,7 +63,6 @@
             <recurso>PRO004</recurso>
         </recursos>
     </reserva>
-
     <reserva>
         <id>RES-005</id>
         <usuario>admin</usuario>
@@ -85,5 +80,15 @@
             <recurso>PRO005</recurso>
         </recursos>
     </reserva>
-
+    <reserva>
+        <id>RES-006</id>
+        <usuario>admin</usuario>
+        <actividad>Fiesta</actividad>
+        <fecha>2026-09-30</fecha>
+        <horaInicio>07:30</horaInicio>
+        <horaFin>08:30</horaFin>
+        <recursos>
+            <recurso>LAB001</recurso>
+        </recursos>
+    </reserva>
 </reservas>

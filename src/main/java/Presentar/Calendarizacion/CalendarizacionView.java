@@ -1,20 +1,17 @@
 package Presentar.Calendarizacion;
 
 import Recursos.CategoriaRecurso;
-import Recursos.Reserva;
 import Recursos.Recurso;
 import Service.GestorRecursos;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import javax.swing.table.DefaultTableModel;
 
-public class CalendarizacionView extends JPanel {
+public class CalendarizacionView extends JPanel implements PropertyChangeListener {
 
     private JPanel panelPrincipal;
     private JPanel ContentedPanel;
@@ -29,12 +26,35 @@ public class CalendarizacionView extends JPanel {
     private JScrollBar scrollBar1;
     private JPanel panelTaba;
 
+    private ControllerCalendarizacion controller;
+    private TableModelCalendarizacion tableModelCalendarizacion;
+
     public CalendarizacionView() {
         setLayout(new BorderLayout());
         add(panelPrincipal, BorderLayout.CENTER);
 
-        ControllerCalendarizacion controller =
-                new ControllerCalendarizacion(this);
+        controller = new ControllerCalendarizacion();
+
+        controller.getModel().addPropertyChangeListener(this);
+
+        tableModelCalendarizacion =
+                new TableModelCalendarizacion(
+                        controller.getModel().getReservas()
+                );
+
+        table1.setModel(tableModelCalendarizacion);
+
+        cargarCategorias();
+
+        buttonOK.addActionListener(e -> {
+            controller.buscarFechaYCategoria(
+                    getFecha(),
+                    getCategoria()
+            );
+        });
+    }
+
+    private void cargarCategorias() {
 
         GestorRecursos gestorRecursos = new GestorRecursos();
 
@@ -49,7 +69,9 @@ public class CalendarizacionView extends JPanel {
                 CategoriaRecurso categoriaExistente =
                         (CategoriaRecurso) comboBox1.getItemAt(i);
 
-                if (categoriaExistente.getVarId().equals(categoria.getVarId())) {
+                if (categoriaExistente.getVarId()
+                        .equals(categoria.getVarId())) {
+
                     existe = true;
                     break;
                 }
@@ -59,16 +81,6 @@ public class CalendarizacionView extends JPanel {
                 comboBox1.addItem(categoria);
             }
         }
-
-        buttonOK.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.buscarFechaYCategoria(
-                        getFecha(),
-                        getCategoria()
-                );
-            }
-        });
     }
 
     public LocalDate getFecha() {
@@ -79,35 +91,14 @@ public class CalendarizacionView extends JPanel {
         return (CategoriaRecurso) comboBox1.getSelectedItem();
     }
 
-    public void mostrarReservas(ArrayList<Reserva> reservas) {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
 
-        System.out.println("Reservas encontradas: " + reservas.size());
+        if (evt.getPropertyName().equals("reservas")) {
 
-        DefaultTableModel modelo = new DefaultTableModel();
-
-        modelo.addColumn("Hora inicio");
-        modelo.addColumn("Hora fin");
-        modelo.addColumn("Actividad");
-        modelo.addColumn("Usuario");
-        modelo.addColumn("Recurso");
-
-        for (Reserva reserva : reservas) {
-
-            String recursos = "";
-
-            for (Recurso recurso : reserva.getRecursos()) {
-                recursos += recurso.getDescripcion() + " ";
-            }
-
-            modelo.addRow(new Object[]{
-                    reserva.getHoraInicio(),
-                    reserva.getHoraFin(),
-                    reserva.getActividad(),
-                    reserva.getUsuario().getVarId(),
-                    recursos
-            });
+            tableModelCalendarizacion.setReservas(
+                    controller.getModel().getReservas()
+            );
         }
-
-        table1.setModel(modelo);
     }
 }

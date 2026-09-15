@@ -1,11 +1,29 @@
 package Recursos;
 
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class User {
+
+    @XmlElement(name = "id")
     private String varId;
+
+    @XmlElement(name = "clave")
     private String varClave;
+
+    @XmlElement(name = "rol")
     private Rol varRol;
+
+    @XmlElement(name = "nombre")
     private String varNombre;
+
+    @XmlElement(name = "telefono")
     private String varTelefono;
+
+    public User() {
+    }
 
     public User(String id, String clave, Rol rol) {
         this(id, clave, rol, "", "");

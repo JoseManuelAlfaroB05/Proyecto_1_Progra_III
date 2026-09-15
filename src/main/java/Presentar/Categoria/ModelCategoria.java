@@ -1,27 +1,56 @@
 package Presentar.Categoria;
 
-public class ModelCategoria {
-    private String id;
-    private String descripcion;
+import Recursos.CategoriaRecurso;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ModelCategoria extends Presentar.AbstractModel {
+    private CategoriaRecurso current;
+    private List<CategoriaRecurso> list;
+    public static final String CURRENT = "current";
+    public static final String LIST = "list";
 
     public ModelCategoria() {
-        id = "";
-        descripcion = "";
+        current = new CategoriaRecurso("", "");
+        list = new ArrayList<>();
+    }
+
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        super.addPropertyChangeListener(listener);
+        firePropertyChange(CURRENT);
+        firePropertyChange(LIST);
+    }
+
+    public CategoriaRecurso getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(CategoriaRecurso current) {
+        this.current = current;
+        firePropertyChange(CURRENT);
+    }
+
+    public List<CategoriaRecurso> getList() {
+        return list;
+    }
+
+    public void setList(List<CategoriaRecurso> list) {
+        this.list = list;
+        firePropertyChange(LIST);
     }
 
     public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        return current.getVarId();
     }
 
     public String getDescripcion() {
-        return descripcion;
+        return current.getDescripcion();
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        current.setDescripcion(descripcion);
+        firePropertyChange(CURRENT);
     }
 }

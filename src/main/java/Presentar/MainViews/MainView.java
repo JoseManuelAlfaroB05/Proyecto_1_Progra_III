@@ -32,7 +32,7 @@ public class MainView extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setSize(1000, 700);
+        setSize(1920, 1080);
         setLocationRelativeTo(null);
 
         cargarVistas();

@@ -1,16 +1,19 @@
 package Presentar.Calendarizacion;
 
+import Presentar.AbstractModel;
 import Recursos.CategoriaRecurso;
 import Recursos.Reserva;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class ModelCalendarizacion {
+public class ModelCalendarizacion extends AbstractModel {
     private LocalDate fecha;
     private CategoriaRecurso categoria;
     private ArrayList<Reserva> reservas;
 
     public ModelCalendarizacion() {
+        super();
         reservas = new ArrayList<>();
     }
 
@@ -20,6 +23,7 @@ public class ModelCalendarizacion {
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
+        firePropertyChange("fecha");
     }
 
     public CategoriaRecurso getCategoria() {
@@ -28,6 +32,7 @@ public class ModelCalendarizacion {
 
     public void setCategoria(CategoriaRecurso categoria) {
         this.categoria = categoria;
+        firePropertyChange("categoria");
     }
 
     public ArrayList<Reserva> getReservas() {
@@ -36,5 +41,6 @@ public class ModelCalendarizacion {
 
     public void setReservas(ArrayList<Reserva> reservas) {
         this.reservas = reservas;
+        firePropertyChange("reservas");
     }
 }

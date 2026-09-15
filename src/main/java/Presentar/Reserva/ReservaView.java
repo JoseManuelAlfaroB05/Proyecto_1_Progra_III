@@ -8,15 +8,16 @@ import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class ReservaView extends JPanel {
+public class ReservaView extends JPanel implements PropertyChangeListener {
 
     private JPanel PrincipalPanel;
     private JPanel contetPanel;
@@ -70,12 +71,14 @@ public class ReservaView extends JPanel {
 
     private JButton buttonAceptar;
     private JButton buttonRechazar;
+    private JButton crearReservaButton;
 
     private User usuarioLogueado;
     private ControllerReserva controller;
 
     private ArrayList<SolicitudRecurso> solicitudes;
     private DefaultListModel<String> modeloRecursos;
+    private TableModelReserva tableModelReserva;
 
     public ReservaView(User usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
@@ -83,6 +86,8 @@ public class ReservaView extends JPanel {
 
         this.solicitudes = new ArrayList<>();
         this.modeloRecursos = new DefaultListModel<>();
+
+        controller.getModel().addPropertyChangeListener(this);
 
         setLayout(new BorderLayout());
         add(PrincipalPanel, BorderLayout.CENTER);
@@ -183,12 +188,11 @@ public class ReservaView extends JPanel {
                 );
 
                 if (resultado) {
-                    cargarTabla();
                     limpiarCampos();
 
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
-                            "Presentar.Reserva creada correctamente.",
+                            "Reserva creada correctamente.",
                             "Reserva",
                             JOptionPane.INFORMATION_MESSAGE
                     );
@@ -276,6 +280,8 @@ public class ReservaView extends JPanel {
     }
 
     private void limpiarCampos() {
+        controller.limpiarModel();
+
         textFieldReservaAutomatica.setText("");
         textFieldActividad.setText("");
 
@@ -295,31 +301,36 @@ public class ReservaView extends JPanel {
     }
 
     private void cargarTabla() {
-        String[] columnas = {
-                "ID",
-                "Actividad",
-                "Fecha",
-                "Hora Inicio",
-                "Hora Fin"
-        };
+        tableModelReserva =
+                new TableModelReserva(
+                        controller.getGestorReservas().getReservas()
+                );
 
-        DefaultTableModel modelo =
-                new DefaultTableModel(columnas, 0);
+        tableReseravas.setModel(tableModelReserva);
+    }
 
-        for (Reserva reserva :
-                controller.getGestorReservas().getReservas()) {
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
 
-            Object[] fila = {
-                    reserva.getId(),
-                    reserva.getActividad(),
-                    reserva.getFecha(),
-                    reserva.getHoraInicio(),
-                    reserva.getHoraFin()
-            };
+        if (evt.getPropertyName().equals("solicitudes")) {
+            modeloRecursos.clear();
 
-            modelo.addRow(fila);
+            for (SolicitudRecurso solicitud :
+                    controller.getModel().getSolicitudes()) {
+
+                modeloRecursos.addElement(
+                        solicitud.getCategoria().getDescripcion()
+                                + " x"
+                                + solicitud.getCantidad()
+                );
+            }
+
+            listRecursos.setModel(modeloRecursos);
         }
 
-        tableReseravas.setModel(modelo);
+        if (evt.getPropertyName().equals("limpiar")) {
+            modeloRecursos.clear();
+            listRecursos.setModel(modeloRecursos);
+        }
     }
 }
