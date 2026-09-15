@@ -43,6 +43,10 @@ public class GestorReservas {
         return gestorCategorias;
     }
 
+    public void recargarReservas() {
+        reservas = reservaXMLDao.cargar();
+    }
+
     public void agregarReserva(Reserva reserva) {
 
         reservas.add(reserva);
@@ -59,6 +63,8 @@ public class GestorReservas {
                     .equals(idReserva)) {
 
                 reservas.remove(i);
+
+                reservaXMLDao.eliminar(idReserva);
 
                 return true;
             }

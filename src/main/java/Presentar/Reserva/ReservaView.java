@@ -1,6 +1,7 @@
 package Presentar.Reserva;
 
 import Recursos.CategoriaRecurso;
+import Recursos.Recurso;
 import Recursos.Reserva;
 import Recursos.SolicitudRecurso;
 import Recursos.User;
@@ -115,7 +116,44 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         buttonRechazar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                limpiarCampos();
+
+                int fila = tableReseravas.getSelectedRow();
+
+                if (fila == -1) {
+                    limpiarCampos();
+                    return;
+                }
+
+                Reserva reserva =
+                        tableModelReserva.getReserva(fila);
+
+                int respuesta = JOptionPane.showConfirmDialog(
+                        ReservaView.this,
+                        "¿Está seguro de que desea cancelar esta reserva?",
+                        "Cancelar reserva",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (respuesta == JOptionPane.YES_OPTION) {
+
+                    boolean resultado =
+                            controller.eliminarReserva(
+                                    reserva.getId()
+                            );
+
+                    if (resultado) {
+
+                        cargarTabla();
+                        limpiarCampos();
+
+                        JOptionPane.showMessageDialog(
+                                ReservaView.this,
+                                "Reserva cancelada correctamente.",
+                                "Reserva",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    }
+                }
             }
         });
 
@@ -188,6 +226,7 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                 );
 
                 if (resultado) {
+                    cargarTabla();
                     limpiarCampos();
 
                     JOptionPane.showMessageDialog(
@@ -196,6 +235,22 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                             "Reserva",
                             JOptionPane.INFORMATION_MESSAGE
                     );
+                }
+            }
+        });
+
+        tableReseravas.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                int fila = tableReseravas.getSelectedRow();
+
+                if (fila >= 0) {
+
+                    Reserva reserva =
+                            tableModelReserva.getReserva(fila);
+
+                    cargarReservaSeleccionada(reserva);
                 }
             }
         });
@@ -279,6 +334,78 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         modeloRecursos.remove(indice);
     }
 
+    private void cargarReservaSeleccionada(Reserva reserva) {
+
+        textFieldActividad.setText(
+                reserva.getActividad()
+        );
+
+        datePicker.setDate(
+                reserva.getFecha()
+        );
+
+        timePickerInicio.setTime(
+                reserva.getHoraInicio()
+        );
+
+        timePickerFin.setTime(
+                reserva.getHoraFin()
+        );
+
+        solicitudes.clear();
+        modeloRecursos.clear();
+
+        if (reserva.getRecursos() != null) {
+
+            for (Recurso recurso :
+                    reserva.getRecursos()) {
+
+                CategoriaRecurso categoria =
+                        recurso.getRecurso();
+
+                boolean existe = false;
+
+                for (SolicitudRecurso solicitud :
+                        solicitudes) {
+
+                    if (solicitud.getCategoria()
+                            .getVarId()
+                            .equals(categoria.getVarId())) {
+
+                        solicitud.setCantidad(
+                                solicitud.getCantidad() + 1
+                        );
+
+                        existe = true;
+                        break;
+                    }
+                }
+
+                if (!existe) {
+
+                    solicitudes.add(
+                            new SolicitudRecurso(
+                                    categoria,
+                                    1
+                            )
+                    );
+                }
+            }
+        }
+
+        for (SolicitudRecurso solicitud :
+                solicitudes) {
+
+            modeloRecursos.addElement(
+                    solicitud.getCategoria().getDescripcion()
+                            + " x"
+                            + solicitud.getCantidad()
+            );
+        }
+
+        listRecursos.setModel(modeloRecursos);
+    }
+
     private void limpiarCampos() {
         controller.limpiarModel();
 
@@ -298,9 +425,13 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         if (comboBoxCategoria.getItemCount() > 0) {
             comboBoxCategoria.setSelectedIndex(0);
         }
+
+        tableReseravas.clearSelection();
     }
 
     private void cargarTabla() {
+        controller.recargarReservas();
+
         tableModelReserva =
                 new TableModelReserva(
                         controller.getGestorReservas().getReservas()

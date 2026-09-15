@@ -1,8 +1,7 @@
 package Presentar.Calendarizacion;
 
 import Recursos.CategoriaRecurso;
-import Recursos.Recurso;
-import Service.GestorRecursos;
+import Service.GestorCategorias;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
@@ -56,30 +55,10 @@ public class CalendarizacionView extends JPanel implements PropertyChangeListene
 
     private void cargarCategorias() {
 
-        GestorRecursos gestorRecursos = new GestorRecursos();
+        GestorCategorias gestorCategorias = new GestorCategorias();
 
-        for (Recurso recurso : gestorRecursos.getRecursos()) {
-
-            CategoriaRecurso categoria = recurso.getRecurso();
-
-            boolean existe = false;
-
-            for (int i = 0; i < comboBox1.getItemCount(); i++) {
-
-                CategoriaRecurso categoriaExistente =
-                        (CategoriaRecurso) comboBox1.getItemAt(i);
-
-                if (categoriaExistente.getVarId()
-                        .equals(categoria.getVarId())) {
-
-                    existe = true;
-                    break;
-                }
-            }
-
-            if (!existe) {
-                comboBox1.addItem(categoria);
-            }
+        for (CategoriaRecurso categoria : gestorCategorias.getCategorias()) {
+            comboBox1.addItem(categoria);
         }
     }
 

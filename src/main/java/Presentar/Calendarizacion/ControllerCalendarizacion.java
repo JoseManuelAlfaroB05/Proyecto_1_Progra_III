@@ -31,6 +31,8 @@ public class ControllerCalendarizacion {
         model.setFecha(fecha);
         model.setCategoria(categoriaRecurso);
 
+        gestorReservas.recargarReservas();
+
         ArrayList<Reserva> reservas =
                 gestorReservas.buscarReservasPorFechaYCategoria(
                         model.getFecha(),

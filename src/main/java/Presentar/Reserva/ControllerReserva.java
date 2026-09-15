@@ -68,6 +68,14 @@ public class ControllerReserva {
         );
     }
 
+    public void recargarReservas() {
+        gestorReservas.recargarReservas();
+    }
+
+    public boolean eliminarReserva(String idReserva) {
+        return gestorReservas.eliminarReserva(idReserva);
+    }
+
     public void limpiarModel() {
         model.limpiar();
     }

@@ -61,6 +61,32 @@ public class ReservaXMLDao {
         }
     }
 
+    public boolean eliminar(String idReserva) {
+        try {
+            Reservas reservas = cargarReservas();
+
+            for (int i = 0; i < reservas.getReservas().size(); i++) {
+
+                if (reservas.getReservas().get(i)
+                        .getId()
+                        .equals(idReserva)) {
+
+                    reservas.getReservas().remove(i);
+
+                    guardarReservas(reservas);
+
+                    return true;
+                }
+            }
+
+            return false;
+
+        } catch (Exception e) {
+            System.out.println("Error al eliminar reserva: " + e.getMessage());
+            return false;
+        }
+    }
+
     private Reservas cargarReservas() throws Exception {
         File archivo = new File(ruta);
 
@@ -119,7 +145,10 @@ public class ReservaXMLDao {
             User usuario = null;
 
             for (User user : usuarios) {
-                if (user.getVarId().equals(reserva.getUsuarioId())) {
+
+                if (user.getVarId()
+                        .equals(reserva.getUsuarioId())) {
+
                     usuario = user;
                     break;
                 }
@@ -127,13 +156,17 @@ public class ReservaXMLDao {
 
             reserva.setUsuario(usuario);
 
-            ArrayList<Recurso> recursosReserva = new ArrayList<>();
+            ArrayList<Recurso> recursosReserva =
+                    new ArrayList<>();
 
-            for (String recursoId : reserva.getRecursosIds()) {
+            for (String recursoId :
+                    reserva.getRecursosIds()) {
 
                 for (Recurso recurso : recursos) {
 
-                    if (recurso.getId().equals(recursoId)) {
+                    if (recurso.getId()
+                            .equals(recursoId)) {
+
                         recursosReserva.add(recurso);
                         break;
                     }
@@ -146,7 +179,8 @@ public class ReservaXMLDao {
 
     private void actualizarIds(Reservas reservas) {
 
-        for (Reserva reserva : reservas.getReservas()) {
+        for (Reserva reserva :
+                reservas.getReservas()) {
 
             if (reserva.getUsuario() != null) {
                 reserva.setUsuario(reserva.getUsuario());

@@ -91,4 +91,15 @@
             <recurso>LAB001</recurso>
         </recursos>
     </reserva>
+    <reserva>
+        <id>RES-007</id>
+        <usuario>admin</usuario>
+        <actividad>Computadora</actividad>
+        <fecha>2026-09-29</fecha>
+        <horaInicio>00:00</horaInicio>
+        <horaFin>00:30</horaFin>
+        <recursos>
+            <recurso>PC001</recurso>
+        </recursos>
+    </reserva>
 </reservas>
