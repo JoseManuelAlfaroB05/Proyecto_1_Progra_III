@@ -1,23 +1,19 @@
 package Presentar.Estadisticas;
 
-import Recursos.Recurso;
-import Recursos.Reserva;
-import Service.GestorReservas;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.DayOfWeek;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-public class EstadisticasView extends JPanel {
-    private final GestorReservas gestor = new GestorReservas();
+public class EstadisticasView extends JPanel implements PropertyChangeListener {
+    private final ControllerEstadisticas controller = new ControllerEstadisticas();
+    private final ModelEstadisticas model = controller.getModel();
     private final DatePicker recursosDesde = new DatePicker();
     private final DatePicker recursosHasta = new DatePicker();
     private final DatePicker actividadesDesde = new DatePicker();
@@ -35,6 +31,7 @@ public class EstadisticasView extends JPanel {
         recursosHasta.setDate(hoy);
         actividadesDesde.setDate(hoy.minusDays(30));
         actividadesHasta.setDate(hoy);
+        model.addPropertyChangeListener(this);
         add(crearPanelRecursos());
         add(crearPanelActividades());
         cargarTodo();
@@ -109,47 +106,14 @@ public class EstadisticasView extends JPanel {
         if (!rangoValido(recursosDesde, recursosHasta)) {
             return;
         }
-        Map<String, Integer> conteo = new LinkedHashMap<>();
-        for (Reserva reserva : reservasEnRango(recursosDesde, recursosHasta)) {
-            for (Recurso recurso : reserva.getRecursos()) {
-                String categoria = recurso.getRecurso() == null
-                        ? recurso.getCategoriaId() : recurso.getRecurso().getDescripcion();
-                conteo.put(categoria, conteo.getOrDefault(categoria, 0) + 1);
-            }
-        }
-        DefaultTableModel model = modelo("Categoría", "Cantidad");
-        conteo.forEach((categoria, cantidad) -> model.addRow(new Object[]{categoria, cantidad}));
-        tablaRecursos.setModel(model);
-        graficoRecursos.setDatos(new ArrayList<>(conteo.keySet()), new ArrayList<>(conteo.values()));
+        controller.cargarRecursos(recursosDesde.getDate(), recursosHasta.getDate());
     }
 
     private void cargarActividades() {
         if (!rangoValido(actividadesDesde, actividadesHasta)) {
             return;
         }
-        Map<LocalDate, Integer> conteo = new LinkedHashMap<>();
-        for (Reserva reserva : reservasEnRango(actividadesDesde, actividadesHasta)) {
-            LocalDate semana = reserva.getFecha()
-                    .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-            conteo.put(semana, conteo.getOrDefault(semana, 0) + 1);
-        }
-        DefaultTableModel model = modelo("Semana", "Cantidad");
-        conteo.forEach((semana, cantidad) -> model.addRow(new Object[]{semana, cantidad}));
-        tablaActividades.setModel(model);
-        List<String> etiquetas = conteo.keySet().stream().map(LocalDate::toString).toList();
-        graficoActividades.setDatos(etiquetas, new ArrayList<>(conteo.values()));
-    }
-
-    private List<Reserva> reservasEnRango(DatePicker desde, DatePicker hasta) {
-        List<Reserva> resultado = new ArrayList<>();
-        gestor.recargarReservas();
-        for (Reserva reserva : gestor.getReservas()) {
-            if (!reserva.getFecha().isBefore(desde.getDate())
-                    && !reserva.getFecha().isAfter(hasta.getDate())) {
-                resultado.add(reserva);
-            }
-        }
-        return resultado;
+        controller.cargarActividades(actividadesDesde.getDate(), actividadesHasta.getDate());
     }
 
     private boolean rangoValido(DatePicker desde, DatePicker hasta) {
@@ -171,6 +135,19 @@ public class EstadisticasView extends JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "No fue posible imprimir las estadísticas.",
                     "Estadísticas", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (ModelEstadisticas.RECURSOS.equals(evt.getPropertyName())) {
+            tablaRecursos.setModel(new TableModelEstadisticas(model.getRecursos(), "Categoría"));
+            graficoRecursos.setDatos(new ArrayList<>(model.getRecursos().keySet()),
+                    new ArrayList<>(model.getRecursos().values()));
+        } else if (ModelEstadisticas.ACTIVIDADES.equals(evt.getPropertyName())) {
+            tablaActividades.setModel(new TableModelEstadisticas(model.getActividades(), "Semana"));
+            graficoActividades.setDatos(new ArrayList<>(model.getActividades().keySet()),
+                    new ArrayList<>(model.getActividades().values()));
         }
     }
 

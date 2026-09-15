@@ -1,33 +1,28 @@
 package Presentar.Actividades;
 
 import Recursos.Reserva;
-import Service.GestorReservas;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.time.DayOfWeek;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ActividadesView extends JPanel {
+public class ActividadesView extends JPanel implements PropertyChangeListener {
     private final DatePicker fechaReferencia = new DatePicker();
     private final JTable tabla = new JTable();
-    private final GestorReservas gestor = new GestorReservas();
-    private final DateTimeFormatter horaFormato = DateTimeFormatter.ofPattern("HH:00");
+    private final ControllerActividades controller = new ControllerActividades();
+    private final ModelActividades model = controller.getModel();
 
     public ActividadesView() {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
         fechaReferencia.setDate(LocalDate.now());
+        model.addPropertyChangeListener(this);
         add(crearFiltro(), BorderLayout.NORTH);
         add(crearTabla(), BorderLayout.CENTER);
-        cargarSemana();
+        controller.cargarSemana(fechaReferencia.getDate());
     }
 
     private JPanel crearFiltro() {
@@ -52,55 +47,22 @@ public class ActividadesView extends JPanel {
     }
 
     private void cargarSemana() {
-        LocalDate referencia = fechaReferencia.getDate();
-        if (referencia == null) {
-            return;
-        }
-        LocalDate lunes = referencia.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        String[] columnas = new String[8];
-        columnas[0] = "Hora";
-        for (int i = 0; i < 7; i++) {
-            columnas[i + 1] = lunes.plusDays(i).toString();
-        }
+        controller.cargarSemana(fechaReferencia.getDate());
+    }
 
-        Object[][] datos = new Object[24][8];
-        gestor.recargarReservas();
-        List<Reserva> reservas = gestor.getReservas();
-        for (int hora = 0; hora < 24; hora++) {
-            datos[hora][0] = horaFormato.format(LocalTime.of(hora, 0));
-            for (int dia = 0; dia < 7; dia++) {
-                datos[hora][dia + 1] = actividadEn(reservas, lunes.plusDays(dia), hora);
-            }
-        }
-
-        tabla.setModel(new DefaultTableModel(datos, columnas) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        });
+    private void actualizarTabla() {
+        tabla.setModel(new TableModelActividades(model));
         tabla.getColumnModel().getColumn(0).setPreferredWidth(70);
         for (int i = 1; i < 8; i++) {
             tabla.getColumnModel().getColumn(i).setPreferredWidth(145);
         }
     }
 
-    private String actividadEn(List<Reserva> reservas, LocalDate fecha, int hora) {
-        for (Reserva reserva : reservas) {
-            if (!fecha.equals(reserva.getFecha())
-                    || !reserva.getHoraInicio().isBefore(hora == 23
-                    ? LocalTime.of(23, 59, 59)
-                    : LocalTime.of(hora + 1, 0))
-                    || !reserva.getHoraFin().isAfter(LocalTime.of(hora, 0))) {
-                continue;
-            }
-            String usuario = reserva.getUsuario() != null && reserva.getUsuario().getVarNombre() != null
-                    && !reserva.getUsuario().getVarNombre().isBlank()
-                    ? reserva.getUsuario().getVarNombre()
-                    : reserva.getUsuarioId();
-            return reserva.getActividad() + " (" + usuario + ")";
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (ModelActividades.SEMANA.equals(evt.getPropertyName())) {
+            actualizarTabla();
         }
-        return "";
     }
 
     private void imprimir() {
