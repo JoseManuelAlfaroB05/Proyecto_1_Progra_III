@@ -5,6 +5,9 @@ import Presentar.Calendarizacion.CalendarizacionView;
 import Presentar.Funcionarios.FuncionariosView;
 import Presentar.Reserva.ReservaView;
 import Presentar.Categoria.CategoriaView;
+import Presentar.Recursos.RecursosView;
+import Presentar.Actividades.ActividadesView;
+import Presentar.Estadisticas.EstadisticasView;
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,6 +21,9 @@ public class MainView extends JFrame {
     private JPanel calendarizacion;
     private JPanel CategoriaView;
     private JPanel funcionariosPanel;
+    private JPanel recursosPanel;
+    private JPanel actividadesPanel;
+    private JPanel estadisticasPanel;
 
     private User usuarioLogueado;
 
@@ -74,5 +80,22 @@ public class MainView extends JFrame {
                 funcionariosView,
                 BorderLayout.CENTER
         );
+
+        RecursosView recursosView = new RecursosView();
+        recursosPanel.setLayout(new BorderLayout());
+        recursosPanel.add(recursosView, BorderLayout.CENTER);
+
+        ActividadesView actividadesView = new ActividadesView();
+        actividadesPanel.setLayout(new BorderLayout());
+        actividadesPanel.add(actividadesView, BorderLayout.CENTER);
+
+        EstadisticasView estadisticasView = new EstadisticasView();
+        estadisticasPanel.setLayout(new BorderLayout());
+        estadisticasPanel.add(estadisticasView, BorderLayout.CENTER);
+
+        boolean administrador = usuarioLogueado.getVarRol() == Recursos.Rol.ADMINISTRADOR;
+        CategoriaView.setVisible(administrador);
+        funcionariosPanel.setVisible(administrador);
+        recursosPanel.setVisible(administrador);
     }
 }

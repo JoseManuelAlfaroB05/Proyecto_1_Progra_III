@@ -53,15 +53,44 @@ public class RecursoXMLDao {
     public boolean guardar(Recurso recurso) {
         try {
             Recursos recursos = cargarRecursos();
-
             recursos.agregar(recurso);
-
             guardarRecursos(recursos);
-
             return true;
-
         } catch (Exception e) {
             System.out.println("Error al guardar recurso: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean actualizar(Recurso recurso) {
+        try {
+            Recursos recursos = cargarRecursos();
+            for (int i = 0; i < recursos.getRecursos().size(); i++) {
+                Recurso existente = recursos.getRecursos().get(i);
+                if (existente.getId().equalsIgnoreCase(recurso.getId())) {
+                    recursos.getRecursos().set(i, recurso);
+                    guardarRecursos(recursos);
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            System.out.println("Error al actualizar recurso: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean eliminar(String id) {
+        try {
+            Recursos recursos = cargarRecursos();
+            boolean eliminado = recursos.getRecursos()
+                    .removeIf(recurso -> recurso.getId().equalsIgnoreCase(id));
+            if (eliminado) {
+                guardarRecursos(recursos);
+            }
+            return eliminado;
+        } catch (Exception e) {
+            System.out.println("Error al eliminar recurso: " + e.getMessage());
             return false;
         }
     }

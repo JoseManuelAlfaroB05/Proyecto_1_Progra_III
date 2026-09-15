@@ -55,9 +55,14 @@ public class ControllerFuncionario {
             return false;
         }
 
+        User existente = dao.buscarPorId(id);
+        if (existente == null || existente.getVarRol() != Rol.FUNCIONARIO) {
+            return false;
+        }
+
         User funcionario = new User(
                 id,
-                "",
+                existente.getVarClave(),
                 Rol.FUNCIONARIO,
                 nombre,
                 telefono

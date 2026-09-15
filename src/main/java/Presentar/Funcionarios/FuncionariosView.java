@@ -22,11 +22,13 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
         model = controller.getModel();
         model.addPropertyChangeListener(this);
 
-        setLayout(new BorderLayout(10, 10));
-        setBorder(BorderFactory.createEmptyBorder(12, 18, 12, 18));
+        setLayout(new BorderLayout(10, 12));
+        setBorder(BorderFactory.createEmptyBorder(18, 24, 18, 24));
 
         add(crearBusqueda(), BorderLayout.NORTH);
-        add(crearFormulario(), BorderLayout.CENTER);
+        JPanel formulario = crearFormulario();
+        formulario.setPreferredSize(new Dimension(0, 235));
+        add(formulario, BorderLayout.CENTER);
         add(crearListado(), BorderLayout.SOUTH);
 
         campoId.setEnabled(true);
@@ -53,7 +55,7 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
     }
 
     private JPanel crearBusqueda() {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 8));
         panel.setBorder(BorderFactory.createTitledBorder("Búsqueda"));
         panel.add(new JLabel("ID"));
         panel.add(filtroId);
@@ -134,7 +136,7 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
         });
 
         panel.add(new JScrollPane(tabla), BorderLayout.CENTER);
-        panel.setPreferredSize(new Dimension(0, 220));
+        panel.setPreferredSize(new Dimension(0, 250));
 
         return panel;
     }
@@ -155,6 +157,7 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
             campoId.setText(funcionario.getVarId());
             campoNombre.setText(funcionario.getVarNombre());
             campoTelefono.setText(funcionario.getVarTelefono());
+            campoId.setEnabled(funcionario.getVarId() == null || funcionario.getVarId().isEmpty());
         }
     }
 
