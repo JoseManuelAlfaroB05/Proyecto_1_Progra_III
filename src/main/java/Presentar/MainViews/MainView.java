@@ -81,6 +81,7 @@ public class MainView extends JFrame {
         );
 
         RecursosView recursosView = new RecursosView();
+
         recursosPanel.setLayout(new BorderLayout());
         recursosPanel.add(
                 recursosView,
@@ -88,6 +89,7 @@ public class MainView extends JFrame {
         );
 
         ActividadesView actividadesView = new ActividadesView();
+
         actividadesPanel.setLayout(new BorderLayout());
         actividadesPanel.add(
                 actividadesView,
@@ -95,18 +97,12 @@ public class MainView extends JFrame {
         );
 
         EstadisticasView estadisticasView = new EstadisticasView();
+
         estadisticasPanel.setLayout(new BorderLayout());
         estadisticasPanel.add(
                 estadisticasView,
                 BorderLayout.CENTER
         );
-
-        boolean administrador =
-                usuarioLogueado.getVarRol() == Recursos.Rol.ADMINISTRADOR;
-
-        CategoriaView.setVisible(administrador);
-        funcionariosPanel.setVisible(administrador);
-        recursosPanel.setVisible(administrador);
     }
 
     public void recargarReservas() {

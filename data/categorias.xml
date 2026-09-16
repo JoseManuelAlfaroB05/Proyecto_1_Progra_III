@@ -4,4 +4,8 @@
         <id>LAB</id>
         <descripcion>Laboratorio</descripcion>
     </categoria>
+    <categoria>
+        <id>PROY</id>
+        <descripcion>Proyector</descripcion>
+    </categoria>
 </categorias>
