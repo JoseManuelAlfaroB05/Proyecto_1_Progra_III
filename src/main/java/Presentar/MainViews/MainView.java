@@ -8,16 +8,15 @@ import Presentar.Categoria.CategoriaView;
 import Presentar.Recursos.RecursosView;
 import Presentar.Actividades.ActividadesView;
 import Presentar.Estadisticas.EstadisticasView;
+import Presentar.Informacion.InformacionView;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainView extends JFrame {
-
     private JPanel principalPanel;
     private JPanel contetPanel;
     private JTabbedPane tabbedPane;
-
     private JPanel reservaPanel;
     private JPanel calendarizacion;
     private JPanel CategoriaView;
@@ -25,22 +24,22 @@ public class MainView extends JFrame {
     private JPanel recursosPanel;
     private JPanel actividadesPanel;
     private JPanel estadisticasPanel;
+    private JPanel InformacionPanel;
 
     private User usuarioLogueado;
     private ReservaView reservaView;
     private CalendarizacionView calendarizacionView;
     private RecursosView recursosView;
+    private InformacionView informacionView;
 
     public MainView(User usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
 
-        setTitle("Sistema de Presentar.Reserva de Recursos - Usuario logueado: "
+        setTitle("Sistema de Reserva de Recursos - Usuario logueado: "
                 + usuarioLogueado.getVarId());
 
         setContentPane(principalPanel);
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         setSize(1920, 1080);
         setLocationRelativeTo(null);
 
@@ -49,7 +48,6 @@ public class MainView extends JFrame {
         tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             @Override
             public void stateChanged(javax.swing.event.ChangeEvent e) {
-
                 if (tabbedPane.getSelectedComponent() == reservaPanel) {
                     reservaView.recargarDatos();
                 }
@@ -123,6 +121,15 @@ public class MainView extends JFrame {
         estadisticasPanel.setLayout(new BorderLayout());
         estadisticasPanel.add(
                 estadisticasView,
+                BorderLayout.CENTER
+        );
+
+        informacionView =
+                new InformacionView(usuarioLogueado);
+
+        InformacionPanel.setLayout(new BorderLayout());
+        InformacionPanel.add(
+                informacionView,
                 BorderLayout.CENTER
         );
     }
