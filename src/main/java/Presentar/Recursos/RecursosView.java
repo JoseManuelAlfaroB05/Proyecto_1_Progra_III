@@ -10,12 +10,12 @@ import java.beans.PropertyChangeListener;
 public class RecursosView extends JPanel implements PropertyChangeListener {
     private final ControllerRecurso controller = new ControllerRecurso();
     private final ModelRecurso model = controller.getModel();
-    private final JComboBox<CategoriaRecurso> filtroCategoria = new JComboBox<>();
-    private final JTextField filtroDescripcion = new JTextField(20);
-    private final JTextField campoId = new JTextField(24);
-    private final JComboBox<CategoriaRecurso> campoCategoria = new JComboBox<>();
-    private final JTextField campoDescripcion = new JTextField(24);
-    private final JTable tabla = new JTable();
+    private JComboBox<CategoriaRecurso> filtroCategoria = new JComboBox<>();
+    private JTextField filtroDescripcion = new JTextField(20);
+    private JTextField campoId = new JTextField(24);
+    private JComboBox<CategoriaRecurso> campoCategoria = new JComboBox<>();
+    private JTextField campoDescripcion = new JTextField(24);
+    private JTable tabla = new JTable();
 
     public RecursosView() {
         setLayout(new BorderLayout(10, 10));

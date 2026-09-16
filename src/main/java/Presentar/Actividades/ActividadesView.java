@@ -10,8 +10,8 @@ import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 
 public class ActividadesView extends JPanel implements PropertyChangeListener {
-    private final DatePicker fechaReferencia = new DatePicker();
-    private final JTable tabla = new JTable();
+    private DatePicker fechaReferencia = new DatePicker();
+    private JTable tabla = new JTable();
     private final ControllerActividades controller = new ControllerActividades();
     private final ModelActividades model = controller.getModel();
 

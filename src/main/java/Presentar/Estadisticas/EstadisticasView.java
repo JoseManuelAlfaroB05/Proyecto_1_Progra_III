@@ -14,14 +14,16 @@ import java.util.List;
 public class EstadisticasView extends JPanel implements PropertyChangeListener {
     private final ControllerEstadisticas controller = new ControllerEstadisticas();
     private final ModelEstadisticas model = controller.getModel();
-    private final DatePicker recursosDesde = new DatePicker();
-    private final DatePicker recursosHasta = new DatePicker();
-    private final DatePicker actividadesDesde = new DatePicker();
-    private final DatePicker actividadesHasta = new DatePicker();
-    private final JTable tablaRecursos = new JTable();
-    private final JTable tablaActividades = new JTable();
-    private final GraficoBarras graficoRecursos = new GraficoBarras(Color.BLUE);
-    private final GraficoBarras graficoActividades = new GraficoBarras(Color.RED);
+    private DatePicker recursosDesde = new DatePicker();
+    private DatePicker recursosHasta = new DatePicker();
+    private DatePicker actividadesDesde = new DatePicker();
+    private DatePicker actividadesHasta = new DatePicker();
+    private JTable tablaRecursos = new JTable();
+    private JTable tablaActividades = new JTable();
+    private JPanel graficoRecursos = new GraficoBarras(Color.BLUE);
+    private JPanel graficoActividades = new GraficoBarras(Color.RED);
+    private final GraficoBarras graficoRecursosChart = (GraficoBarras) graficoRecursos;
+    private final GraficoBarras graficoActividadesChart = (GraficoBarras) graficoActividades;
 
     public EstadisticasView() {
         setLayout(new GridLayout(1, 2, 14, 0));
@@ -44,7 +46,7 @@ public class EstadisticasView extends JPanel implements PropertyChangeListener {
         tablaRecursos.setModel(modelo("Categoría", "Cantidad"));
         JPanel tablaPanel = conTitulo("Estadísticas", new JScrollPane(tablaRecursos));
         panel.add(tablaPanel, BorderLayout.CENTER);
-        panel.add(conTitulo("Gráfico", graficoRecursos), BorderLayout.SOUTH);
+        panel.add(conTitulo("Gráfico", graficoRecursosChart), BorderLayout.SOUTH);
         return panel;
     }
 
@@ -55,7 +57,7 @@ public class EstadisticasView extends JPanel implements PropertyChangeListener {
         tablaActividades.setModel(modelo("Semana", "Cantidad"));
         JPanel tablaPanel = conTitulo("Estadísticas", new JScrollPane(tablaActividades));
         panel.add(tablaPanel, BorderLayout.CENTER);
-        panel.add(conTitulo("Gráfico", graficoActividades), BorderLayout.SOUTH);
+        panel.add(conTitulo("Gráfico", graficoActividadesChart), BorderLayout.SOUTH);
         return panel;
     }
 
@@ -142,11 +144,11 @@ public class EstadisticasView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (ModelEstadisticas.RECURSOS.equals(evt.getPropertyName())) {
             tablaRecursos.setModel(new TableModelEstadisticas(model.getRecursos(), "Categoría"));
-            graficoRecursos.setDatos(new ArrayList<>(model.getRecursos().keySet()),
+            graficoRecursosChart.setDatos(new ArrayList<>(model.getRecursos().keySet()),
                     new ArrayList<>(model.getRecursos().values()));
         } else if (ModelEstadisticas.ACTIVIDADES.equals(evt.getPropertyName())) {
             tablaActividades.setModel(new TableModelEstadisticas(model.getActividades(), "Semana"));
-            graficoActividades.setDatos(new ArrayList<>(model.getActividades().keySet()),
+            graficoActividadesChart.setDatos(new ArrayList<>(model.getActividades().keySet()),
                     new ArrayList<>(model.getActividades().values()));
         }
     }
