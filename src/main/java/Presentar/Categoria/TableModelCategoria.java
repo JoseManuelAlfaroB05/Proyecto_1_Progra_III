@@ -50,4 +50,8 @@ public class TableModelCategoria extends javax.swing.table.AbstractTableModel {
                 return "";
         }
     }
+
+    public CategoriaRecurso getCategoria(int rowIndex) {
+        return rows.get(rowIndex);
+    }
 }

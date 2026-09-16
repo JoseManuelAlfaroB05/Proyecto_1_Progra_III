@@ -4,24 +4,4 @@
         <id>LAB</id>
         <descripcion>Laboratorio</descripcion>
     </categoria>
-    <categoria>
-        <id>PC</id>
-        <descripcion>Computadora</descripcion>
-    </categoria>
-    <categoria>
-        <id>PRO</id>
-        <descripcion>Proyector</descripcion>
-    </categoria>
-    <categoria>
-        <id>MIC</id>
-        <descripcion>Microfono</descripcion>
-    </categoria>
-    <categoria>
-        <id>CJ</id>
-        <descripcion>Caja</descripcion>
-    </categoria>
-    <categoria>
-        <id>CAR</id>
-        <descripcion>Vehiculo</descripcion>
-    </categoria>
 </categorias>
