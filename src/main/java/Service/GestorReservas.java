@@ -52,9 +52,7 @@ public class GestorReservas {
 
     public boolean eliminarReserva(String idReserva) {
         for (int i = 0; i < reservas.size(); i++) {
-            if (reservas.get(i)
-                    .getId()
-                    .equals(idReserva)) {
+            if (reservas.get(i).getId().equals(idReserva)) {
                 reservas.remove(i);
                 reservaXMLDao.eliminar(idReserva);
                 return true;
@@ -92,8 +90,6 @@ public class GestorReservas {
             return false;
         }
 
-        ArrayList<Recurso> recursosAsignados = new ArrayList<>();
-
         for (SolicitudRecurso solicitud : solicitudes) {
             CategoriaRecurso categoria = solicitud.getCategoria();
             int cantidad = solicitud.getCantidad();
@@ -114,8 +110,24 @@ public class GestorReservas {
                                 + "Solicitados: " + cantidad
                                 + "\n"
                                 + "Disponibles: " + disponibles.size();
+
                 return false;
             }
+        }
+
+        ArrayList<Recurso> recursosAsignados = new ArrayList<>();
+
+        for (SolicitudRecurso solicitud : solicitudes) {
+            CategoriaRecurso categoria = solicitud.getCategoria();
+            int cantidad = solicitud.getCantidad();
+
+            ArrayList<Recurso> disponibles =
+                    obtenerRecursosDisponibles(
+                            categoria,
+                            fecha,
+                            horaInicio,
+                            horaFin
+                    );
 
             for (int i = 0; i < cantidad; i++) {
                 recursosAsignados.add(disponibles.get(i));

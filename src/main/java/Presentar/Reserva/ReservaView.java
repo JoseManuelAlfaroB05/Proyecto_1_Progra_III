@@ -72,6 +72,7 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
 
     private JButton buttonAceptar;
     private JButton buttonRechazar;
+    private JButton buttonPDF;
     private JButton crearReservaButton;
 
     private User usuarioLogueado;
@@ -142,15 +143,21 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                             );
 
                     if (resultado) {
-
                         cargarTabla();
                         limpiarCampos();
 
                         JOptionPane.showMessageDialog(
                                 ReservaView.this,
                                 "Reserva cancelada correctamente.",
-                                "Reserva",
+                                "Cancelar reserva",
                                 JOptionPane.INFORMATION_MESSAGE
+                        );
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                ReservaView.this,
+                                "No se pudo cancelar la reserva.",
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE
                         );
                     }
                 }
@@ -235,6 +242,13 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                             "Reserva",
                             JOptionPane.INFORMATION_MESSAGE
                     );
+                } else {
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            controller.getGestorReservas().getMensajeError(),
+                            "No se pudo crear la reserva",
+                            JOptionPane.ERROR_MESSAGE
+                    );
                 }
             }
         });
@@ -252,6 +266,12 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
 
                     cargarReservaSeleccionada(reserva);
                 }
+            }
+        });
+        buttonPDF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
@@ -439,6 +459,13 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
 
         tableReseravas.setModel(tableModelReserva);
     }
+
+    public void recargarDatos() {
+        controller.recargarDatos();
+        inicializarCategorias();
+        cargarTabla();
+    }
+
     public void recargarTabla() {
         cargarTabla();
     }

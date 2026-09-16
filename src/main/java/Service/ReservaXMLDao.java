@@ -207,16 +207,19 @@ public class ReservaXMLDao {
             ArrayList<Recurso> recursosReserva =
                     new ArrayList<>();
 
-            for (String recursoId :
-                    reserva.getRecursosIds()) {
+            if (reserva.getRecursosIds() != null) {
 
-                for (Recurso recurso : recursos) {
+                for (String recursoId :
+                        reserva.getRecursosIds()) {
 
-                    if (recurso.getId()
-                            .equals(recursoId)) {
+                    for (Recurso recurso : recursos) {
 
-                        recursosReserva.add(recurso);
-                        break;
+                        if (recurso.getId()
+                                .equals(recursoId)) {
+
+                            recursosReserva.add(recurso);
+                            break;
+                        }
                     }
                 }
             }

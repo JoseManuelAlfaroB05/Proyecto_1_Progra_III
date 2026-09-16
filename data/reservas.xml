@@ -1,2 +1,118 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<reservas/>
+<reservas>
+    <reserva>
+        <id>RES-001</id>
+        <usuario>admin</usuario>
+        <actividad>Clase de ciencias</actividad>
+        <fecha>2026-09-30</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>10:00</horaFin>
+        <recursos>
+            <recurso>Lab01</recurso>
+            <recurso>Lab02</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-002</id>
+        <usuario>admin</usuario>
+        <actividad>Presentacion de proyecto</actividad>
+        <fecha>2026-09-30</fecha>
+        <horaInicio>09:00</horaInicio>
+        <horaFin>11:00</horaFin>
+        <recursos>
+            <recurso>Proy01</recurso>
+            <recurso>Laptop01</recurso>
+            <recurso>Laptop02</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-003</id>
+        <actividad>Laboratorio de programacion</actividad>
+        <fecha>2026-09-30</fecha>
+        <horaInicio>10:00</horaInicio>
+        <horaFin>12:00</horaFin>
+        <recursos>
+            <recurso>Lab03</recurso>
+            <recurso>Laptop03</recurso>
+            <recurso>Laptop04</recurso>
+            <recurso>Laptop05</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-004</id>
+        <usuario>admin</usuario>
+        <actividad>Reunion de profesores</actividad>
+        <fecha>2026-10-01</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>09:30</horaFin>
+        <recursos>
+            <recurso>Proy02</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-005</id>
+        <actividad>Practica de electronica</actividad>
+        <fecha>2026-10-01</fecha>
+        <horaInicio>10:00</horaInicio>
+        <horaFin>12:00</horaFin>
+        <recursos>
+            <recurso>Lab01</recurso>
+            <recurso>Lab02</recurso>
+            <recurso>Lab03</recurso>
+            <recurso>Lab04</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-006</id>
+        <usuario>admin</usuario>
+        <actividad>Capacitacion de software</actividad>
+        <fecha>2026-10-01</fecha>
+        <horaInicio>13:00</horaInicio>
+        <horaFin>15:00</horaFin>
+        <recursos>
+            <recurso>Laptop01</recurso>
+            <recurso>Laptop02</recurso>
+            <recurso>Laptop03</recurso>
+            <recurso>Laptop04</recurso>
+            <recurso>Laptop05</recurso>
+            <recurso>Laptop06</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-007</id>
+        <actividad>Exposicion final</actividad>
+        <fecha>2026-10-02</fecha>
+        <horaInicio>14:00</horaInicio>
+        <horaFin>16:00</horaFin>
+        <recursos>
+            <recurso>Proy01</recurso>
+            <recurso>Proy02</recurso>
+            <recurso>Proy03</recurso>
+            <recurso>Laptop01</recurso>
+            <recurso>Laptop02</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-008</id>
+        <usuario>admin</usuario>
+        <actividad>Session de musica</actividad>
+        <fecha>2026-09-26</fecha>
+        <horaInicio>00:00</horaInicio>
+        <horaFin>04:30</horaFin>
+        <recursos>
+            <recurso>UDF-01</recurso>
+            <recurso>UDF-02</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-009</id>
+        <usuario>admin</usuario>
+        <actividad>Session musical</actividad>
+        <fecha>2026-09-26</fecha>
+        <horaInicio>00:00</horaInicio>
+        <horaFin>04:30</horaFin>
+        <recursos>
+            <recurso>UDF-03</recurso>
+        </recursos>
+    </reserva>
+</reservas>

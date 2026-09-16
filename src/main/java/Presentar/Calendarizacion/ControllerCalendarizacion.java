@@ -24,6 +24,10 @@ public class ControllerCalendarizacion {
         return model;
     }
 
+    public void recargarDatos() {
+        gestorReservas.getGestorCategorias().recargarCategorias();
+    }
+
     public void buscarFechaYCategoria(
             LocalDate fecha,
             CategoriaRecurso categoriaRecurso) {

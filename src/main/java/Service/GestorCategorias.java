@@ -22,6 +22,10 @@ public class GestorCategorias {
         return categorias;
     }
 
+    public void recargarCategorias() {
+        categorias = categoriaXMLDao.listarTodas();
+    }
+
     public CategoriaRecurso buscarPorId(String id) {
 
         for (CategoriaRecurso categoria : categorias) {
@@ -70,18 +74,11 @@ public class GestorCategorias {
             return false;
         }
 
-        CategoriaRecurso categoria =
-                new CategoriaRecurso(
-                        id,
-                        descripcion
-                );
-
+        CategoriaRecurso categoria = new CategoriaRecurso(id,descripcion);
         if (!categoriaXMLDao.guardar(categoria)) {
             return false;
         }
-
         categorias.add(categoria);
-
         return true;
     }
 
@@ -123,10 +120,7 @@ public class GestorCategorias {
         if (!categoriaXMLDao.eliminarCategoria(id)) {
             return false;
         }
-
-        categorias =
-                categoriaXMLDao.listarTodas();
-
+        categorias = categoriaXMLDao.listarTodas();
         return true;
     }
 }

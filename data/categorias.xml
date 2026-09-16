@@ -8,4 +8,20 @@
         <id>PROY</id>
         <descripcion>Proyector</descripcion>
     </categoria>
+    <categoria>
+        <id>COM</id>
+        <descripcion>Computadora</descripcion>
+    </categoria>
+    <categoria>
+        <id>UDF</id>
+        <descripcion>Audifonos</descripcion>
+    </categoria>
+    <categoria>
+        <id>PLT</id>
+        <descripcion>Parlante</descripcion>
+    </categoria>
+    <categoria>
+        <id>TBT</id>
+        <descripcion>Tablet</descripcion>
+    </categoria>
 </categorias>

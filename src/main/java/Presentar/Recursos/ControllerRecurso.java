@@ -62,6 +62,10 @@ public class ControllerRecurso {
         }
     }
 
+    public void recargarCategorias() {
+        gestorCategorias.recargarCategorias();
+    }
+
     public void limpiar() {
         model.setCurrent(new Recurso());
     }

@@ -8,6 +8,7 @@ import Presentar.Categoria.CategoriaView;
 import Presentar.Recursos.RecursosView;
 import Presentar.Actividades.ActividadesView;
 import Presentar.Estadisticas.EstadisticasView;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,6 +28,8 @@ public class MainView extends JFrame {
 
     private User usuarioLogueado;
     private ReservaView reservaView;
+    private CalendarizacionView calendarizacionView;
+    private RecursosView recursosView;
 
     public MainView(User usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
@@ -38,10 +41,28 @@ public class MainView extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setSize(1920,1080);
+        setSize(1920, 1080);
         setLocationRelativeTo(null);
 
         cargarVistas();
+
+        tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            @Override
+            public void stateChanged(javax.swing.event.ChangeEvent e) {
+
+                if (tabbedPane.getSelectedComponent() == reservaPanel) {
+                    reservaView.recargarDatos();
+                }
+
+                if (tabbedPane.getSelectedComponent() == calendarizacion) {
+                    calendarizacionView.recargarDatos();
+                }
+
+                if (tabbedPane.getSelectedComponent() == recursosPanel) {
+                    recursosView.recargarDatos();
+                }
+            }
+        });
     }
 
     private void cargarVistas() {
@@ -53,8 +74,7 @@ public class MainView extends JFrame {
                 BorderLayout.CENTER
         );
 
-        CalendarizacionView calendarizacionView =
-                new CalendarizacionView();
+        calendarizacionView = new CalendarizacionView();
 
         calendarizacion.setLayout(new BorderLayout());
         calendarizacion.add(
@@ -80,7 +100,7 @@ public class MainView extends JFrame {
                 BorderLayout.CENTER
         );
 
-        RecursosView recursosView = new RecursosView();
+        recursosView = new RecursosView();
 
         recursosPanel.setLayout(new BorderLayout());
         recursosPanel.add(
@@ -88,7 +108,8 @@ public class MainView extends JFrame {
                 BorderLayout.CENTER
         );
 
-        ActividadesView actividadesView = new ActividadesView();
+        ActividadesView actividadesView =
+                new ActividadesView();
 
         actividadesPanel.setLayout(new BorderLayout());
         actividadesPanel.add(
@@ -96,7 +117,8 @@ public class MainView extends JFrame {
                 BorderLayout.CENTER
         );
 
-        EstadisticasView estadisticasView = new EstadisticasView();
+        EstadisticasView estadisticasView =
+                new EstadisticasView();
 
         estadisticasPanel.setLayout(new BorderLayout());
         estadisticasPanel.add(

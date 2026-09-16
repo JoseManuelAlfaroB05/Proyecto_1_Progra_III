@@ -1,2 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<recursos/>
+<recursos>
+    <recurso>
+        <id>Lab01</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de ciencias</descripcion>
+    </recurso>
+    <recurso>
+        <id>Lab02</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de computacion</descripcion>
+    </recurso>
+    <recurso>
+        <id>Lab03</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de electronica</descripcion>
+    </recurso>
+    <recurso>
+        <id>Lab04</id>
+        <categoria>LAB</categoria>
+        <descripcion>Laboratorio de fisica</descripcion>
+    </recurso>
+    <recurso>
+        <id>Laptop01</id>
+        <categoria>COM</categoria>
+        <descripcion>Windows 11</descripcion>
+    </recurso>
+    <recurso>
+        <id>Laptop02</id>
+        <categoria>COM</categoria>
+        <descripcion>Windows 11</descripcion>
+    </recurso>
+    <recurso>
+        <id>Laptop03</id>
+        <categoria>COM</categoria>
+        <descripcion>Windows 11</descripcion>
+    </recurso>
+    <recurso>
+        <id>Laptop04</id>
+        <categoria>COM</categoria>
+        <descripcion>Windows 11</descripcion>
+    </recurso>
+    <recurso>
+        <id>Laptop05</id>
+        <categoria>COM</categoria>
+        <descripcion>Windows 11</descripcion>
+    </recurso>
+    <recurso>
+        <id>Laptop06</id>
+        <categoria>COM</categoria>
+        <descripcion>Windows 11</descripcion>
+    </recurso>
+    <recurso>
+        <id>Proy01</id>
+        <categoria>PROY</categoria>
+        <descripcion>Proyector Epson</descripcion>
+    </recurso>
+    <recurso>
+        <id>Proy02</id>
+        <categoria>PROY</categoria>
+        <descripcion>Proyector BenQ</descripcion>
+    </recurso>
+    <recurso>
+        <id>Proy03</id>
+        <categoria>PROY</categoria>
+        <descripcion>Proyector Sony</descripcion>
+    </recurso>
+    <recurso>
+        <id>UDF-01</id>
+        <categoria>UDF</categoria>
+        <descripcion>Audifonos JBL</descripcion>
+    </recurso>
+    <recurso>
+        <id>UDF-02</id>
+        <categoria>UDF</categoria>
+        <descripcion>Audifonos Sony</descripcion>
+    </recurso>
+    <recurso>
+        <id>UDF-03</id>
+        <categoria>UDF</categoria>
+        <descripcion>Audifonos JBL</descripcion>
+    </recurso>
+</recursos>

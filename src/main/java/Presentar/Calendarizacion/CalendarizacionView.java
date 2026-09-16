@@ -1,7 +1,6 @@
 package Presentar.Calendarizacion;
 
 import Recursos.CategoriaRecurso;
-import Service.GestorCategorias;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
@@ -54,12 +53,17 @@ public class CalendarizacionView extends JPanel implements PropertyChangeListene
     }
 
     private void cargarCategorias() {
+        for (CategoriaRecurso categoria :
+                controller.getGestorReservas().getGestorCategorias().getCategorias()) {
 
-        GestorCategorias gestorCategorias = new GestorCategorias();
-
-        for (CategoriaRecurso categoria : gestorCategorias.getCategorias()) {
             comboBox1.addItem(categoria);
         }
+    }
+
+    public void recargarDatos() {
+        controller.recargarDatos();
+        comboBox1.removeAllItems();
+        cargarCategorias();
     }
 
     public LocalDate getFecha() {
