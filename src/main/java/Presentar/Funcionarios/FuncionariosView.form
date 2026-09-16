@@ -53,7 +53,8 @@
               <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Buscar"/>
+              <icon value="search.png"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="b106" class="javax.swing.JButton">
@@ -61,7 +62,8 @@
               <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Imprimir"/>
+              <icon value="pdf.png"/>
+              <text value=""/>
             </properties>
           </component>
         </children>
@@ -135,7 +137,8 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Guardar"/>
+                  <icon value="save.png"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="b208" class="javax.swing.JButton">
@@ -143,7 +146,8 @@
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Borrar"/>
+                  <icon value="delete.png"/>
+                  <text value=""/>
                 </properties>
               </component>
               <component id="b209" class="javax.swing.JButton">
@@ -151,7 +155,8 @@
                   <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <text value="Limpiar"/>
+                  <icon value="clear.png"/>
+                  <text value=""/>
                 </properties>
               </component>
             </children>
