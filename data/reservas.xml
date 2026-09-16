@@ -115,4 +115,42 @@
             <recurso>UDF-03</recurso>
         </recursos>
     </reserva>
+    <reserva>
+        <id>RES-010</id>
+        <usuario>admin</usuario>
+        <actividad>Presentación de programación</actividad>
+        <fecha>2026-09-19</fecha>
+        <horaInicio>08:00</horaInicio>
+        <horaFin>11:00</horaFin>
+        <recursos>
+            <recurso>Laptop01</recurso>
+            <recurso>Proy01</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-011</id>
+        <usuario>admin</usuario>
+        <actividad>Clase de programacion</actividad>
+        <fecha>2026-09-23</fecha>
+        <horaInicio>13:30</horaInicio>
+        <horaFin>16:00</horaFin>
+        <recursos>
+            <recurso>Lab01</recurso>
+            <recurso>Laptop01</recurso>
+            <recurso>Proy01</recurso>
+        </recursos>
+    </reserva>
+    <reserva>
+        <id>RES-012</id>
+        <usuario>fun-000</usuario>
+        <actividad>Reunion</actividad>
+        <fecha>2026-10-06</fecha>
+        <horaInicio>08:30</horaInicio>
+        <horaFin>10:00</horaFin>
+        <recursos>
+            <recurso>Lab01</recurso>
+            <recurso>Laptop01</recurso>
+            <recurso>Laptop02</recurso>
+        </recursos>
+    </reserva>
 </reservas>

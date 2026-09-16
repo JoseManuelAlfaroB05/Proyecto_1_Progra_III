@@ -5,6 +5,7 @@ import Recursos.Recurso;
 import Recursos.Reserva;
 import Recursos.SolicitudRecurso;
 import Recursos.User;
+import Service.ReservaIA.ReservaExtraccion;
 import com.github.lgooddatepicker.components.DatePicker;
 import com.github.lgooddatepicker.components.TimePicker;
 
@@ -19,65 +20,49 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class ReservaView extends JPanel implements PropertyChangeListener {
-
     private JPanel PrincipalPanel;
     private JPanel contetPanel;
     private JPanel ReservaPanel;
-
     private JPanel JPanelReservaAutomatica;
     private JLabel tabbReservaAutomatica;
     private JTextField textFieldReservaAutomatica;
     private JButton buttonReservaAuntomatica;
-
     private JPanel JPanelReservaManual;
-
     private JPanel panelActividad;
     private JLabel labelActividad;
     private JTextField textFieldActividad;
-
     private JPanel jpanelTiempo;
-
     private JPanel jpanelFecha;
     private JLabel labelFecha;
     private DatePicker datePicker;
-
     private JPanel jpanelHoraI;
     private JLabel labelHoraI;
     private TimePicker timePickerInicio;
-
     private JPanel jpanelHoraF;
     private JLabel labelhoraf;
     private TimePicker timePickerFin;
-
     private JPanel panelRecursos;
-
     private JPanel panelSeleccionCategoria;
     private JLabel labelCategoria;
     private JComboBox<CategoriaRecurso> comboBoxCategoria;
     private JLabel labelCantidad;
     private JSpinner spinnerCantidad;
     private JButton buttonAgregarRecurso;
-
     private JPanel panelRecursosSeleccionados;
     private JLabel labelRecursosSeleccionados;
     private JList<String> listRecursos;
     private JScrollPane scrollRecursos;
     private JButton buttonEliminarRecurso;
-
     private JPanel panelTable;
     private JTable tableReseravas;
     private JScrollPane scrollTabla;
-
     private JLabel labelHistorial;
-
     private JButton buttonAceptar;
     private JButton buttonRechazar;
     private JButton buttonPDF;
     private JButton crearReservaButton;
-
     private User usuarioLogueado;
     private ControllerReserva controller;
-
     private ArrayList<SolicitudRecurso> solicitudes;
     private DefaultListModel<String> modeloRecursos;
     private TableModelReserva tableModelReserva;
@@ -85,20 +70,22 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
     public ReservaView(User usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
         this.controller = new ControllerReserva();
-
         this.solicitudes = new ArrayList<>();
         this.modeloRecursos = new DefaultListModel<>();
-
         controller.getModel().addPropertyChangeListener(this);
-
         setLayout(new BorderLayout());
         add(PrincipalPanel, BorderLayout.CENTER);
-
         contetPanel.setBackground(new Color(217, 217, 227));
-
         inicializarCategorias();
         configurarCantidad();
         cargarTabla();
+
+        buttonReservaAuntomatica.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reservaAutomatica();
+            }
+        });
 
         buttonAgregarRecurso.addActionListener(new ActionListener() {
             @Override
@@ -117,35 +104,23 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         buttonRechazar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 int fila = tableReseravas.getSelectedRow();
-
                 if (fila == -1) {
                     limpiarCampos();
                     return;
                 }
-
-                Reserva reserva =
-                        tableModelReserva.getReserva(fila);
-
+                Reserva reserva = tableModelReserva.getReserva(fila);
                 int respuesta = JOptionPane.showConfirmDialog(
                         ReservaView.this,
                         "¿Está seguro de que desea cancelar esta reserva?",
                         "Cancelar reserva",
                         JOptionPane.YES_NO_OPTION
                 );
-
                 if (respuesta == JOptionPane.YES_OPTION) {
-
-                    boolean resultado =
-                            controller.eliminarReserva(
-                                    reserva.getId()
-                            );
-
+                    boolean resultado = controller.eliminarReserva(reserva.getId());
                     if (resultado) {
                         cargarTabla();
                         limpiarCampos();
-
                         JOptionPane.showMessageDialog(
                                 ReservaView.this,
                                 "Reserva cancelada correctamente.",
@@ -167,12 +142,10 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         buttonAceptar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String actividad = textFieldActividad.getText().trim();
                 LocalDate fecha = datePicker.getDate();
                 LocalTime horaInicio = timePickerInicio.getTime();
                 LocalTime horaFin = timePickerFin.getTime();
-
                 if (actividad.isEmpty()) {
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
@@ -182,7 +155,6 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                     );
                     return;
                 }
-
                 if (fecha == null) {
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
@@ -192,7 +164,6 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                     );
                     return;
                 }
-
                 if (horaInicio == null || horaFin == null) {
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
@@ -202,7 +173,6 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                     );
                     return;
                 }
-
                 if (!horaInicio.isBefore(horaFin)) {
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
@@ -212,7 +182,6 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                     );
                     return;
                 }
-
                 if (solicitudes.isEmpty()) {
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
@@ -222,7 +191,6 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                     );
                     return;
                 }
-
                 boolean resultado = controller.crearReserva(
                         usuarioLogueado,
                         actividad,
@@ -231,11 +199,9 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                         horaFin,
                         new ArrayList<>(solicitudes)
                 );
-
                 if (resultado) {
                     cargarTabla();
                     limpiarCampos();
-
                     JOptionPane.showMessageDialog(
                             ReservaView.this,
                             "Reserva creada correctamente.",
@@ -256,14 +222,9 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         tableReseravas.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
-
                 int fila = tableReseravas.getSelectedRow();
-
                 if (fila >= 0) {
-
-                    Reserva reserva =
-                            tableModelReserva.getReserva(fila);
-
+                    Reserva reserva = tableModelReserva.getReserva(fila);
                     cargarReservaSeleccionada(reserva);
                 }
             }
@@ -286,12 +247,109 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         });
     }
 
-    private void inicializarCategorias() {
-        comboBoxCategoria.removeAllItems();
+    private void reservaAutomatica() {
+        String frase = textFieldReservaAutomatica.getText().trim();
+        if (frase.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    ReservaView.this,
+                    "Escriba una descripción de la reserva.",
+                    "Reserva automática",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
+        }
+
+        try {
+            ReservaExtraccion resultado = controller.extraerReserva(frase);
+
+            if (resultado == null) {
+                JOptionPane.showMessageDialog(
+                        ReservaView.this,
+                        "No fue posible interpretar la reserva.",
+                        "Reserva automática",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+
+            if (resultado.getActividad() != null) {
+                textFieldActividad.setText(resultado.getActividad());
+            }
+
+            if (resultado.getFecha() != null) {
+                datePicker.setDate(LocalDate.parse(resultado.getFecha()));
+            }
+
+            if (resultado.getHoraInicio() != null) {
+                timePickerInicio.setTime(LocalTime.parse(resultado.getHoraInicio()));
+            }
+
+            if (resultado.getHoraFinal() != null) {
+                timePickerFin.setTime(LocalTime.parse(resultado.getHoraFinal()));
+            }
+
+            cargarCategoriasIA(resultado.getCategoriasRecurso());
+
+            JOptionPane.showMessageDialog(
+                    ReservaView.this,
+                    "Los datos de la reserva fueron completados automáticamente.\nRevise la información antes de aceptar.",
+                    "Reserva automática",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    ReservaView.this,
+                    "No fue posible interpretar la reserva.\n" + ex.getMessage(),
+                    "Reserva automática",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    private void cargarCategoriasIA(java.util.List<String> categoriasIA) {
+        if (categoriasIA == null || categoriasIA.isEmpty()) {
+            return;
+        }
+
+        solicitudes.clear();
+        modeloRecursos.clear();
+
+        for (String descripcionIA : categoriasIA) {
+            CategoriaRecurso categoriaEncontrada = buscarCategoria(descripcionIA);
+
+            if (categoriaEncontrada != null) {
+                SolicitudRecurso solicitud = new SolicitudRecurso(categoriaEncontrada, 1);
+                solicitudes.add(solicitud);
+                modeloRecursos.addElement(
+                        categoriaEncontrada.getDescripcion() + " x1"
+                );
+            }
+        }
+
+        listRecursos.setModel(modeloRecursos);
+    }
+
+    private CategoriaRecurso buscarCategoria(String descripcion) {
+        if (descripcion == null) {
+            return null;
+        }
 
         for (CategoriaRecurso categoria :
                 controller.getGestorCategorias().getCategorias()) {
 
+            if (categoria.getDescripcion().equalsIgnoreCase(descripcion.trim())) {
+                return categoria;
+            }
+        }
+
+        return null;
+    }
+
+    private void inicializarCategorias() {
+        comboBoxCategoria.removeAllItems();
+        for (CategoriaRecurso categoria :
+                controller.getGestorCategorias().getCategorias()) {
             comboBoxCategoria.addItem(categoria);
         }
     }
@@ -299,14 +357,12 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
     private void configurarCantidad() {
         SpinnerNumberModel modelo =
                 new SpinnerNumberModel(1, 1, 100, 1);
-
         spinnerCantidad.setModel(modelo);
     }
 
     private void agregarRecurso() {
         CategoriaRecurso categoria =
                 (CategoriaRecurso) comboBoxCategoria.getSelectedItem();
-
         if (categoria == null) {
             JOptionPane.showMessageDialog(
                     this,
@@ -320,10 +376,8 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
         int cantidad = (Integer) spinnerCantidad.getValue();
 
         for (SolicitudRecurso solicitud : solicitudes) {
-
             if (solicitud.getCategoria().getVarId()
                     .equals(categoria.getVarId())) {
-
                 JOptionPane.showMessageDialog(
                         this,
                         "La categoría ya fue agregada.",
@@ -338,18 +392,15 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                 new SolicitudRecurso(categoria, cantidad);
 
         solicitudes.add(solicitud);
-
         modeloRecursos.addElement(
                 categoria.getDescripcion() + " x" + cantidad
         );
-
         listRecursos.setModel(modeloRecursos);
         spinnerCantidad.setValue(1);
     }
 
     private void eliminarRecurso() {
         int indice = listRecursos.getSelectedIndex();
-
         if (indice == -1) {
             JOptionPane.showMessageDialog(
                     this,
@@ -359,60 +410,35 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
             );
             return;
         }
-
         solicitudes.remove(indice);
         modeloRecursos.remove(indice);
     }
 
     private void cargarReservaSeleccionada(Reserva reserva) {
-
-        textFieldActividad.setText(
-                reserva.getActividad()
-        );
-
-        datePicker.setDate(
-                reserva.getFecha()
-        );
-
-        timePickerInicio.setTime(
-                reserva.getHoraInicio()
-        );
-
-        timePickerFin.setTime(
-                reserva.getHoraFin()
-        );
-
+        textFieldActividad.setText(reserva.getActividad());
+        datePicker.setDate(reserva.getFecha());
+        timePickerInicio.setTime(reserva.getHoraInicio());
+        timePickerFin.setTime(reserva.getHoraFin());
         solicitudes.clear();
         modeloRecursos.clear();
 
         if (reserva.getRecursos() != null) {
-
-            for (Recurso recurso :
-                    reserva.getRecursos()) {
-
-                CategoriaRecurso categoria =
-                        recurso.getRecurso();
-
+            for (Recurso recurso : reserva.getRecursos()) {
+                CategoriaRecurso categoria = recurso.getRecurso();
                 boolean existe = false;
 
-                for (SolicitudRecurso solicitud :
-                        solicitudes) {
-
-                    if (solicitud.getCategoria()
-                            .getVarId()
+                for (SolicitudRecurso solicitud : solicitudes) {
+                    if (solicitud.getCategoria().getVarId()
                             .equals(categoria.getVarId())) {
-
                         solicitud.setCantidad(
                                 solicitud.getCantidad() + 1
                         );
-
                         existe = true;
                         break;
                     }
                 }
 
                 if (!existe) {
-
                     solicitudes.add(
                             new SolicitudRecurso(
                                     categoria,
@@ -423,9 +449,7 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
             }
         }
 
-        for (SolicitudRecurso solicitud :
-                solicitudes) {
-
+        for (SolicitudRecurso solicitud : solicitudes) {
             modeloRecursos.addElement(
                     solicitud.getCategoria().getDescripcion()
                             + " x"
@@ -438,17 +462,13 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
 
     private void limpiarCampos() {
         controller.limpiarModel();
-
         textFieldReservaAutomatica.setText("");
         textFieldActividad.setText("");
-
         datePicker.setDate(null);
         timePickerInicio.setTime(null);
         timePickerFin.setTime(null);
-
         solicitudes.clear();
         modeloRecursos.clear();
-
         listRecursos.setModel(modeloRecursos);
         spinnerCantidad.setValue(1);
 
@@ -461,12 +481,10 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
 
     private void cargarTabla() {
         controller.recargarReservas();
-
         tableModelReserva =
                 new TableModelReserva(
                         controller.getGestorReservas().getReservas()
                 );
-
         tableReseravas.setModel(tableModelReserva);
     }
 
@@ -482,13 +500,11 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
         if (evt.getPropertyName().equals("solicitudes")) {
             modeloRecursos.clear();
 
             for (SolicitudRecurso solicitud :
                     controller.getModel().getSolicitudes()) {
-
                 modeloRecursos.addElement(
                         solicitud.getCategoria().getDescripcion()
                                 + " x"

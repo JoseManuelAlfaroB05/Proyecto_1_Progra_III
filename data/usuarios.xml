@@ -1,15 +1,24 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><usuarios>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<usuarios>
     <usuario>
         <id>admin</id>
         <clave>123</clave>
         <rol>ADMINISTRADOR</rol>
+        <nombre>Administrador</nombre>
+        <telefono>88888888</telefono>
     </usuario>
-
     <usuario>
         <id>fun-000</id>
         <clave>fun-000</clave>
         <rol>FUNCIONARIO</rol>
         <nombre>Andres</nombre>
         <telefono>77777777</telefono>
+    </usuario>
+    <usuario>
+        <id>FUN-001</id>
+        <clave>FUN-001</clave>
+        <rol>FUNCIONARIO</rol>
+        <nombre>Carlos</nombre>
+        <telefono>21213636</telefono>
     </usuario>
 </usuarios>

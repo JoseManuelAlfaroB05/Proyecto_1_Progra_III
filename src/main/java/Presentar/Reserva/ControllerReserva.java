@@ -7,6 +7,8 @@ import Service.GestorCategorias;
 import Service.GestorRecursos;
 import Service.GestorReservas;
 import Service.PDFService;
+import Service.ReservaIA.ReservaExtraccion;
+import Service.ReservaIA.ReservaExtractor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 public class ControllerReserva {
     private GestorReservas gestorReservas;
     private ModelReserva model;
+    private final ReservaExtractor extractor = new ReservaExtractor();
 
     public ControllerReserva() {
         gestorReservas = new GestorReservas();
@@ -90,5 +93,8 @@ public class ControllerReserva {
 
     public void generarPDF() throws Exception {
         PDFService.generarPDFReservas(gestorReservas.getReservas());
+    }
+    public ReservaExtraccion extraerReserva(String frase) {
+        return extractor.extraerReserva(frase, gestorReservas.getGestorCategorias().getCategorias());
     }
 }
