@@ -2,6 +2,7 @@ package Presentar.Actividades;
 
 import Recursos.Reserva;
 import Service.GestorReservas;
+import Service.PDFService;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -26,5 +27,9 @@ public class ControllerActividades {
                         && reserva.getFecha().isBefore(lunes.plusDays(7)))
                 .toList();
         model.setSemana(lunes, reservas);
+    }
+
+    public void generarPDF() throws Exception {
+        PDFService.generarPDFActividades(model.getLunes(), model.getReservas());
     }
 }

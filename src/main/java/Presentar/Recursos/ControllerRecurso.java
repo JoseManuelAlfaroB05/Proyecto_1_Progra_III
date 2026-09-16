@@ -4,6 +4,7 @@ import Recursos.CategoriaRecurso;
 import Recursos.Recurso;
 import Service.GestorCategorias;
 import Service.GestorRecursos;
+import Service.PDFService;
 
 public class ControllerRecurso {
     private final GestorRecursos gestor = new GestorRecursos();
@@ -68,5 +69,9 @@ public class ControllerRecurso {
 
     public void limpiar() {
         model.setCurrent(new Recurso());
+    }
+
+    public void generarPDF() throws Exception {
+        PDFService.generarPDFRecursos(model.getList());
     }
 }

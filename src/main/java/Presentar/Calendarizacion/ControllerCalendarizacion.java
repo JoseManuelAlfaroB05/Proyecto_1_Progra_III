@@ -3,6 +3,7 @@ package Presentar.Calendarizacion;
 import Recursos.CategoriaRecurso;
 import Recursos.Reserva;
 import Service.GestorReservas;
+import Service.PDFService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,6 +27,14 @@ public class ControllerCalendarizacion {
 
     public void recargarDatos() {
         gestorReservas.getGestorCategorias().recargarCategorias();
+    }
+
+    public void generarPDF() throws Exception {
+        PDFService.generarPDFCalendarizacion(
+                model.getReservas(),
+                model.getFecha(),
+                model.getCategoria()
+        );
     }
 
     public void buscarFechaYCategoria(

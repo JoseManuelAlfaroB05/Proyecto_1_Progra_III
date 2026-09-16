@@ -268,10 +268,20 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
                 }
             }
         });
+
         buttonPDF.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    controller.generarPDF();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(
+                            ReservaView.this,
+                            "No se pudo generar el PDF.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
             }
         });
     }

@@ -4,6 +4,8 @@ import Recursos.CategoriaRecurso;
 import Recursos.Recurso;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -41,10 +43,8 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
 
     public void recargarDatos() {
         controller.recargarCategorias();
-
         filtroCategoria.removeAllItems();
         campoCategoria.removeAllItems();
-
         cargarCategorias();
     }
 
@@ -58,16 +58,22 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
 
         JButton buscar = new JButton("Buscar");
         buscar.addActionListener(e ->
-                controller.cargarLista(
-                        categoriaId(filtroCategoria),
-                        filtroDescripcion.getText()
-                )
+                controller.cargarLista(categoriaId(filtroCategoria), filtroDescripcion.getText())
         );
         panel.add(buscar);
 
-        JButton imprimir = new JButton("Imprimir");
-        imprimir.addActionListener(e -> imprimirTabla());
-        panel.add(imprimir);
+        JButton pdf = new JButton("PDF");
+        pdf.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.generarPDF();
+                } catch (Exception ex) {
+                    mostrarError("No se pudo generar el PDF.");
+                }
+            }
+        });
+        panel.add(pdf);
 
         return panel;
     }
@@ -108,13 +114,7 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         return panel;
     }
 
-    private void agregarCampo(
-            JPanel panel,
-            GridBagConstraints c,
-            int fila,
-            String etiqueta,
-            JComponent campo) {
-
+    private void agregarCampo(JPanel panel, GridBagConstraints c, int fila, String etiqueta, JComponent campo) {
         c.gridy = fila;
         c.gridx = 0;
         c.gridwidth = 1;
@@ -138,14 +138,7 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
 
         tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tabla.getSelectedRow() >= 0) {
-                controller.seleccionar(
-                        String.valueOf(
-                                tabla.getValueAt(
-                                        tabla.getSelectedRow(),
-                                        0
-                                )
-                        )
-                );
+                controller.seleccionar(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
             }
         });
 
@@ -159,26 +152,21 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         String id = campoId.getText().trim();
         String descripcion = campoDescripcion.getText().trim();
 
-        CategoriaRecurso categoria =
-                (CategoriaRecurso) campoCategoria.getSelectedItem();
+        CategoriaRecurso categoria = (CategoriaRecurso) campoCategoria.getSelectedItem();
 
         if (id.isEmpty() || descripcion.isEmpty() || categoria == null) {
             mostrarError("Complete el ID, la categoría y la descripción.");
             return;
         }
 
-        boolean existe = model.getList()
-                .stream()
-                .anyMatch(r -> r.getId().equalsIgnoreCase(id));
+        boolean existe = model.getList().stream().anyMatch(r -> r.getId().equalsIgnoreCase(id));
 
         boolean resultado = existe
                 ? controller.actualizar(id, categoria, descripcion)
                 : controller.guardar(id, categoria, descripcion);
 
         if (!resultado) {
-            mostrarError(
-                    "No fue posible guardar el recurso. Verifique que el ID sea único."
-            );
+            mostrarError("No fue posible guardar el recurso. Verifique que el ID sea único.");
             return;
         }
 
@@ -204,75 +192,37 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
     }
 
     private String categoriaId(JComboBox<CategoriaRecurso> combo) {
-        CategoriaRecurso categoria =
-                (CategoriaRecurso) combo.getSelectedItem();
-
-        return categoria == null
-                ? ""
-                : categoria.getVarId();
-    }
-
-    private void imprimirTabla() {
-        try {
-            tabla.print();
-        } catch (Exception e) {
-            mostrarError("No fue posible imprimir el listado.");
-        }
+        CategoriaRecurso categoria = (CategoriaRecurso) combo.getSelectedItem();
+        return categoria == null ? "" : categoria.getVarId();
     }
 
     private void mostrarError(String mensaje) {
-        JOptionPane.showMessageDialog(
-                this,
-                mensaje,
-                "Recursos",
-                JOptionPane.ERROR_MESSAGE
-        );
+        JOptionPane.showMessageDialog(this, mensaje, "Recursos", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (ModelRecurso.LIST.equals(evt.getPropertyName())) {
-
-            tabla.setModel(
-                    new TableModelRecurso(
-                            new int[]{
-                                    TableModelRecurso.ID,
-                                    TableModelRecurso.CATEGORIA,
-                                    TableModelRecurso.DESCRIPCION
-                            },
-                            model.getList()
-                    )
-            );
-
+            tabla.setModel(new TableModelRecurso(new int[]{
+                    TableModelRecurso.ID,
+                    TableModelRecurso.CATEGORIA,
+                    TableModelRecurso.DESCRIPCION
+            }, model.getList()));
         } else if (ModelRecurso.CURRENT.equals(evt.getPropertyName())) {
-
             Recurso recurso = model.getCurrent();
 
-            campoId.setText(
-                    recurso.getId() == null
-                            ? ""
-                            : recurso.getId()
-            );
-
-            campoDescripcion.setText(
-                    recurso.getDescripcion() == null
-                            ? ""
-                            : recurso.getDescripcion()
-            );
+            campoId.setText(recurso.getId() == null ? "" : recurso.getId());
+            campoDescripcion.setText(recurso.getDescripcion() == null ? "" : recurso.getDescripcion());
 
             if (recurso.getRecurso() != null) {
-                campoCategoria.setSelectedItem(
-                        recurso.getRecurso()
-                );
+                campoCategoria.setSelectedItem(recurso.getRecurso());
             } else {
                 campoCategoria.setSelectedItem(null);
             }
         }
     }
 
-    private static class CategoriaRenderer
-            extends DefaultListCellRenderer {
-
+    private static class CategoriaRenderer extends DefaultListCellRenderer {
         private final String emptyText;
 
         private CategoriaRenderer(String emptyText) {
@@ -280,27 +230,9 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         }
 
         @Override
-        public Component getListCellRendererComponent(
-                JList<?> list,
-                Object value,
-                int index,
-                boolean selected,
-                boolean focused) {
-
-            super.getListCellRendererComponent(
-                    list,
-                    value,
-                    index,
-                    selected,
-                    focused
-            );
-
-            setText(
-                    value == null
-                            ? emptyText
-                            : value.toString()
-            );
-
+        public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean selected, boolean focused) {
+            super.getListCellRendererComponent(list, value, index, selected, focused);
+            setText(value == null ? emptyText : value.toString());
             return this;
         }
     }

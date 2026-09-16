@@ -5,6 +5,8 @@ import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
@@ -30,12 +32,24 @@ public class ActividadesView extends JPanel implements PropertyChangeListener {
         panel.setBorder(BorderFactory.createTitledBorder("Semana"));
         panel.add(new JLabel("Fecha de referencia"));
         panel.add(fechaReferencia);
+
         JButton cargar = new JButton("Cargar");
         cargar.addActionListener(e -> cargarSemana());
         panel.add(cargar);
-        JButton imprimir = new JButton("Imprimir");
-        imprimir.addActionListener(e -> imprimir());
-        panel.add(imprimir);
+
+        JButton pdf = new JButton("PDF");
+        pdf.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.generarPDF();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(ActividadesView.this, "No fue posible generar el PDF.", "Actividades", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        panel.add(pdf);
+
         return panel;
     }
 
@@ -53,6 +67,7 @@ public class ActividadesView extends JPanel implements PropertyChangeListener {
     private void actualizarTabla() {
         tabla.setModel(new TableModelActividades(model));
         tabla.getColumnModel().getColumn(0).setPreferredWidth(70);
+
         for (int i = 1; i < 8; i++) {
             tabla.getColumnModel().getColumn(i).setPreferredWidth(145);
         }
@@ -62,15 +77,6 @@ public class ActividadesView extends JPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         if (ModelActividades.SEMANA.equals(evt.getPropertyName())) {
             actualizarTabla();
-        }
-    }
-
-    private void imprimir() {
-        try {
-            tabla.print();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "No fue posible imprimir las actividades.",
-                    "Actividades", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

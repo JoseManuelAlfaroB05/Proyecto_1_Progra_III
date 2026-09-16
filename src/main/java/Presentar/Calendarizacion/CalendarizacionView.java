@@ -5,12 +5,13 @@ import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.time.LocalDate;
 
 public class CalendarizacionView extends JPanel implements PropertyChangeListener {
-
     private JPanel panelPrincipal;
     private JPanel ContentedPanel;
     private JPanel CalendarizacionPanel;
@@ -32,30 +33,31 @@ public class CalendarizacionView extends JPanel implements PropertyChangeListene
         add(panelPrincipal, BorderLayout.CENTER);
 
         controller = new ControllerCalendarizacion();
-
         controller.getModel().addPropertyChangeListener(this);
 
-        tableModelCalendarizacion =
-                new TableModelCalendarizacion(
-                        controller.getModel().getReservas()
-                );
-
+        tableModelCalendarizacion = new TableModelCalendarizacion(controller.getModel().getReservas());
         table1.setModel(tableModelCalendarizacion);
 
         cargarCategorias();
 
         buttonOK.addActionListener(e -> {
-            controller.buscarFechaYCategoria(
-                    getFecha(),
-                    getCategoria()
-            );
+            controller.buscarFechaYCategoria(getFecha(), getCategoria());
+        });
+
+        buttonPDF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.generarPDF();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(CalendarizacionView.this, "No se pudo generar el PDF.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
     }
 
     private void cargarCategorias() {
-        for (CategoriaRecurso categoria :
-                controller.getGestorReservas().getGestorCategorias().getCategorias()) {
-
+        for (CategoriaRecurso categoria : controller.getGestorReservas().getGestorCategorias().getCategorias()) {
             comboBox1.addItem(categoria);
         }
     }
@@ -76,12 +78,8 @@ public class CalendarizacionView extends JPanel implements PropertyChangeListene
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
         if (evt.getPropertyName().equals("reservas")) {
-
-            tableModelCalendarizacion.setReservas(
-                    controller.getModel().getReservas()
-            );
+            tableModelCalendarizacion.setReservas(controller.getModel().getReservas());
         }
     }
 }

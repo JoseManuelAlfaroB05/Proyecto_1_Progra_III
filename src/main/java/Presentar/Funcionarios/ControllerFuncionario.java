@@ -2,6 +2,7 @@ package Presentar.Funcionarios;
 
 import Recursos.Rol;
 import Recursos.User;
+import Service.PDFService;
 import Service.UserXMLDao;
 import java.util.List;
 
@@ -32,14 +33,7 @@ public class ControllerFuncionario {
             return false;
         }
 
-        User funcionario = new User(
-                id,
-                id,
-                Rol.FUNCIONARIO,
-                nombre,
-                telefono
-        );
-
+        User funcionario = new User(id, id, Rol.FUNCIONARIO, nombre, telefono);
         boolean resultado = dao.guardarFuncionario(funcionario);
 
         if (resultado) {
@@ -60,14 +54,7 @@ public class ControllerFuncionario {
             return false;
         }
 
-        User funcionario = new User(
-                id,
-                existente.getVarClave(),
-                Rol.FUNCIONARIO,
-                nombre,
-                telefono
-        );
-
+        User funcionario = new User(id, existente.getVarClave(), Rol.FUNCIONARIO, nombre, telefono);
         boolean resultado = dao.actualizarFuncionario(funcionario);
 
         if (resultado) {
@@ -82,9 +69,7 @@ public class ControllerFuncionario {
         boolean resultado = dao.eliminarFuncionario(id);
 
         if (resultado) {
-            model.setCurrent(
-                    new User("", "", Rol.FUNCIONARIO, "", "")
-            );
+            model.setCurrent(new User("", "", Rol.FUNCIONARIO, "", ""));
             cargarLista();
         }
 
@@ -92,9 +77,11 @@ public class ControllerFuncionario {
     }
 
     public void limpiar() {
-        model.setCurrent(
-                new User("", "", Rol.FUNCIONARIO, "", "")
-        );
+        model.setCurrent(new User("", "", Rol.FUNCIONARIO, "", ""));
+    }
+
+    public void generarPDF() throws Exception {
+        PDFService.generarPDFFuncionarios(model.getList());
     }
 
     private boolean telefonoValido(String telefono) {

@@ -3,6 +3,7 @@ package Presentar.Estadisticas;
 import Recursos.Recurso;
 import Recursos.Reserva;
 import Service.GestorReservas;
+import Service.PDFService;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -41,11 +42,16 @@ public class ControllerEstadisticas {
         model.setActividades(conteo);
     }
 
+    public void generarPDFRecursos() throws Exception {
+        PDFService.generarPDFEstadisticasRecursos(model.getRecursos());
+    }
+
+    public void generarPDFActividades() throws Exception {
+        PDFService.generarPDFEstadisticasRecursos((model.getActividades()));
+    }
+
     private Iterable<Reserva> reservasEnRango(LocalDate desde, LocalDate hasta) {
         gestor.recargarReservas();
-        return gestor.getReservas().stream()
-                .filter(reserva -> !reserva.getFecha().isBefore(desde)
-                        && !reserva.getFecha().isAfter(hasta))
-                .toList();
+        return gestor.getReservas().stream().filter(reserva -> !reserva.getFecha().isBefore(desde) && !reserva.getFecha().isAfter(hasta)).toList();
     }
 }

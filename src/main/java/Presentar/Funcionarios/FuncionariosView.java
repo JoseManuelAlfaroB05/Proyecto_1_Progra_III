@@ -37,6 +37,7 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
 
     private void configurarTelefono() {
         campoTelefono.setToolTipText("Ingrese solo números");
+
         ((AbstractDocument) campoTelefono.getDocument()).setDocumentFilter(new DocumentFilter() {
             @Override
             public void insertString(FilterBypass fb, int offset, String string, javax.swing.text.AttributeSet attr) throws javax.swing.text.BadLocationException {
@@ -66,9 +67,18 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
         buscar.addActionListener(e -> controller.buscar(filtroId.getText(), filtroNombre.getText()));
         panel.add(buscar);
 
-        JButton imprimir = new JButton("Imprimir");
-        imprimir.addActionListener(e -> imprimirTabla());
-        panel.add(imprimir);
+        JButton pdf = new JButton("PDF");
+        pdf.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+                try {
+                    controller.generarPDF();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(FuncionariosView.this, "No fue posible generar el PDF.", "Funcionarios", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        panel.add(pdf);
 
         return panel;
     }
@@ -149,11 +159,13 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
                     TableModelFuncionario.NOMBRE,
                     TableModelFuncionario.TELEFONO
             };
+
             tabla.setModel(new TableModelFuncionario(cols, model.getList()));
         }
 
         if (evt.getPropertyName().equals(ModelFuncionario.CURRENT)) {
             User funcionario = model.getCurrent();
+
             campoId.setText(funcionario.getVarId());
             campoNombre.setText(funcionario.getVarNombre());
             campoTelefono.setText(funcionario.getVarTelefono());
@@ -207,14 +219,6 @@ public class FuncionariosView extends JPanel implements PropertyChangeListener {
         filtroNombre.setText("");
         controller.limpiar();
         tabla.clearSelection();
-    }
-
-    private void imprimirTabla() {
-        try {
-            tabla.print();
-        } catch (Exception e) {
-            mostrarError("No fue posible imprimir el listado.");
-        }
     }
 
     private void mostrarError(String mensaje) {

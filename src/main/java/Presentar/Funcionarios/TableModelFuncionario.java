@@ -43,6 +43,7 @@ public class TableModelFuncionario extends javax.swing.table.AbstractTableModel 
     @Override
     public Object getValueAt(int row, int col) {
         User funcionario = rows.get(row);
+
         switch (cols[col]) {
             case ID:
                 return funcionario.getVarId();

@@ -1,6 +1,7 @@
 package Presentar.Categoria;
 
 import Service.GestorCategorias;
+import Service.PDFService;
 import Recursos.CategoriaRecurso;
 import java.util.List;
 
@@ -55,5 +56,9 @@ public class ControllerCategoria {
 
     public void limpiar() {
         model.setCurrent(new CategoriaRecurso("", ""));
+    }
+
+    public void generarPDF() throws Exception {
+        PDFService.generarPDFCategorias(gestorCategorias.getCategorias());
     }
 }

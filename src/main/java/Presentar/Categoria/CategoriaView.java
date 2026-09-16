@@ -66,12 +66,7 @@ public class CategoriaView extends JPanel implements PropertyChangeListener {
 
                 if (categoria == null) {
                     controller.limpiar();
-                    JOptionPane.showMessageDialog(
-                            CategoriaView.this,
-                            "No se encontró ninguna categoría con esa descripción.",
-                            "Búsqueda",
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(CategoriaView.this, "No se encontró ninguna categoría con esa descripción.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
@@ -82,41 +77,21 @@ public class CategoriaView extends JPanel implements PropertyChangeListener {
                 String id = textFieldId.getText().trim();
 
                 if (id.isEmpty()) {
-                    JOptionPane.showMessageDialog(
-                            CategoriaView.this,
-                            "Debe seleccionar una categoría para eliminar.",
-                            "Eliminar categoría",
-                            JOptionPane.WARNING_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(CategoriaView.this, "Debe seleccionar una categoría para eliminar.", "Eliminar categoría", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
-                int respuesta = JOptionPane.showConfirmDialog(
-                        CategoriaView.this,
-                        "¿Está seguro de que desea eliminar esta categoría?",
-                        "Confirmar eliminación",
-                        JOptionPane.YES_NO_OPTION
-                );
+                int respuesta = JOptionPane.showConfirmDialog(CategoriaView.this, "¿Está seguro de que desea eliminar esta categoría?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
 
                 if (respuesta == JOptionPane.YES_OPTION) {
                     boolean eliminado = controller.eliminarCategoria(id);
 
                     if (eliminado) {
-                        JOptionPane.showMessageDialog(
-                                CategoriaView.this,
-                                "Categoría eliminada correctamente.",
-                                "Eliminar categoría",
-                                JOptionPane.INFORMATION_MESSAGE
-                        );
+                        JOptionPane.showMessageDialog(CategoriaView.this, "Categoría eliminada correctamente.", "Eliminar categoría", JOptionPane.INFORMATION_MESSAGE);
                         controller.limpiar();
                         textFieldBusqueda.setText("");
                     } else {
-                        JOptionPane.showMessageDialog(
-                                CategoriaView.this,
-                                "No se pudo eliminar la categoría.",
-                                "Error",
-                                JOptionPane.ERROR_MESSAGE
-                        );
+                        JOptionPane.showMessageDialog(CategoriaView.this, "No se pudo eliminar la categoría.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -129,33 +104,18 @@ public class CategoriaView extends JPanel implements PropertyChangeListener {
                 String descripcion = textFieldDescripcion.getText().trim();
 
                 if (id.isEmpty() || descripcion.isEmpty()) {
-                    JOptionPane.showMessageDialog(
-                            CategoriaView.this,
-                            "Debe completar todos los campos.",
-                            "Agregar categoría",
-                            JOptionPane.WARNING_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(CategoriaView.this, "Debe completar todos los campos.", "Agregar categoría", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
                 boolean agregada = controller.agregarCategoria(id, descripcion);
 
                 if (agregada) {
-                    JOptionPane.showMessageDialog(
-                            CategoriaView.this,
-                            "Categoría agregada correctamente.",
-                            "Agregar categoría",
-                            JOptionPane.INFORMATION_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(CategoriaView.this, "Categoría agregada correctamente.", "Agregar categoría", JOptionPane.INFORMATION_MESSAGE);
                     controller.limpiar();
                     textFieldBusqueda.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(
-                            CategoriaView.this,
-                            "No se pudo agregar la categoría.\nVerifique que el ID no esté repetido.",
-                            "Error",
-                            JOptionPane.ERROR_MESSAGE
-                    );
+                    JOptionPane.showMessageDialog(CategoriaView.this, "No se pudo agregar la categoría.\nVerifique que el ID no esté repetido.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -166,13 +126,20 @@ public class CategoriaView extends JPanel implements PropertyChangeListener {
                 int fila = tableCategorias.getSelectedRow();
 
                 if (fila >= 0) {
-                    TableModelCategoria tableModel =
-                            (TableModelCategoria) tableCategorias.getModel();
-
-                    CategoriaRecurso categoria =
-                            tableModel.getCategoria(fila);
-
+                    TableModelCategoria tableModel = (TableModelCategoria) tableCategorias.getModel();
+                    CategoriaRecurso categoria = tableModel.getCategoria(fila);
                     model.setCurrent(categoria);
+                }
+            }
+        });
+
+        buttonPDF.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    controller.generarPDF();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(CategoriaView.this, "No se pudo generar el PDF.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -185,9 +152,7 @@ public class CategoriaView extends JPanel implements PropertyChangeListener {
                     TableModelCategoria.ID,
                     TableModelCategoria.DESCRIPCION
             };
-            tableCategorias.setModel(
-                    new TableModelCategoria(cols, model.getList())
-            );
+            tableCategorias.setModel(new TableModelCategoria(cols, model.getList()));
         }
 
         if (evt.getPropertyName().equals(ModelCategoria.CURRENT)) {
