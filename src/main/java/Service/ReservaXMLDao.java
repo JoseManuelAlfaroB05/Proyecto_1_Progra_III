@@ -10,6 +10,7 @@ import jakarta.xml.bind.Unmarshaller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReservaXMLDao {
 
@@ -83,6 +84,53 @@ public class ReservaXMLDao {
 
         } catch (Exception e) {
             System.out.println("Error al eliminar reserva: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean eliminarPorRecursos(List<String> idsRecursos) {
+        try {
+            if (idsRecursos == null || idsRecursos.isEmpty()) {
+                return true;
+            }
+
+            Reservas reservas = cargarReservas();
+            ArrayList<Reserva> reservasEliminar = new ArrayList<>();
+
+            for (Reserva reserva : reservas.getReservas()) {
+
+                if (reserva.getRecursosIds() == null) {
+                    continue;
+                }
+
+                boolean eliminar = false;
+
+                for (String idRecurso : reserva.getRecursosIds()) {
+
+                    if (idsRecursos.contains(idRecurso)) {
+                        eliminar = true;
+                        break;
+                    }
+                }
+
+                if (eliminar) {
+                    reservasEliminar.add(reserva);
+                }
+            }
+
+            reservas.getReservas().removeAll(reservasEliminar);
+
+            if (!reservasEliminar.isEmpty()) {
+                guardarReservas(reservas);
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(
+                    "Error al eliminar reservas relacionadas: "
+                            + e.getMessage()
+            );
             return false;
         }
     }

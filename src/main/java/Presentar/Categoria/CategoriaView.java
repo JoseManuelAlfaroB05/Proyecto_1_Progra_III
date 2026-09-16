@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -154,6 +156,23 @@ public class CategoriaView extends JPanel implements PropertyChangeListener {
                             "Error",
                             JOptionPane.ERROR_MESSAGE
                     );
+                }
+            }
+        });
+
+        tableCategorias.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = tableCategorias.getSelectedRow();
+
+                if (fila >= 0) {
+                    TableModelCategoria tableModel =
+                            (TableModelCategoria) tableCategorias.getModel();
+
+                    CategoriaRecurso categoria =
+                            tableModel.getCategoria(fila);
+
+                    model.setCurrent(categoria);
                 }
             }
         });

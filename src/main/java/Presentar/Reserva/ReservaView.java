@@ -439,6 +439,9 @@ public class ReservaView extends JPanel implements PropertyChangeListener {
 
         tableReseravas.setModel(tableModelReserva);
     }
+    public void recargarTabla() {
+        cargarTabla();
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

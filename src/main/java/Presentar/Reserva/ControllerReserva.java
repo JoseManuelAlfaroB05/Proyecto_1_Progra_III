@@ -1,5 +1,6 @@
 package Presentar.Reserva;
 
+import Recursos.Reserva;
 import Recursos.SolicitudRecurso;
 import Recursos.User;
 import Service.GestorCategorias;
@@ -35,6 +36,10 @@ public class ControllerReserva {
         return model;
     }
 
+    public ArrayList<Reserva> getReservas() {
+        return gestorReservas.getReservas();
+    }
+
     public void agregarSolicitud(SolicitudRecurso solicitud) {
         model.agregarSolicitud(solicitud);
     }
@@ -43,10 +48,7 @@ public class ControllerReserva {
         model.eliminarSolicitud(indice);
     }
 
-    public boolean crearReserva(User usuario, String actividad, LocalDate fecha,
-                                LocalTime horaInicio, LocalTime horaFin,
-                                ArrayList<SolicitudRecurso> solicitudes) {
-
+    public boolean crearReserva(User usuario,String actividad,LocalDate fecha,LocalTime horaInicio,LocalTime horaFin,ArrayList<SolicitudRecurso> solicitudes) {
         model.setUsuario(usuario);
         model.setActividad(actividad);
         model.setFecha(fecha);
@@ -54,8 +56,7 @@ public class ControllerReserva {
         model.setHoraFin(horaFin);
         model.setSolicitudes(new ArrayList<>(solicitudes));
 
-        String id = "RES-" +
-                String.format("%03d", gestorReservas.getReservas().size() + 1);
+        String id = "RES-" + String.format("%03d",gestorReservas.getReservas().size() + 1);
 
         return gestorReservas.crearReserva(
                 id,

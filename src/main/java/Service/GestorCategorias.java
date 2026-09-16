@@ -1,8 +1,10 @@
 package Service;
 
 import Recursos.CategoriaRecurso;
+import Recursos.Recurso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestorCategorias {
 
@@ -85,17 +87,46 @@ public class GestorCategorias {
 
     public boolean eliminarCategoria(String id) {
 
-        boolean eliminado =
-                categoriaXMLDao.eliminarCategoria(id);
+        CategoriaRecurso categoria = buscarPorId(id);
 
-        if (eliminado) {
-
-            categorias =
-                    categoriaXMLDao.listarTodas();
-
-            return true;
+        if (categoria == null) {
+            return false;
         }
 
-        return false;
+        GestorRecursos gestorRecursos =
+                new GestorRecursos();
+
+        ArrayList<Recurso> recursos =
+                gestorRecursos.obtenerPorCategoria(categoria);
+
+        ArrayList<String> idsRecursos =
+                new ArrayList<>();
+
+        for (Recurso recurso : recursos) {
+            idsRecursos.add(recurso.getId());
+        }
+
+        ReservaXMLDao reservaXMLDao =
+                new ReservaXMLDao();
+
+        if (!reservaXMLDao.eliminarPorRecursos(idsRecursos)) {
+            return false;
+        }
+
+        for (Recurso recurso : recursos) {
+
+            if (!gestorRecursos.eliminar(recurso.getId())) {
+                return false;
+            }
+        }
+
+        if (!categoriaXMLDao.eliminarCategoria(id)) {
+            return false;
+        }
+
+        categorias =
+                categoriaXMLDao.listarTodas();
+
+        return true;
     }
 }

@@ -26,9 +26,9 @@ public class MainView extends JFrame {
     private JPanel estadisticasPanel;
 
     private User usuarioLogueado;
+    private ReservaView reservaView;
 
     public MainView(User usuarioLogueado) {
-
         this.usuarioLogueado = usuarioLogueado;
 
         setTitle("Sistema de Presentar.Reserva de Recursos - Usuario logueado: "
@@ -38,15 +38,14 @@ public class MainView extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        setSize(1920, 1080);
+        setSize(1920,1080);
         setLocationRelativeTo(null);
 
         cargarVistas();
     }
 
     private void cargarVistas() {
-        ReservaView reservaView =
-                new ReservaView(usuarioLogueado);
+        reservaView = new ReservaView(usuarioLogueado);
 
         reservaPanel.setLayout(new BorderLayout());
         reservaPanel.add(
@@ -83,19 +82,34 @@ public class MainView extends JFrame {
 
         RecursosView recursosView = new RecursosView();
         recursosPanel.setLayout(new BorderLayout());
-        recursosPanel.add(recursosView, BorderLayout.CENTER);
+        recursosPanel.add(
+                recursosView,
+                BorderLayout.CENTER
+        );
 
         ActividadesView actividadesView = new ActividadesView();
         actividadesPanel.setLayout(new BorderLayout());
-        actividadesPanel.add(actividadesView, BorderLayout.CENTER);
+        actividadesPanel.add(
+                actividadesView,
+                BorderLayout.CENTER
+        );
 
         EstadisticasView estadisticasView = new EstadisticasView();
         estadisticasPanel.setLayout(new BorderLayout());
-        estadisticasPanel.add(estadisticasView, BorderLayout.CENTER);
+        estadisticasPanel.add(
+                estadisticasView,
+                BorderLayout.CENTER
+        );
 
-        boolean administrador = usuarioLogueado.getVarRol() == Recursos.Rol.ADMINISTRADOR;
+        boolean administrador =
+                usuarioLogueado.getVarRol() == Recursos.Rol.ADMINISTRADOR;
+
         CategoriaView.setVisible(administrador);
         funcionariosPanel.setVisible(administrador);
         recursosPanel.setVisible(administrador);
+    }
+
+    public void recargarReservas() {
+        reservaView.recargarTabla();
     }
 }
