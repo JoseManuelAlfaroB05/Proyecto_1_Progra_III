@@ -2,6 +2,7 @@ package Presentar.Recursos;
 
 import Recursos.CategoriaRecurso;
 import Recursos.Recurso;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,12 +32,10 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
 
     private void cargarCategorias() {
         filtroCategoria.addItem(null);
-
         for (CategoriaRecurso categoria : controller.getGestorCategorias().getCategorias()) {
             filtroCategoria.addItem(categoria);
             campoCategoria.addItem(categoria);
         }
-
         filtroCategoria.setRenderer(new CategoriaRenderer("Todas las categorías"));
         campoCategoria.setRenderer(new CategoriaRenderer("Seleccione una categoría"));
     }
@@ -57,9 +56,12 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         panel.add(filtroDescripcion);
 
         JButton buscar = new JButton("Buscar");
-        buscar.addActionListener(e ->
-                controller.cargarLista(categoriaId(filtroCategoria), filtroDescripcion.getText())
-        );
+        buscar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.cargarLista(categoriaId(filtroCategoria), filtroDescripcion.getText());
+            }
+        });
         panel.add(buscar);
 
         JButton pdf = new JButton("PDF");
@@ -93,13 +95,28 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         JPanel botones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 
         JButton guardar = new JButton("Guardar");
-        guardar.addActionListener(e -> guardar());
+        guardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guardar();
+            }
+        });
 
         JButton borrar = new JButton("Borrar");
-        borrar.addActionListener(e -> borrar());
+        borrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                borrar();
+            }
+        });
 
         JButton limpiar = new JButton("Limpiar");
-        limpiar.addActionListener(e -> limpiar());
+        limpiar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpiar();
+            }
+        });
 
         botones.add(guardar);
         botones.add(borrar);
@@ -108,7 +125,6 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         c.gridx = 1;
         c.gridy = 3;
         c.gridwidth = 2;
-
         panel.add(botones, c);
 
         return panel;
@@ -118,15 +134,12 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         c.gridy = fila;
         c.gridx = 0;
         c.gridwidth = 1;
-
         panel.add(new JLabel(etiqueta), c);
 
         c.gridx = 1;
         c.gridwidth = 2;
         c.fill = GridBagConstraints.HORIZONTAL;
-
         panel.add(campo, c);
-
         c.fill = GridBagConstraints.NONE;
     }
 
@@ -135,7 +148,6 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         panel.setBorder(BorderFactory.createTitledBorder("Listado"));
 
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
         tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tabla.getSelectedRow() >= 0) {
                 controller.seleccionar(String.valueOf(tabla.getValueAt(tabla.getSelectedRow(), 0)));
@@ -151,7 +163,6 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
     private void guardar() {
         String id = campoId.getText().trim();
         String descripcion = campoDescripcion.getText().trim();
-
         CategoriaRecurso categoria = (CategoriaRecurso) campoCategoria.getSelectedItem();
 
         if (id.isEmpty() || descripcion.isEmpty() || categoria == null) {
@@ -160,7 +171,6 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
         }
 
         boolean existe = model.getList().stream().anyMatch(r -> r.getId().equalsIgnoreCase(id));
-
         boolean resultado = existe
                 ? controller.actualizar(id, categoria, descripcion)
                 : controller.guardar(id, categoria, descripcion);
@@ -210,7 +220,6 @@ public class RecursosView extends JPanel implements PropertyChangeListener {
             }, model.getList()));
         } else if (ModelRecurso.CURRENT.equals(evt.getPropertyName())) {
             Recurso recurso = model.getCurrent();
-
             campoId.setText(recurso.getId() == null ? "" : recurso.getId());
             campoDescripcion.setText(recurso.getDescripcion() == null ? "" : recurso.getDescripcion());
 

@@ -1,5 +1,6 @@
 package Presentar.MainViews;
 
+import Recursos.Rol;
 import Recursos.User;
 import Presentar.Calendarizacion.CalendarizacionView;
 import Presentar.Funcionarios.FuncionariosView;
@@ -34,16 +35,13 @@ public class MainView extends JFrame {
 
     public MainView(User usuarioLogueado) {
         this.usuarioLogueado = usuarioLogueado;
-
-        setTitle("Sistema de Reserva de Recursos - Usuario logueado: "
-                + usuarioLogueado.getVarId());
-
+        setTitle("Sistema de Reserva de Recursos - Usuario logueado: " + usuarioLogueado.getVarId());
         setContentPane(principalPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1920, 1080);
-        setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         cargarVistas();
+        configurarPestanas();
 
         tabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             @Override
@@ -51,11 +49,9 @@ public class MainView extends JFrame {
                 if (tabbedPane.getSelectedComponent() == reservaPanel) {
                     reservaView.recargarDatos();
                 }
-
                 if (tabbedPane.getSelectedComponent() == calendarizacion) {
                     calendarizacionView.recargarDatos();
                 }
-
                 if (tabbedPane.getSelectedComponent() == recursosPanel) {
                     recursosView.recargarDatos();
                 }
@@ -65,73 +61,51 @@ public class MainView extends JFrame {
 
     private void cargarVistas() {
         reservaView = new ReservaView(usuarioLogueado);
-
         reservaPanel.setLayout(new BorderLayout());
-        reservaPanel.add(
-                reservaView,
-                BorderLayout.CENTER
-        );
+        reservaPanel.add(reservaView, BorderLayout.CENTER);
 
         calendarizacionView = new CalendarizacionView();
-
         calendarizacion.setLayout(new BorderLayout());
-        calendarizacion.add(
-                calendarizacionView,
-                BorderLayout.CENTER
-        );
+        calendarizacion.add(calendarizacionView, BorderLayout.CENTER);
 
-        CategoriaView categoriaView =
-                new CategoriaView();
-
+        CategoriaView categoriaView = new CategoriaView();
         CategoriaView.setLayout(new BorderLayout());
-        CategoriaView.add(
-                categoriaView,
-                BorderLayout.CENTER
-        );
+        CategoriaView.add(categoriaView, BorderLayout.CENTER);
 
-        FuncionariosView funcionariosView =
-                new FuncionariosView();
-
+        FuncionariosView funcionariosView = new FuncionariosView();
         funcionariosPanel.setLayout(new BorderLayout());
-        funcionariosPanel.add(
-                funcionariosView,
-                BorderLayout.CENTER
-        );
+        funcionariosPanel.add(funcionariosView, BorderLayout.CENTER);
 
         recursosView = new RecursosView();
-
         recursosPanel.setLayout(new BorderLayout());
-        recursosPanel.add(
-                recursosView,
-                BorderLayout.CENTER
-        );
+        recursosPanel.add(recursosView, BorderLayout.CENTER);
 
-        ActividadesView actividadesView =
-                new ActividadesView();
-
+        ActividadesView actividadesView = new ActividadesView();
         actividadesPanel.setLayout(new BorderLayout());
-        actividadesPanel.add(
-                actividadesView,
-                BorderLayout.CENTER
-        );
+        actividadesPanel.add(actividadesView, BorderLayout.CENTER);
 
-        EstadisticasView estadisticasView =
-                new EstadisticasView();
-
+        EstadisticasView estadisticasView = new EstadisticasView();
         estadisticasPanel.setLayout(new BorderLayout());
-        estadisticasPanel.add(
-                estadisticasView,
-                BorderLayout.CENTER
-        );
+        estadisticasPanel.add(estadisticasView, BorderLayout.CENTER);
 
-        informacionView =
-                new InformacionView(usuarioLogueado);
-
+        informacionView = new InformacionView(usuarioLogueado);
         InformacionPanel.setLayout(new BorderLayout());
-        InformacionPanel.add(
-                informacionView,
-                BorderLayout.CENTER
-        );
+        InformacionPanel.add(informacionView, BorderLayout.CENTER);
+    }
+
+    private void configurarPestanas() {
+        Rol rol = usuarioLogueado.getVarRol();
+
+        if (rol == Rol.FUNCIONARIO) {
+            tabbedPane.remove(CategoriaView);
+            tabbedPane.remove(funcionariosPanel);
+            tabbedPane.remove(recursosPanel);
+            tabbedPane.remove(InformacionPanel);
+        }
+
+        if (rol == Rol.ADMINISTRADOR) {
+            tabbedPane.remove(reservaPanel);
+        }
     }
 
     public void recargarReservas() {
