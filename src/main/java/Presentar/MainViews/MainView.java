@@ -100,7 +100,6 @@ public class MainView extends JFrame {
             tabbedPane.remove(CategoriaView);
             tabbedPane.remove(funcionariosPanel);
             tabbedPane.remove(recursosPanel);
-            tabbedPane.remove(InformacionPanel);
         }
 
         if (rol == Rol.ADMINISTRADOR) {
